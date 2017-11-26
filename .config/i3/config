@@ -13,7 +13,7 @@ bindsym $mod+Return exec --no-startup-id i3-sensible-terminal
 #Thunar
 bindsym $mod+t exec thunar
 #Chrome
-bindsym $mod+Shift+Return exec google-chrome-stable
+bindsym $mod+Shift+Return exec firefox 
 # kill focused window
 bindsym $mod+Shift+q kill
 
