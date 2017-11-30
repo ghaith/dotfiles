@@ -18,8 +18,9 @@ bindsym $mod+Shift+Return exec firefox
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show run 
-
+bindsym $mod+d exec rofi -show drun 
+# start rofi in window mode
+bindsym Control+Mod1+Tab exec rofi -show window
 # change focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down

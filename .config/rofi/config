@@ -1,0 +1,5 @@
+!Rofi config file
+rofi.modi: drun,run,window,ssh
+rofi.theme: .config/rofi/solarized.rasi
+rofi.sidebar-mode: true
+
