@@ -167,6 +167,9 @@ exec lxpolkit
 #Start network manager
 exec nm-applet
 
+#KDE Connect indicator
+exec --no-startup-id kdeconnect-indicator
+
 #Open in workspaces
 #assign [class="google-chrome"] $workspace_2
 #assign [class="Google-chrome"] $workspace_2
@@ -277,7 +280,7 @@ bindsym XF86AudioPrev exec playerctl previous
 exec --no-startup-id compton
 exec --no-startup-id variety
 exec --no-startup-id unclutter
-exec --no-startup-id albert
+#exec --no-startup-id albert
 #Disable borders
 for_window [class="^.*"] border pixel 0
 
