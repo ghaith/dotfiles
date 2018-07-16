@@ -252,7 +252,7 @@ bar {
 #exec --no-startup-id dunst
 #Bluetooth
 exec --no-startup-id blueman-applet
-
+#exec --no-startup-id blueman-services
 #Start XFCE settings and panel
 #exec --no-startup-id xfsettingsd --sm-client-disable &
 #exec --no-startup-id xfce4-panel -d
@@ -280,7 +280,6 @@ bindsym XF86AudioPrev exec playerctl previous
 exec --no-startup-id compton
 exec --no-startup-id variety
 exec --no-startup-id unclutter
-#exec --no-startup-id albert
 #Disable borders
 for_window [class="^.*"] border pixel 0
 
