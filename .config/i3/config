@@ -275,7 +275,7 @@ bar {
 bar {
   output HDMI-A-0
   status_command i3status #i3blocks -c ~/.config/i3/i3blocks.conf
-  tray_output primary 
+  #tray_output primary 
   position top
   colors {
     separator #dc322f
@@ -294,7 +294,7 @@ bindsym $mod+m bar mode toggle
 #Notifications
 #exec --no-startup-id dunst
 #Bluetooth
-exec --no-startup-id blueman-applet
+#exec --no-startup-id blueman-applet
 #exec --no-startup-id blueman-services
 #Start XFCE settings and panel
 #exec --no-startup-id xfsettingsd --sm-client-disable &
