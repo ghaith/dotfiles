@@ -5,6 +5,8 @@ set $mod Mod4
 #Default Font
 font xft:URWGothic-Book 11
 
+set $transparent #0000006f
+
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 1
 new_float normal
@@ -14,11 +16,11 @@ new_float normal
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id termite
+bindsym $mod+Return exec --no-startup-id termite #--command tmux 
 #Thunar
 bindsym $mod+F3 exec thunar
 #Chrome
-bindsym $mod+F2 exec google-chrome-stable 
+bindsym $mod+Shift+Return exec google-chrome-stable 
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -135,64 +137,12 @@ bindsym $mod+Control+Right move workspace to ouptut right
 bindsym $mod+Control+j move workspace to output left
 bindsym $mod+Control+semicolon move workspace to output right
 
-#WS Screen assignment
-#workspace $workspace_1 output 	$Screen
-#workspace $workspace_2 output 	$Screen
-#workspace $workspace_9 output	$TV
-#workspace $workspace_10 output 	$TV
+#Screen configuration
+#exec xrandr --output DisplayPort-0 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DVI-D-0 --off --output HDMI-A-0 --mode 1920x1080 --pos 3840x0 --rotate normal
+#exec xrandr --output DisplayPort-1 --primary --dpi 120 --mode 3840x2160 
+    #xrandr --output DisplayPort-0 --dpi 120 --mode 3840x2160 --pos 1080x0 --rotate normal --output HDMI-A-0 --mode 1980x1080 --pos 0x0 --rotate right
 
-#Screen Configuration
-
-#exec $scripts/leftOn.sh
-#exec $scripts/rightOn.sh
-
-#set $mode_display Displays: 1-DisplayPort 2-Hdmi
-#set $mode_display_1 DisplayPort: 1 ON 2 OFF
-#set $mode_display_2 HDMI: 1 ON 2 OFF 
-
-#mode "$mode_display" {
-# 	bindsym 1 mode "$mode_display_1"
-#	bindsym 2 mode "$mode_display_2"
-
-	# back to normal: Enter or Escape
-#       bindsym Return mode "default"
-#        bindsym Escape mode "default"
-#}
-
-#mode "$mode_display_1" {
-# 	bindsym 1 exec $scripts/leftOn.sh
-#	bindsym 2 exec $scripts/leftOff.sh
-
-	# back to normal: Enter or Escape
-#       bindsym Return mode "default"
-#        bindsym Escape mode "default"
-#}
-
-#mode "$mode_display_2" {
-# 	bindsym 1 exec $scripts/rightOn.sh
-#	bindsym 2 exec $scripts/rightOff.sh
-
-	# back to normal: Enter or Escape
-#       bindsym Return mode "default"
-#        bindsym Escape mode "default"
-#}
-
-
-#bindsym $mod+shift+p mode "$mode_display"
-exec xrandr --output DisplayPort-0 --primary --mode 3840x2160 --pos 0x0 --rotate normal --output DVI-D-0 --off --output HDMI-A-0 --mode 1920x1080 --pos 3840x0 --rotate normal
-
-#Start thunar in daemon mod
-exec thunar --daemon
-exec lxpolkit 
-
-#Start network manager
-exec nm-applet
-
-#KDE Connect indicator
-exec --no-startup-id kdeconnect-indicator
-
-#Sound volume indicator
-exec --no-startup-id volumeicon
+exec xrandr --output DisplayPort-0 --off --output DisplayPort-1 --mode 5120x1440 --pos 0x0 --rotate normal --output HDMI-A-0 --off --output HDMI-A-1 --off --output DVI-D-0 --off
 
 #Open in workspaces
 #assign [class="google-chrome"] $workspace_2
@@ -208,6 +158,7 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
     bindsym s exec --no-startup-id i3exit suspend, mode "default"
@@ -248,38 +199,19 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-#Polybar
-#exec_always --no-startup-id MONITOR=DisplayPort-0 $HOME/.config/polybar/launch.sh
-#exec_always --no-startup-id MONITOR=HDMI-A-0 $HOME/.config/polybar/launch.sh
-
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-  output DisplayPort-0
-  status_command i3status #i3blocks -c ~/.config/i3/i3blocks.conf
-  height 30
-  font pango:DejaVu Sans Mono 15
-  tray_output primary 
-  position top
-  colors {
-    separator #dc322f
-    background #002b36
-    statusline #268bd2
-    focused_workspace #fdf6e3 #859900 #fdf6e3
-    active_workspace #fdf6e3 #6c71c4 #fdf6e3
-    inactive_workspace #586e75 #93a1a1 #002b36
-    urgent_workspace #d33682 #d33682 #fdf6e3
-  }
-}
-
-bar {
-  output HDMI-A-0
-  status_command i3status #i3blocks -c ~/.config/i3/i3blocks.conf
+  i3bar_command i3bar -t
+  #output DisplayPort-0
+  status_command i3status   
+  #height 30
+  #font pango:DejaVu Sans Mono 15
   #tray_output primary 
   position top
   colors {
     separator #dc322f
-    background #002b36
+    background #002b369f
     statusline #268bd2
     focused_workspace #fdf6e3 #859900 #fdf6e3
     active_workspace #fdf6e3 #6c71c4 #fdf6e3
@@ -291,14 +223,6 @@ bar {
 bindsym $mod+m bar mode toggle
 
 
-#Notifications
-#exec --no-startup-id dunst
-#Bluetooth
-#exec --no-startup-id blueman-applet
-#exec --no-startup-id blueman-services
-#Start XFCE settings and panel
-#exec --no-startup-id xfsettingsd --sm-client-disable &
-#exec --no-startup-id xfce4-panel -d
 
 #Theme
 client.focused #859900 #859900 #fdf6e3 #6c71c4
@@ -320,9 +244,28 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
-exec --no-startup-id compton
-exec --no-startup-id variety
+
+#Start thunar in daemon mod
+exec thunar --daemon
+exec lxpolkit 
+
+exec $scripts/background.sh ; sleep 1; compton -b
+#Start network manager
+exec nm-applet
+
+#KDE Connect indicator
+exec --no-startup-id kdeconnect-indicator
+
+#Sound volume indicator
+exec --no-startup-id volumeicon
+
 exec --no-startup-id unclutter
+exec --no-startup-id cliptit
+
+#Change Backgrounds
+#bindsym $mod+shift+w exec --no-startup-id nitrogen --random --set-scaled
+bindsym $mod+shift+w exec $scripts/background.sh
+
 #Disable borders
 for_window [class="^.*"] border pixel 0
 

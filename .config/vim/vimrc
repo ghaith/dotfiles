@@ -2,6 +2,45 @@
 "let mapleader = "\<Space>"
 set encoding=utf-8
 set number
+set rnu
+
+"vim-plug setup
+call plug#begin('~/.vim/plugged')
+
+"Rust language support
+Plug 'rust-lang/rust.vim'
+"Syntax check plugin
+Plug 'vim-syntastic/syntastic'
+"Git status helper
+Plug 'airblade/vim-gitgutter'
+"Tagbar
+Plug 'majutsushi/tagbar'
+
+"Load language server
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+"Configure language server defaults
+nmap <F2> :LspDefinition<CR>
+nmap <C-LeftMouse> :LspDefinition<CR>
+nmap <F3> :LspHover<CR>
+nmap <F1> :LspCodeAction<CR>
+
+let g:lsp_highlight_references_enabled = 1
+
+"Enable rust language server
+if executable('rls')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'rls',
+        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
+        \ 'whitelist': ['rust'],
+        \ })
+endif
+
+"Rust auto format on save
+let g:rustfmt_autosave = 1
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
@@ -52,3 +91,22 @@ if has('syntax') && has('eval')
   packadd matchit
 endif
 
+
+"Syntastic default conf
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = "uctags"
+
+
+
+" Initialize plugin system
+call plug#end()
