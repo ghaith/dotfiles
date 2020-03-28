@@ -16,17 +16,27 @@ Plug 'airblade/vim-gitgutter'
 "Tagbar
 Plug 'majutsushi/tagbar'
 
+"Load auto completion plugin
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+
 "Load language server
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+"Toggle relative numbers automatically
+Plug 'jeffkreeftmeijer/vim-numbertoggle'
+
+"CtrlP File finder
+Plug 'ctrlpvim/ctrlp.vim'
 
 "Configure language server defaults
 nmap <F2> :LspDefinition<CR>
 nmap <C-LeftMouse> :LspDefinition<CR>
 nmap <F3> :LspHover<CR>
 nmap <F1> :LspCodeAction<CR>
+nmap <C-F2> :LspReferences<CR>
 
 let g:lsp_highlight_references_enabled = 1
 
@@ -38,6 +48,34 @@ if executable('rls')
         \ 'whitelist': ['rust'],
         \ })
 endif
+
+"Enable dockerfile language server
+if executable('docker-langserver')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'docker-langserver',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
+        \ 'whitelist': ['dockerfile'],
+        \ })
+endif
+
+"Enable bash language server
+if executable('bash-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'bash-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+        \ 'whitelist': ['sh'],
+        \ })
+endif
+
+au User buffer_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
+    \ 'name': 'buffer',
+    \ 'whitelist': ['*'],
+    \ 'blacklist': ['go'],
+    \ 'completor': function('asyncomplete#sources#buffer#completor'),
+    \ 'config': {
+    \    'max_buffer_size': 5000000,
+    \  },
+    \ }))
 
 "Rust auto format on save
 let g:rustfmt_autosave = 1
@@ -101,6 +139,9 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+"Force auto completion
+imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 
 nmap <F8> :TagbarToggle<CR>
