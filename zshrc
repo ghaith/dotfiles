@@ -83,6 +83,10 @@ plugins=(git fzf docker rust archlinux)
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+export LESSOPEN="| /usr/bin/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
+
+
 ZSH_CUSTOM="$HOME/.config/ohmyzsh/custom"
 
 ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh

@@ -31,6 +31,9 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 "CtrlP File finder
 Plug 'ctrlpvim/ctrlp.vim'
 
+"Quick Scope make navigating easier
+Plug 'unblevable/quick-scope'  
+
 "Configure language server defaults
 nmap <F2> :LspDefinition<CR>
 nmap <C-LeftMouse> :LspDefinition<CR>
