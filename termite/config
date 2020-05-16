@@ -1,48 +1,44 @@
+# Dracula theme for termite
+# https://github.com/dracula/termite
+# Copyright 2013-present, All rights reserved
+# Code licensed under the MIT license
+
 [colors]
-# Base16 Solarized Dark
-# Author: Ethan Schoonover (http://ethanschoonover.com/solarized)
 
-foreground      = #93a1a1
-foreground_bold = #eee8d5
-cursor          = #eee8d5
-background      = rgba(0, 43, 54, 0.8) 
+# special
+foreground      = #f8f8f2
+foreground_bold = #f8f8f2
+cursor          = #f8f8f2
+background      = #282a36
 
-# 16 color space
+# black
+color0  = #000000
+color8  = #4d4d4d
 
-# Black, Gray, Silver, White
-color0  = #002b36
-color8  = #657b83
-color7  = #93a1a1
-color15 = #fdf6e3
+# red
+color1  = #ff5555
+color9  = #ff6e67
 
-# Red
-color1  = #dc322f
-color9  = #dc322f
+# green
+color2  = #50fa7b
+color10 = #5af78e
 
-# Green
-color2  = #859900
-color10 = #859900
+# yellow
+color3  = #f1fa8c
+color11 = #f4f99d
 
-# Yellow
-color3  = #b58900
-color11 = #b58900
+# blue
+color4  = #bd93f9
+color12 = #caa9fa
 
-# Blue
-color4  = #268bd2
-color12 = #268bd2
+# magenta
+color5  = #ff79c6
+color13 = #ff92d0
 
-# Purple
-color5  = #6c71c4
-color13 = #6c71c4
+# cyan
+color6  = #8be9fd
+color14 = #9aedfe
 
-# Teal
-color6  = #2aa198
-color14 = #2aa198
-
-# Extra colors
-color16 = #cb4b16
-color17 = #d33682
-color18 = #073642
-color19 = #586e75
-color20 = #839496
-color21 = #eee8d4
+# white
+color7  = #bfbfbf
+color15 = #e6e6e6

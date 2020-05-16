@@ -1,96 +1,34 @@
 "Remap command to space
-"let mapleader = "\<Space>"
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
 set encoding=utf-8
 set number
 set rnu
 
-"vim-plug setup
-call plug#begin('~/.vim/plugged')
+let g:vim_home = get(g:, 'vim_home', expand('~/.config/vim'))
 
-"Rust language support
-Plug 'rust-lang/rust.vim'
-"Syntax check plugin
-Plug 'vim-syntastic/syntastic'
-"Git status helper
-Plug 'airblade/vim-gitgutter'
-"Tagbar
-Plug 'majutsushi/tagbar'
+"Load configuration from the configs file
+let config_list = [
+	\ 'plug.vim',
+	\ 'signify.vim',
+	\ 'lsp.vim',
+	\ 'which-key.vim',
+	\ 'autocomplete.vim',
+	\]
 
-"Load auto completion plugin
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
+for files in config_list
+	exec 'source' g:vim_home.'/'.files
+endfor
 
-"Load language server
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-
-"Toggle relative numbers automatically
-Plug 'jeffkreeftmeijer/vim-numbertoggle'
-
-"CtrlP File finder
-Plug 'ctrlpvim/ctrlp.vim'
-
-"Quick Scope make navigating easier
-Plug 'unblevable/quick-scope'  
-
-"Configure language server defaults
-nmap <F2> :LspDefinition<CR>
-nmap <C-LeftMouse> :LspDefinition<CR>
-nmap <F3> :LspHover<CR>
-nmap <F1> :LspCodeAction<CR>
-nmap <C-F2> :LspReferences<CR>
-
-let g:lsp_highlight_references_enabled = 1
-
-"Enable rust language server
-if executable('rls')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'rls',
-        \ 'cmd': {server_info->['rustup', 'run', 'nightly', 'rls']},
-        \ 'whitelist': ['rust'],
-        \ })
-endif
-
-"Enable dockerfile language server
-if executable('docker-langserver')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'docker-langserver',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'docker-langserver --stdio']},
-        \ 'whitelist': ['dockerfile'],
-        \ })
-endif
-
-"Enable bash language server
-if executable('bash-language-server')
-  au User lsp_setup call lsp#register_server({
-        \ 'name': 'bash-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-        \ 'whitelist': ['sh'],
-        \ })
-endif
-
-au User buffer_setup call asyncomplete#register_source(asyncomplete#sources#buffer#get_source_options({
-    \ 'name': 'buffer',
-    \ 'whitelist': ['*'],
-    \ 'blacklist': ['go'],
-    \ 'completor': function('asyncomplete#sources#buffer#completor'),
-    \ 'config': {
-    \    'max_buffer_size': 5000000,
-    \  },
-    \ }))
-
-"Rust auto format on save
-let g:rustfmt_autosave = 1
 
 " Get the defaults that most users want.
 source $VIMRUNTIME/defaults.vim
 
-let g:solarized_termtrans=1
+"let g:solarized_termtrans=1
 "let g:solarized_termcolors=256
-
+let g:dracula_colorterm = 0
 set background=dark 
-colorscheme solarized
+colorscheme dracula
 
 if has("vms")
   set nobackup          " do not keep a backup file, use versions instead
@@ -132,7 +70,6 @@ if has('syntax') && has('eval')
   packadd matchit
 endif
 
-
 "Syntastic default conf
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -143,14 +80,8 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-"Force auto completion
-imap <c-space> <Plug>(asyncomplete_force_refresh)
-
-
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_ctags_bin = "uctags"
 
 
 
-" Initialize plugin system
-call plug#end()

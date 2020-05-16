@@ -1,5 +1,6 @@
 #Scripts directory
 set $scripts ~/.config/i3/scripts
+set $display_script ~/.config/xrandr/configure.sh
 #Default Modifier (Mod4 = Meta Key)
 set $mod Mod4
 #Default Font
@@ -16,7 +17,7 @@ new_float normal
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id termite #--command tmux 
+bindsym $mod+Return exec --no-startup-id alacritty 
 #Thunar
 bindsym $mod+F3 exec thunar
 #Chrome
@@ -63,7 +64,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod+g fullscreen toggle global
 
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
@@ -96,7 +97,7 @@ bindsym $mod+Shift+Tab move scratchpad
 
 # Workspace names
 set $workspace_1	"1: "
-set $workspace_2	"2: "
+set $workspace_2	"2: 龜"
 set $workspace_3	"3: "
 set $workspace_4	"4: ws4"
 set $workspace_5	"5: ws5"
@@ -144,7 +145,22 @@ bindsym $mod+Control+semicolon move workspace to output right
 #exec xrandr --output DisplayPort-1 --primary --dpi 120 --mode 3840x2160 
     #xrandr --output DisplayPort-0 --dpi 120 --mode 3840x2160 --pos 1080x0 --rotate normal --output HDMI-A-0 --mode 1980x1080 --pos 0x0 --rotate right
 
-exec xrandr --output DisplayPort-0 --off --output DisplayPort-1 --mode 5120x1440 --pos 0x0 --rotate normal --output HDMI-A-0 --off --output HDMI-A-1 --off --output DVI-D-0 --off
+#exec xrandr --output DisplayPort-1 --mode 5120x1440 
+
+exec $display_script 
+
+bindsym $mod+Shift+F1 mode "$mode_display"
+set $mode_display (s)plit, (r)eset
+
+mode "$mode_display" {
+     bindsym s exec $display_script split, mode "default"
+     bindsym r exec $display_script reset, mode "default"
+      
+      # exit system mode: "Enter" or "Escape"
+      bindsym Return mode "default"
+      bindsym Escape mode "default"
+
+}
 
 #Open in workspaces
 #assign [class="google-chrome"] $workspace_2
@@ -163,12 +179,18 @@ bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 
 # Set shut down, restart and locking features
-bindsym $mod+0 mode "$mode_system"
-set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
+#bindsym $mod+Shift+e mode "$mode_system"
+#set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 
 #Floating notifications for teams
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
 for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
+
+#Floating calendar 
+for_window [class="Yad"] floating enable
+
+#Origin needs to float
+for_window [instance="origin.exe"] floating enable
 
 mode "$mode_system" {
     bindsym l exec --no-startup-id i3exit lock, mode "default"
@@ -214,21 +236,32 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
   i3bar_command i3bar -t
-  #output DisplayPort-0
-  status_command i3status   
+  #output DisplayPort-1
+  status_command i3blocks #i3status   
   #height 30
   #font pango:DejaVu Sans Mono 15
-  #tray_output primary 
+  tray_output DisplayPort-1 
   position top
   colors {
-    separator #dc322f
-    background #002b369f
-    statusline #268bd2
-    focused_workspace #fdf6e3 #859900 #fdf6e3
-    active_workspace #fdf6e3 #6c71c4 #fdf6e3
-    inactive_workspace #586e75 #93a1a1 #002b36
-    urgent_workspace #d33682 #d33682 #fdf6e3
-  }
+    #separator #dc322f
+    #background #002b369f
+    #statusline #268bd2
+    #focused_workspace #fdf6e3 #859900 #fdf6e3
+    #active_workspace #fdf6e3 #6c71c4 #fdf6e3
+    #inactive_workspace #586e75 #93a1a1 #002b36
+    #urgent_workspace #d33682 #d33682 #fdf6e3
+	background #282A36
+	statusline #F8F8F2
+	separator  #44475A
+
+	focused_workspace  #44475A #44475A #F8F8F2
+	active_workspace   #282A36 #44475A #F8F8F2
+	inactive_workspace #282A36 #282A36 #BFBFBF
+	urgent_workspace   #FF5555 #FF5555 #F8F8F2
+	binding_mode       #FF5555 #FF5555 #F8F8F2 
+
+
+ }
 }
 
 bindsym $mod+m bar mode toggle
@@ -236,13 +269,26 @@ bindsym $mod+m bar mode toggle
 
 
 #Theme
-client.focused #859900 #859900 #fdf6e3 #6c71c4
-client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
-client.unfocused #073642 #073642 #93a1a1 #586e75
-client.urgent #d33682 #d33682 #fdf6e3 #dc322f
+#client.focused #859900 #859900 #fdf6e3 #6c71c4
+#client.focused_inactive #073642 #073642 #eee8d5 #6c71c4
+#client.unfocused #073642 #073642 #93a1a1 #586e75
+#client.urgent #d33682 #d33682 #fdf6e3 #dc322f
+#Dracula Theme 
+client.focused          #6272A4 #6272A4 #F8F8F2 #6272A4   #6272A4
+client.focused_inactive #44475A #44475A #F8F8F2 #44475A   #44475A
+client.unfocused        #282A36 #282A36 #BFBFBF #282A36   #282A36
+client.urgent           #44475A #FF5555 #F8F8F2 #FF5555   #FF5555
+client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
+
+
+#Cache the lock screen information
+exec betterlockscreen -u /home/ghaith/wallpapers/The_Wheel_of_Time_Wallpapers/
 
 #Lock the keyboard
-bindsym $mod+shift+x exec i3lock
+bindsym $mod+shift+x exec betterlockscreen -l #$scripts/lock.sh
+
+#Autolock
+exec xautolock -time 10 -locker "betterlockscreen -l" &
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% #increase sound volume
@@ -257,28 +303,30 @@ bindsym XF86AudioPrev exec playerctl previous
 
 
 #Start thunar in daemon mod
-exec thunar --daemon
+#exec thunar --daemon
 exec lxpolkit 
-exec nm-applet
+#exec nm-applet
 exec flameshot
+exec solaar
 
-exec $scripts/background.sh ; sleep 1; compton -b
+
+exec $scripts/background.sh ; sleep 1; picom -b
 
 #KDE Connect indicator
 exec --no-startup-id kdeconnect-indicator
 
 #Sound volume indicator
-exec --no-startup-id volumeicon
+exec --no-startup-id volctl
 
 exec --no-startup-id unclutter
-exec --no-startup-id cliptit
+exec --no-startup-id clipit
 
 #Change Backgrounds
 #bindsym $mod+shift+w exec --no-startup-id nitrogen --random --set-scaled
 bindsym $mod+shift+w exec $scripts/background.sh
 
 #Disable borders
-for_window [class="^.*"] border pixel 0
+#for_window [class="^.*"] border pixel 0
 
 #Gaps config
 smart_gaps on

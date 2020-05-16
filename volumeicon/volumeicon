@@ -1,5 +1,6 @@
 [Alsa]
-card=default
+card=DigiHug USB Audio
+channel=PCM
 
 [Notification]
 show_notification=true
