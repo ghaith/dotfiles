@@ -9,49 +9,48 @@ endif
 "vim-plug setup
 call plug#begin('~/.config/vim/plugged')
 
-"Use vim signify to show changes in VCS
-"if has('nvim') || has('patch-8.0.902')
-"  Plug 'mhinz/vim-signify'
-"else
-"  Plug 'mhinz/vim-signify', { 'branch': 'legacy' }
-"endif
+"Show icons for different files
+Plug 'ryanoasis/vim-devicons'
+
+"Show buffers in the tab line 
+source $HOME/.config/vim/vim-plug/buffet.vim
+
+"Use gitgutter to show changes in VCS
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-"Start Screen
-Plug 'mhinz/vim-startify'
+
 "Polyglog : better syntax support
 Plug 'sheerun/vim-polyglot'
 
 "Which Key : Press space to show shortcuts
 Plug 'liuchengxu/vim-which-key'
 
-"Rust language support
-Plug 'rust-lang/rust.vim'
-"Syntax check plugin
-Plug 'vim-syntastic/syntastic'
 "Tagbar
 Plug 'majutsushi/tagbar'
 
+"Colors
+Plug 'chrisbra/Colorizer'
 "Load auto completion plugin
-"Plug 'prabirshrestha/asyncomplete.vim'
-"Plug 'prabirshrestha/asyncomplete-buffer.vim'
-"
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-buffer.vim'
+Plug 'prabirshrestha/asyncomplete-file.vim'
+
 ""Load language server
-"Plug 'prabirshrestha/async.vim'
-"Plug 'prabirshrestha/vim-lsp'
-"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
 
+"Plug 'mattn/vim-lsp-settings' "TODO look into this
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'piec/vim-lsp-clangd'
+"Python LSP
+Plug 'ryanolsonx/vim-lsp-python'
 
-"Use COC for autocompletion
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"
+"Rust language support
+Plug 'rust-lang/rust.vim'
 
 "Toggle relative numbers automatically
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
-
-"CtrlP File finder
-Plug 'ctrlpvim/ctrlp.vim'
 
 "Quick Scope make navigating easier
 Plug 'unblevable/quick-scope'  
@@ -59,33 +58,26 @@ Plug 'unblevable/quick-scope'
 "Surround plugin, use with ys cs, ds
 Plug 'tpope/vim-surround'
 
-"Sneak plugin - Enables two word searches with s
-Plug 'justinmk/vim-sneak'
-
-"Python LSP
-Plug 'ryanolsonx/vim-lsp-python'
-
 "Solarized Theme
 Plug 'altercation/vim-colors-solarized'
 
 "Dracula color theme
 Plug 'dracula/vim', { 'as' : 'dracula' }
 
-"Ranger support 
-Plug 'francoiscabrol/ranger.vim'
-
-"Plugin to not close the window when closing the buffer
-Plug 'rbgrouleff/bclose.vim'
-
-"Support for fzf in vim
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-
 "Make vim use the root .git directory if available
 Plug 'airblade/vim-rooter'
 
-call plug#end()
+"Fern for file explorer
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-devicons.vim'
 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+"Tmux Support
+Plug 'tmux-plugins/vim-tmux'
+
+call plug#end()
 " Automatically install missing plugins on startup
 autocmd VimEnter *
   \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
