@@ -1,8 +1,4 @@
-source $HOME/.config/vim/vim-plug/plugins.vim
 source $HOME/.config/vim/general/settings.vim
+source $HOME/.config/vim/vim-plug/plugins.vim
 source $HOME/.config/vim/keys/mappings.vim
 source $HOME/.config/vim/keys/leader-mappings.vim
-source $HOME/.config/vim/plug-config/autocomplete.vim
-source $HOME/.config/vim/plug-config/lsp.vim
-source $HOME/.config/vim/plug-config/fzf.vim
-source $HOME/.config/vim/plug-config/fern.vim

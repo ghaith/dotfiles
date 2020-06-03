@@ -280,7 +280,7 @@ bindsym XF86AudioPrev exec playerctl previous
 exec thunar --daemon
 exec lxpolkit 
 exec flameshot
-exec solaar
+exec solaar -w only
 
 exec $scripts/background.sh ; sleep 1; picom -b
 

@@ -42,12 +42,9 @@ endfunction
 function SetDefaultFZFCommands()
         let extraarguments = ""
         if IsConfig()
-                echomsg "Is Config"
                 let extraarguments = "--no-ignore-exclude"
         endif
-        echomsg extraarguments
         let $FZF_DEFAULT_COMMAND = "rg --files --hidden --glob '!.git/**' " . extraarguments
-        echomsg $FZF_DEFAULT_COMMAND 
 endfunction
 
 augroup fzfcommands

@@ -1,6 +1,6 @@
 " auto-install vim-plug
-if empty(glob('~/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+if empty(glob('~/.config/vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   "autocmd VimEnter * PlugInstall
    autocmd VimEnter * PlugInstall | source $MYVIMRC
@@ -40,11 +40,8 @@ Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 
-"Plug 'mattn/vim-lsp-settings' "TODO look into this
+Plug 'mattn/vim-lsp-settings' "TODO look into this
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'piec/vim-lsp-clangd'
-"Python LSP
-Plug 'ryanolsonx/vim-lsp-python'
 
 "Rust language support
 Plug 'rust-lang/rust.vim'
