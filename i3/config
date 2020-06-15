@@ -182,6 +182,10 @@ for_window [class="Yad"] floating enable
 #Origin needs to float
 for_window [instance="origin.exe"] floating enable
 
+#Make Speedcrunch floating
+for_window [class="speedcrunch"] floating enable
+for_window [class="SpeedCrunch"] floating enable
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode

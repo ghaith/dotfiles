@@ -1,4 +1,6 @@
 source $HOME/.config/vim/general/settings.vim
-source $HOME/.config/vim/vim-plug/plugins.vim
+if !exists('g:vscode')
+	source $HOME/.config/vim/vim-plug/plugins.vim
+	source $HOME/.config/vim/keys/leader-mappings.vim
+endif
 source $HOME/.config/vim/keys/mappings.vim
-source $HOME/.config/vim/keys/leader-mappings.vim

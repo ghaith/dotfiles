@@ -27,20 +27,30 @@ vnoremap > >gv
 " inoremap <c-u> <ESC>viwUi
 " nnoremap <c-u> viwU<Esc>
 
-" TAB in general mode will move to text buffer
-nnoremap <silent> <TAB> :bnext<CR>
-" SHIFT-TAB will go back
-nnoremap <silent> <S-TAB> :bprevious<CR>
+if !exists('g:vscode')
+	" TAB in general mode will move to text buffer
+	nnoremap <silent> <TAB> :bnext<CR>
+	" SHIFT-TAB will go back
+	nnoremap <silent> <S-TAB> :bprevious<CR>
 
-" Alternate way to save
-nnoremap <silent> <C-s> :w<CR>
-" Alternate way to quit
-"nnoremap <silent> <C-Q> :wq!<CR>
-" Use control-c instead of escape
-" nnoremap <silent> <C-c> <Esc>
-" <TAB>: completion.
-inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+	" Alternate way to save
+	nnoremap <silent> <C-s> :w<CR>
+	" Alternate way to quit
+	"nnoremap <silent> <C-Q> :wq!<CR>
+	" Use control-c instead of escape
+	" nnoremap <silent> <C-c> <Esc>
+	" <TAB>: completion.
+	inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-"Control + P will open the search menu
-nnoremap <silent> <C-p> :Files<CR>
-nnoremap <silent> <C-o> :Buffer<CR>
+	"Control + P will open the search menu
+	nnoremap <silent> <C-p> :Files<CR>
+	nnoremap <silent> <C-o> :Buffer<CR>
+	nnoremap <silent> <C-O> :Vista finder<CR>
+
+	"Lsp Bindings
+	nnoremap <silent> <gd> :LspDefinition<CR>
+	nnoremap <silent> <gD> :LspPeekDefinition<CR>
+
+
+
+endif

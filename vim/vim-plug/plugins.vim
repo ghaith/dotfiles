@@ -9,6 +9,14 @@ endif
 "vim-plug setup
 call plug#begin('~/.config/vim/plugged')
 
+"Repeat
+Plug 'tpope/vim-repeat'
+"Define common unix buffer commands
+Plug 'tpope/vim-eunuch'
+"Comments 
+Plug 'tpope/vim-commentary'
+"Increment dates with C-a C-x
+Plug 'tpope/vim-speeddating'
 "Show icons for different files
 Plug 'ryanoasis/vim-devicons'
 
@@ -27,10 +35,14 @@ Plug 'sheerun/vim-polyglot'
 Plug 'liuchengxu/vim-which-key'
 
 "Tagbar
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
+Plug 'liuchengxu/vista.vim'
 
+"Status line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 "Colors
-Plug 'chrisbra/Colorizer'
+Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 "Load auto completion plugin
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-buffer.vim'
@@ -40,7 +52,7 @@ Plug 'prabirshrestha/asyncomplete-file.vim'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 
-Plug 'mattn/vim-lsp-settings' "TODO look into this
+Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 "Rust language support
@@ -55,12 +67,14 @@ Plug 'unblevable/quick-scope'
 "Surround plugin, use with ys cs, ds
 Plug 'tpope/vim-surround'
 
+"Color themes Plugins
 "Solarized Theme
 Plug 'altercation/vim-colors-solarized'
 
 "Dracula color theme
 Plug 'dracula/vim', { 'as' : 'dracula' }
 
+Plug 'sainnhe/gruvbox-material'
 "Make vim use the root .git directory if available
 Plug 'airblade/vim-rooter'
 

@@ -11,7 +11,8 @@ let g:which_key_map =  {}
 let g:which_key_sep = '→'
 " set timeoutlen=100
 
-
+"Open markdown
+noremap <silent> <leader>om :call OpenMarkdownPreview()<cr>
 " Not a fan of floating windows for this
 let g:which_key_use_floating_win = 0
 
@@ -49,8 +50,7 @@ let g:which_key_map['r'] = [ ':Ranger'                    , 'ranger' ]
 nnoremap <silent> <leader>S     :SSave<CR>
 let g:which_key_map['S'] = [ ':SSave'                     , 'save session' ]
 
-nnoremap <silent> <leader>T     :Rg<CR>
-let g:which_key_map['T'] = [ ':Rg'                        , 'search text' ]
+nnoremap <silent> <leader>T     :RustTest<CR>
 
 nnoremap <silent> <leader>.     :e $MYVIMRC<CR>
 let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
@@ -140,7 +140,7 @@ nnoremap <silent> <leader>lH    :LspPeekDefinition<CR>
 nnoremap <silent> <leader>lI    :LspDiagnostics<CR>
 nnoremap <silent> <leader>ln    :LspNextDiagnostic<CR>
 nnoremap <silent> <leader>lp    :LspPreviousDiagnostic<CR>
-nnoremap <silent> <leader>lr    :LspDefinition<CR>
+nnoremap <silent> <leader>lr    :LspRename<CR>
 let g:which_key_map.l = {
       \ 'name' : '+lsp' ,
       \ }
