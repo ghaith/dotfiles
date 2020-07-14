@@ -44,8 +44,7 @@ if !exists('g:vscode')
 
 	"Control + P will open the search menu
 	nnoremap <silent> <C-p> :Files<CR>
-	nnoremap <silent> <C-o> :Buffer<CR>
-	nnoremap <silent> <C-O> :Vista finder<CR>
+	nnoremap <silent> <A-o> :Vista finder<CR>
 
 	"Lsp Bindings
 	nnoremap <silent> <gd> :LspDefinition<CR>

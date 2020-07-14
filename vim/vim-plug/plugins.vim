@@ -11,8 +11,6 @@ call plug#begin('~/.config/vim/plugged')
 
 "Repeat
 Plug 'tpope/vim-repeat'
-"Define common unix buffer commands
-Plug 'tpope/vim-eunuch'
 "Comments 
 Plug 'tpope/vim-commentary'
 "Increment dates with C-a C-x
@@ -26,6 +24,7 @@ source $HOME/.config/vim/vim-plug/buffet.vim
 "Use gitgutter to show changes in VCS
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+"Commit Browser
 Plug 'junegunn/gv.vim'
 
 "Polyglog : better syntax support
@@ -75,6 +74,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as' : 'dracula' }
 
 Plug 'sainnhe/gruvbox-material'
+
 "Make vim use the root .git directory if available
 Plug 'airblade/vim-rooter'
 
