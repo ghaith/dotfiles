@@ -4,6 +4,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
+export GRADLE_USER_HOME=$HOME/.gradle
 
 if [ -n "$DESKTOP_SESSION" ];then
     eval $(gnome-keyring-daemon --start)

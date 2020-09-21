@@ -132,15 +132,15 @@ let g:which_key_map.g = {
       \ }
 
 " l is for language server protocol
-nnoremap <silent> <leader>la    :LspCodeAction<CR>
-nnoremap <silent> <leader>ld    :LspDefinition<CR>
-nnoremap <silent> <leader>lf    :LspReferences<CR>
-nnoremap <silent> <leader>lh    :LspHover<CR>
-nnoremap <silent> <leader>lH    :LspPeekDefinition<CR>
-nnoremap <silent> <leader>lI    :LspDiagnostics<CR>
-nnoremap <silent> <leader>ln    :LspNextDiagnostic<CR>
-nnoremap <silent> <leader>lp    :LspPreviousDiagnostic<CR>
-nnoremap <silent> <leader>lr    :LspRename<CR>
+"nnoremap <silent> <leader>la    :LspCodeAction<CR>
+"nnoremap <silent> <leader>ld    :LspDefinition<CR>
+"nnoremap <silent> <leader>lf    :LspReferences<CR>
+"nnoremap <silent> <leader>lh    :LspHover<CR>
+"nnoremap <silent> <leader>lH    :LspPeekDefinition<CR>
+"nnoremap <silent> <leader>lI    :LspDiagnostics<CR>
+"nnoremap <silent> <leader>ln    :LspNextDiagnostic<CR>
+"nnoremap <silent> <leader>lp    :LspPreviousDiagnostic<CR>
+"nnoremap <silent> <leader>lr    :LspRename<CR>
 let g:which_key_map.l = {
       \ 'name' : '+lsp' ,
       \ }

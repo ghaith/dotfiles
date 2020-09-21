@@ -42,17 +42,21 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Colors
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
+
 "Load auto completion plugin
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-buffer.vim'
-Plug 'prabirshrestha/asyncomplete-file.vim'
+"Plug 'prabirshrestha/asyncomplete.vim'
+"Plug 'prabirshrestha/asyncomplete-buffer.vim'
+"Plug 'prabirshrestha/asyncomplete-file.vim'
 
 ""Load language server
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/vim-lsp'
+"Plug 'prabirshrestha/async.vim'
+"Plug 'prabirshrestha/vim-lsp'
 
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
+"Plug 'mattn/vim-lsp-settings'
+"Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'kevinoid/vim-jsonc'
 
 "Rust language support
 Plug 'rust-lang/rust.vim'
@@ -87,6 +91,8 @@ Plug 'junegunn/fzf.vim'
 
 "Tmux Support
 Plug 'tmux-plugins/vim-tmux'
+
+Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
 
 call plug#end()
 " Automatically install missing plugins on startup

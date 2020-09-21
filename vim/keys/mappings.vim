@@ -46,10 +46,4 @@ if !exists('g:vscode')
 	nnoremap <silent> <C-p> :Files<CR>
 	nnoremap <silent> <A-o> :Vista finder<CR>
 
-	"Lsp Bindings
-	nnoremap <silent> <gd> :LspDefinition<CR>
-	nnoremap <silent> <gD> :LspPeekDefinition<CR>
-
-
-
 endif
