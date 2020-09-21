@@ -65,7 +65,10 @@ Plug 'rust-lang/rust.vim'
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
 
 "Quick Scope make navigating easier
-Plug 'unblevable/quick-scope'  
+"Plug 'unblevable/quick-scope'  
+
+"Sneak to jump around in the buffer
+Plug 'justinmk/vim-sneak'
 
 "Surround plugin, use with ys cs, ds
 Plug 'tpope/vim-surround'
