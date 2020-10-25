@@ -3,4 +3,5 @@ if !exists('g:vscode')
 	source $HOME/.config/vim/vim-plug/plugins.vim
 	source $HOME/.config/vim/keys/leader-mappings.vim
 endif
+source $HOME/.config/vim/general/themes.vim
 source $HOME/.config/vim/keys/mappings.vim

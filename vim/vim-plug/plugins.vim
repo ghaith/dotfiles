@@ -55,8 +55,15 @@ Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 "Plug 'mattn/vim-lsp-settings'
 "Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'kevinoid/vim-jsonc'
+
+"Nvim only
+if has('nvim')
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'nvim-lua/completion-nvim'
+else 
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+endif
 
 "Rust language support
 Plug 'rust-lang/rust.vim'
@@ -81,6 +88,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'dracula/vim', { 'as' : 'dracula' }
 
 Plug 'sainnhe/gruvbox-material'
+Plug 'gruvbox-community/gruvbox'
 
 "Make vim use the root .git directory if available
 Plug 'airblade/vim-rooter'
