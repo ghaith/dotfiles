@@ -3,6 +3,7 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 "Insert mode
 imap <C-h> <C-w>h
 imap <C-j> <C-w>j
@@ -38,12 +39,6 @@ if !exists('g:vscode')
 	" SHIFT-TAB will go back
 	nnoremap <silent> <S-TAB> :bprevious<CR>
 
-	" Alternate way to save
-	nnoremap <silent> <C-s> :w<CR>
-	" Alternate way to quit
-	"nnoremap <silent> <C-Q> :wq!<CR>
-	" Use control-c instead of escape
-	" nnoremap <silent> <C-c> <Esc>
 	" <TAB>: completion.
 	inoremap <silent> <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 

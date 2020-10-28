@@ -51,6 +51,7 @@ nnoremap <silent> <leader>S     :SSave<CR>
 let g:which_key_map['S'] = [ ':SSave'                     , 'save session' ]
 
 nnoremap <silent> <leader>T     :RustTest<CR>
+let g:which_key_map['T'] = [ ':RustTest'                     , 'Run a rust test' ]
 
 nnoremap <silent> <leader>.     :e $MYVIMRC<CR>
 let g:which_key_map['.'] = [ ':e $MYVIMRC'                , 'open init' ]
@@ -142,7 +143,7 @@ let g:which_key_map.g = {
 "nnoremap <silent> <leader>lp    :LspPreviousDiagnostic<CR>
 "nnoremap <silent> <leader>lr    :LspRename<CR>
 let g:which_key_map.l = {
-      \ 'name' : '+lsp' ,
+      \ 'name' : 'Language Server Protocol' ,
       \ }
 
 " Register which key map

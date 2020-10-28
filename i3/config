@@ -8,6 +8,11 @@ font xft:URWGothic-Book 11
 
 set $transparent #0000006f
 
+set $up k
+set $down j
+set $left h
+set $right l
+
 # Configure border style <normal|1pixel|pixel xx|none|pixel>
 new_window pixel 1
 new_float normal
@@ -33,34 +38,19 @@ bindsym Print exec flameshot gui
 bindsym $mod+Print --release exec flameshot full -c
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left 
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
-bindsym $mod+Right focus right
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left 
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
-
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
-
-# split in horizontal orientation
-bindsym $mod+h split h
+bindsym $mod+Shift+$left move left 
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
 
 # split in vertical orientation
-bindsym $mod+v split v
+bindsym $mod+t split toggle
 
 # enter fullscreen mode for the focused container
 bindsym $mod+g fullscreen toggle global
@@ -134,11 +124,8 @@ bindsym $mod+b workspace back_and_forth
 bindsym $mod+Shift+b move container to workspace back_and_forth; workspace back_and_forth
 
 #Screen Movement
-bindsym $mod+Control+Left move workspace to output left 
-bindsym $mod+Control+Right move workspace to ouptut right
-
-bindsym $mod+Control+j move workspace to output left
-bindsym $mod+Control+semicolon move workspace to output right
+bindsym $mod+Control+$left move workspace to output left
+bindsym $mod+Control+$right move workspace to output right
 
 #Screen configuration
 exec $display_script 
@@ -176,9 +163,6 @@ bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
 for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
 
-#Floating calendar 
-for_window [class="Yad"] floating enable
-
 #Origin needs to float
 for_window [instance="origin.exe"] floating enable
 
@@ -198,12 +182,6 @@ mode "resize" {
         bindsym j resize grow height 10 px or 10 ppt
         bindsym k resize shrink height 10 px or 10 ppt
         bindsym l resize grow width 10 px or 10 ppt
-
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -260,10 +238,10 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 
 
 #Cache the lock screen information
-exec betterlockscreen -u /home/ghaith/wallpapers/The_Wheel_of_Time_Wallpapers/
+# exec betterlockscreen -u /home/ghaith/wallpapers/The_Wheel_of_Time_Wallpapers/
 
 #Lock the keyboard
-bindsym $mod+shift+x exec betterlockscreen -l #$scripts/lock.sh
+# bindsym $mod+shift+x exec betterlockscreen -l #$scripts/lock.sh
 
 #Autolock
 #exec xautolock -time 10 -locker "betterlockscreen -l" &
@@ -295,7 +273,6 @@ exec --no-startup-id kdeconnect-indicator
 exec --no-startup-id volctl
 
 exec --no-startup-id unclutter
-exec --no-startup-id clipit
 
 #Change Backgrounds
 bindsym $mod+shift+w exec $scripts/background.sh
