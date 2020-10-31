@@ -16,7 +16,7 @@ Plug 'tpope/vim-commentary'
 "Increment dates with C-a C-x
 Plug 'tpope/vim-speeddating'
 "Show icons for different files
-Plug 'ryanoasis/vim-devicons'
+Plug 'lambdalisue/nerdfont.vim'
 
 "Show buffers in the tab line 
 source $HOME/.config/vim/vim-plug/buffet.vim
@@ -95,7 +95,7 @@ Plug 'airblade/vim-rooter'
 
 "Fern for file explorer
 Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-devicons.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
