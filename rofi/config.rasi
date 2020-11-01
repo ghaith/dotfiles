@@ -1,0 +1,5 @@
+configuration {
+	modi: "drun,run,window,ssh,keys";
+	sidebar-mode: true;
+	theme: ".config/rofi/dracula.rasi";
+}

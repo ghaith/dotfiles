@@ -1,5 +1,0 @@
-!Rofi config file
-rofi.modi: drun,run,window,ssh,keys
-rofi.theme: .config/rofi/dracula.rasi
-rofi.sidebar-mode: true
-
