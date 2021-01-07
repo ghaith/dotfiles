@@ -35,20 +35,11 @@ let g:which_key_map[';'] = [ ':Commands'                  , 'commands' ]
 nnoremap <silent> <leader>=     <C-w>=<CR>
 let g:which_key_map['='] = [ '<C-W>='                     , 'balance windows' ]
 
-nnoremap <silent> <leader>d     :bd<CR>
-let g:which_key_map['d'] = [ ':bd'                        , 'delete buffer']
-
 nnoremap <silent> <leader>h     <C-w>s
 let g:which_key_map['h'] = [ '<C-W>s'                     , 'split below']
 
 nnoremap <silent> <leader>v     <C-w>v
 let g:which_key_map['v'] = [ '<C-W>v'                     , 'split right']
-
-nnoremap <silent> <leader>r     :Ranger<CR>
-let g:which_key_map['r'] = [ ':Ranger'                    , 'ranger' ]
-
-nnoremap <silent> <leader>S     :SSave<CR>
-let g:which_key_map['S'] = [ ':SSave'                     , 'save session' ]
 
 nnoremap <silent> <leader>T     :RustTest<CR>
 let g:which_key_map['T'] = [ ':RustTest'                     , 'Run a rust test' ]
@@ -130,6 +121,10 @@ let g:which_key_map.g = {
       \ 'u' : ['<Plug>(GitGutterUndoHunk)'         , 'undo hunk'],
       \ 'v' : [':GV'                               , 'view commits'],
       \ 'V' : [':GV!'                              , 'view buffer commits'],
+      \ }
+
+let g:which_key_map.d = {
+      \ 'name' : '+debug',
       \ }
 
 " l is for language server protocol

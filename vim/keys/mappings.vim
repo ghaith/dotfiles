@@ -20,13 +20,6 @@ nnoremap <silent> <A-l>    :vertical resize +2<CR>
 vnoremap < <gv
 vnoremap > >gv
 
-" I hate escape more than anything else
-" inoremap jk <Esc>
-" inoremap kj <Esc>
-
-" Easy CAPS
-" inoremap <c-u> <ESC>viwUi
-" nnoremap <c-u> viwU<Esc>
 let g:sneak#label = 1
 map f <Plug>Sneak_f
 map F <Plug>Sneak_F

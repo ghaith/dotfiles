@@ -3,4 +3,4 @@
 let g:rust_fold = 1
 
 " Auto-format *.rs files prior to saving them
-autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)
+" autocmd BufWritePre *.rs lua vim.lsp.buf.formatting_sync(nil, 1000)

@@ -3,7 +3,7 @@
 export EDITOR=nvim
 export VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.local/usr/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
 export GRADLE_USER_HOME=$HOME/.gradle
 
 if [ -n "$DESKTOP_SESSION" ];then
@@ -12,6 +12,7 @@ if [ -n "$DESKTOP_SESSION" ];then
 fi
 
 alias vim=nvim
+alias crewlink=CrewLink-1.2.0.AppImage
 
 # vi mode
 bindkey -v

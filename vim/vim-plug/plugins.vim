@@ -21,6 +21,8 @@ Plug 'lambdalisue/nerdfont.vim'
 "Show buffers in the tab line 
 source $HOME/.config/vim/vim-plug/buffet.vim
 
+"Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+
 "Use gitgutter to show changes in VCS
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -40,6 +42,7 @@ Plug 'liuchengxu/vista.vim'
 "Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 "Colors
 Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 
@@ -55,18 +58,27 @@ Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
 "Plug 'mattn/vim-lsp-settings'
 "Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'kevinoid/vim-jsonc'
+" Plug 'kevinoid/vim-jsonc'
 
 "Nvim only
-if has('nvim')
-  Plug 'neovim/nvim-lspconfig'
-  Plug 'nvim-lua/completion-nvim'
-else 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-endif
+"if has('nvim')
+"  Plug 'neovim/nvim-lspconfig'
+"  Plug 'nvim-lua/completion-nvim'
+"else 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"endif
+
+"Need for formatting
+Plug 'kana/vim-operator-user'
+
+"Format C files
+Plug 'rhysd/vim-clang-format'
 
 "Rust language support
 Plug 'rust-lang/rust.vim'
+
+"Debugger
+"Plug 'puremourning/vimspector'
 
 "Toggle relative numbers automatically
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -78,14 +90,14 @@ Plug 'jeffkreeftmeijer/vim-numbertoggle'
 Plug 'justinmk/vim-sneak'
 
 "Surround plugin, use with ys cs, ds
-Plug 'tpope/vim-surround'
+" Plug 'tpope/vim-surround'
 
 "Color themes Plugins
 "Solarized Theme
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 
 "Dracula color theme
-Plug 'dracula/vim', { 'as' : 'dracula' }
+" Plug 'dracula/vim', { 'as' : 'dracula' }
 
 Plug 'sainnhe/gruvbox-material'
 Plug 'gruvbox-community/gruvbox'
@@ -103,7 +115,10 @@ Plug 'junegunn/fzf.vim'
 "Tmux Support
 Plug 'tmux-plugins/vim-tmux'
 
-Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+" Plug 'ThePrimeagen/vim-be-good', {'do': './install.sh'}
+
+"Open Scad support
+Plug 'sirtaj/vim-openscad'
 
 call plug#end()
 " Automatically install missing plugins on startup
