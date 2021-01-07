@@ -22,7 +22,7 @@ new_float normal
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id alacritty 
+bindsym $mod+Return exec --no-startup-id alacritty -e tmux 
 #Thunar
 bindsym $mod+F3 exec thunar
 #Browser
@@ -239,7 +239,7 @@ exec $scripts/background.sh ; sleep 1; picom -b
 exec --no-startup-id kdeconnect-indicator
 
 #Sound volume indicator
-exec --no-startup-id volctl
+exec --no-startup-id pasystray
 
 exec --no-startup-id unclutter
 
