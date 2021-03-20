@@ -78,7 +78,7 @@ Plug 'rhysd/vim-clang-format'
 Plug 'rust-lang/rust.vim'
 
 "Debugger
-"Plug 'puremourning/vimspector'
+Plug 'mfussenegger/nvim-dap'
 
 "Toggle relative numbers automatically
 Plug 'jeffkreeftmeijer/vim-numbertoggle'
@@ -109,8 +109,16 @@ Plug 'airblade/vim-rooter'
 Plug 'lambdalisue/fern.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 
+" TODO : Remove 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+"Treesitter for better syntax
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}  " We recommend updating the parsers on update
 
 "Tmux Support
 Plug 'tmux-plugins/vim-tmux'

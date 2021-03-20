@@ -37,6 +37,7 @@ if !exists('g:vscode')
 
 	"Control + P will open the search menu
 	nnoremap <silent> <C-p> :Files<CR>
+	"<cmd>Telescope find_files<cr>
 	nnoremap <silent> <A-o> :Vista finder<CR>
 
 endif
