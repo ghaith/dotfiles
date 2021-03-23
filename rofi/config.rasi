@@ -1,5 +1,5 @@
 configuration {
 	modi: "drun,run,window,ssh,keys";
 	sidebar-mode: true;
-	theme: ".config/rofi/dracula.rasi";
 }
+@import "/home/ghaith/.config/rofi/themes/gruvbox.rasi"
