@@ -1,0 +1,1 @@
+/home/ghaith/dracula-zsh/dracula.zsh-theme

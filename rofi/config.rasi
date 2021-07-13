@@ -2,4 +2,4 @@ configuration {
 	modi: "drun,run,window,ssh,keys";
 	sidebar-mode: true;
 }
-@import "/home/ghaith/.config/rofi/themes/gruvbox.rasi"
+@import "/usr/share/rofi/themes/arthur.rasi"
