@@ -1,3 +1,4 @@
+require('vimp')
 -- Keep the cursor in place while joining lines
 vimp.nnoremap('J', 'mzJ`z')
 
@@ -13,12 +14,11 @@ vimp.imap('<C-j>', '<C-w>j')
 vimp.imap('<C-k>', '<C-w>k')
 vimp.imap('<C-l>', '<C-w>l')
 
--- Use alt + hjkl to resize windows
-vimp.nnoremap({'<A-j>', 'silent'}, ':resize -2<CR>')
-vimp.nnoremap({'<A-k>', 'silent'}, ':resize +2<CR>')
-vimp.nnoremap({'<A-h>', 'silent'}, ':vertical resize -2<CR>')
-vimp.nnoremap({'<A-l>', 'silent'}, ':vertical resize +2<CR>')
-
 -- Better indenting
 vimp.vnoremap('<', '<gv')
 vimp.vnoremap('>', '>gv')
+
+-- Buffer navigation
+vimp.nnoremap('<leader>n', ':bnext<CR>')
+vimp.nnoremap('<leader>p', ':bprev<CR>')
+vimp.nnoremap('<leader>b', ':ls<CR>')

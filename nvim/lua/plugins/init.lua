@@ -17,9 +17,6 @@ return require('packer').startup(function()
   -- Install vimpeccable to allow easier lua vim config
   use 'svermeulen/vimpeccable'
 
-  -- Auto close brackets
-  use 'rstacruz/vim-closer'
-
 	-- Enable repetition on complex actions
 	use 'tpope/vim-repeat'
 
@@ -27,7 +24,7 @@ return require('packer').startup(function()
 	use 'tpope/vim-commentary'
 
 	-- Show icons for different file types
-	use 'lambdalisue/nerdfont.vim'
+	-- use 'lambdalisue/nerdfont.vim'
 
 	-- Git
 	use 'airblade/vim-gitgutter'
@@ -40,20 +37,18 @@ return require('packer').startup(function()
 	-- Tagbar
   use 'liuchengxu/vista.vim'
 
-	-- Programming languages
-	use 'rust-lang/rust.vim'
 
   use 'kana/vim-operator-user' -- Needed for formatting
 	use 'rhysd/vim-clang-format'
 
 	-- Toggle relative numbers automatically 
-	use 'jeffkreeftmeijer/vim-numbertoggle'
+	-- use 'jeffkreeftmeijer/vim-numbertoggle'
 
   -- Sneak to jump around in the buffer
 	use 'justinmk/vim-sneak'
 
   -- Color themes Plugins
-  use 'sainnhe/gruvbox-material'
+  -- use 'sainnhe/gruvbox-material'
   use 'gruvbox-community/gruvbox'
 
 	-- Colors
@@ -68,5 +63,23 @@ return require('packer').startup(function()
 	
 	-- Tmux support
 	use 'tmux-plugins/vim-tmux'
+
+	-- Programming languages
+	use 'rust-lang/rust.vim'
+
+	-- LSP
+	use 'neovim/nvim-lspconfig'
+
+	-- Completion
+	use 'hrsh7th/nvim-compe'
+
+	-- Snippets
+	use 'hrsh7th/vim-vsnip'
+
+  -- Telescope fuzzy finding
+	use {
+  'nvim-telescope/telescope.nvim',
+  requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+}
   
 end)

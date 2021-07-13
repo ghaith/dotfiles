@@ -73,17 +73,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gruvbox"
   },
-  ["gruvbox-material"] = {
+  ["gv.vim"] = {
     loaded = true,
-    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gruvbox-material"
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gv.vim"
   },
-  gv = {
+  ["nvim-compe"] = {
     loaded = true,
-    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gv"
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-compe"
   },
-  ["nerdfont.vim"] = {
+  ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nerdfont.vim"
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
   },
   ["nvim-treesitter"] = {
     loaded = true,
@@ -93,17 +93,25 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/packer.nvim"
   },
+  ["plenary.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/plenary.nvim"
+  },
+  ["popup.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/popup.nvim"
+  },
   ["rust.vim"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/rust.vim"
   },
+  ["telescope.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/telescope.nvim"
+  },
   ["vim-clang-format"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-clang-format"
-  },
-  ["vim-closer"] = {
-    loaded = true,
-    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-closer"
   },
   ["vim-commentary"] = {
     loaded = true,
@@ -120,10 +128,6 @@ _G.packer_plugins = {
   ["vim-hexokinase"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-hexokinase"
-  },
-  ["vim-numbertoggle"] = {
-    loaded = true,
-    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-numbertoggle"
   },
   ["vim-operator-user"] = {
     loaded = true,
@@ -144,6 +148,10 @@ _G.packer_plugins = {
   ["vim-tmux"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-tmux"
+  },
+  ["vim-vsnip"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/vim-vsnip"
   },
   vimpeccable = {
     loaded = true,
