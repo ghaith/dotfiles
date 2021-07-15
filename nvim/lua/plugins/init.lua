@@ -66,6 +66,7 @@ return require('packer').startup(function()
 
 	-- Programming languages
 	use 'rust-lang/rust.vim'
+	use	'simrat39/rust-tools.nvim'
 
 	-- LSP
 	use 'neovim/nvim-lspconfig'
@@ -80,6 +81,17 @@ return require('packer').startup(function()
 	use {
   'nvim-telescope/telescope.nvim',
   requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
-}
+			}
+
+				use {
+					"folke/which-key.nvim",
+					config = function()
+						require("which-key").setup {
+							-- your configuration comes here
+							-- or leave it empty to use the default settings
+							-- refer to the configuration section below
+						}
+					end
+				}
   
 end)

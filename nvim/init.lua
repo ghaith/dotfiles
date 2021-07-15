@@ -15,3 +15,4 @@ require('mappings')
 require('autocomplete')
 -- LSP
 require('lsp')
+require('rust')
