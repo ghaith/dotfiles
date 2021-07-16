@@ -30,3 +30,4 @@ vim.o.guifont = "Hack Nerd Font"
 
 -- Set color theme
 vim.cmd('colorscheme gruvbox')
+vim.g.gruvbox_contrast = "hard"
