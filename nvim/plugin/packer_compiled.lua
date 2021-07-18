@@ -77,9 +77,25 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gv.vim"
   },
+  ["nerdfont.vim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nerdfont.vim"
+  },
   ["nvim-compe"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-compe"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -88,6 +104,10 @@ _G.packer_plugins = {
   ["nvim-treesitter"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-treesitter"
+  },
+  ["nvim-web-devicons"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/nvim-web-devicons"
   },
   ["packer.nvim"] = {
     loaded = true,
@@ -101,9 +121,17 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/popup.nvim"
   },
+  ["rust-tools.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/rust-tools.nvim"
+  },
   ["rust.vim"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/rust.vim"
+  },
+  ["telescope-dap.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,

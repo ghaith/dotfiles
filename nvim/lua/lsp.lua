@@ -28,7 +28,7 @@ function on_attach(client, bufnr)
 
   buf_set_keymap('n', '<leader>lr', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
   buf_set_keymap('n', '<A-o>', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", opts)
-  buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_action()<CR>", opts)
+  buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
   buf_set_keymap('n', '<leader>ldd', "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>", opts)
   buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
 

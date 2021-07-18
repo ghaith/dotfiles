@@ -24,7 +24,8 @@ return require('packer').startup(function()
 	use 'tpope/vim-commentary'
 
 	-- Show icons for different file types
-	-- use 'lambdalisue/nerdfont.vim'
+	use 'lambdalisue/nerdfont.vim'
+	use 'kyazdani42/nvim-web-devicons'
 
 	-- Git
 	use 'airblade/vim-gitgutter'
@@ -77,6 +78,7 @@ return require('packer').startup(function()
 	-- Snippets
 	use 'hrsh7th/vim-vsnip'
 
+
   -- Telescope fuzzy finding
 	use {
   'nvim-telescope/telescope.nvim',
@@ -93,5 +95,11 @@ return require('packer').startup(function()
 						}
 					end
 				}
+				
+	-- Debug support
+	use "mfussenegger/nvim-dap"
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use {'nvim-telescope/telescope-dap.nvim'}
+	use "theHamsta/nvim-dap-virtual-text"
   
 end)

@@ -1,3 +1,5 @@
+-- Utils
+require('utils')
 -- Plugin Management 
 require('plugins')
 
@@ -17,4 +19,6 @@ require('autocomplete')
 require('lsp')
 require('rust')
 
-require('telescope')
+require('telescope_config')
+
+require('dbg')
