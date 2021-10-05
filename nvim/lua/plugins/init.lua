@@ -75,8 +75,18 @@ return require('packer').startup(function()
 	-- Completion
 	use 'hrsh7th/nvim-compe'
 
+
+	-- Folding support
+	use 'pierreglaser/folding-nvim'
+
 	-- Snippets
 	use 'hrsh7th/vim-vsnip'
+
+	-- Status line
+	use {
+				'hoob3rt/lualine.nvim',
+				requires = {'kyazdani42/nvim-web-devicons', opt = true}
+	}
 
 
   -- Telescope fuzzy finding
@@ -95,6 +105,8 @@ return require('packer').startup(function()
 						}
 					end
 				}
+
+  use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 				
 	-- Debug support
 	use "mfussenegger/nvim-dap"

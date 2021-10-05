@@ -82,7 +82,58 @@ utils.map('n', '<leader>dv',
 utils.map('n', '<leader>df',
           '<cmd>lua require"telescope".extensions.dap.frames{}<CR>')
 
-
 -- UI
 require("dapui").setup()
 utils.map('n', '<leader>dui', '<cmd>lua require"dapui".toggle()<CR>')
+
+-- Whichkey bindings 
+local wk = require("which-key")
+
+wk.register({
+				d = {
+								name = "Debug",
+								c = {
+												c = "Commands",
+												o = "Configurations",
+												t = "Continue",
+								},
+								f = "Frames",
+								h = {
+												name = "Hover",
+												h = "Hover",
+												v = "Visual",
+								},
+								l = {
+												name = "List",
+												b = "Breakpoints",
+								},
+								r = {
+												name = "Repl",
+												l = "Run Last",
+												o = "open",
+								},
+								s = {
+												b = {
+																name = "Breakpoints",
+																r = "Set Conditional",
+																m = "Set log point",
+												},
+												c = "Scopes",
+												i = "Into",
+												o = "Out",
+												s = "Over",
+								},
+								t = {
+												name = "Toggle",
+												b = "Breakpoint",
+								},
+								u = {
+												name  = "UI", 
+												i = "Start UI",
+												h = "Hover",
+												f = "Scopes",
+								},
+								v = "Variables",
+
+				}
+}, {prefix = "<leader>"})

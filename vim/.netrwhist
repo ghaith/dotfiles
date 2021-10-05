@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =5
+let g:netrw_dirhist_5='/home/ghaith/ruSTy/.git'
+let g:netrw_dirhist_4='/home/ghaith/ruSTy/.git/branches'
+let g:netrw_dirhist_3='/etc/NetworkManager/system-connections'
+let g:netrw_dirhist_2='/home/ghaith/git/m100-runtime-prototype/load_so'
+let g:netrw_dirhist_1='/var/lib/bluetooth'
+let g:netrw_dirhist_0='/home/ghaith/git/GCC-DejagnuTestfwk'
+let g:netrw_dirhist_9='/home/ghaith/build_gcc/results/results-2020-07-28-1727-EDsv'
+let g:netrw_dirhist_8='/home/ghaith/build_gcc/results'
+let g:netrw_dirhist_7='/home/ghaith/git'
+let g:netrw_dirhist_6='/home/ghaith/gcc_build_28_5/3rd-party-gcc'

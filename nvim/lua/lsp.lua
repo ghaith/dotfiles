@@ -1,6 +1,9 @@
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
+
+	require('folding').on_attach()
+
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
@@ -24,6 +27,7 @@ function on_attach(client, bufnr)
   buf_set_keymap('n', '<leader>ldp', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   -- buf_set_keymap('n', '<leader>lq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
   buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  buf_set_keymap('n', '<leader>lo', "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>", opts)
 
 
   buf_set_keymap('n', '<leader>lr', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
@@ -50,6 +54,7 @@ function on_attach(client, bufnr)
 												e =  "Show line diagnostic" ,
 												f =  "Formatting" ,
 												n =  "Rename" ,
+												o =  "Workspace Symbols",
 												r =  "References" ,
 								},
 				}, {prefix= "<leader>"}) 
@@ -69,7 +74,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 local nvim_lsp = require('lspconfig')
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "rust_analyzer", "tsserver" }
+local servers = { "pyright", "rust_analyzer", "tsserver", "bashls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

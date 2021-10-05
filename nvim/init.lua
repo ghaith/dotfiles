@@ -15,6 +15,8 @@ require('mappings')
 --
 -- Auto Completion
 require('autocomplete')
+--Git configuration
+require('git')
 -- LSP
 require('lsp')
 require('rust')
@@ -22,3 +24,5 @@ require('rust')
 require('telescope_config')
 
 require('dbg')
+
+require('status')

@@ -69,6 +69,10 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["folding-nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/folding-nvim"
+  },
   gruvbox = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gruvbox"
@@ -76,6 +80,10 @@ _G.packer_plugins = {
   ["gv.vim"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/gv.vim"
+  },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/lualine.nvim"
   },
   ["nerdfont.vim"] = {
     loaded = true,
@@ -132,6 +140,10 @@ _G.packer_plugins = {
   ["telescope-dap.nvim"] = {
     loaded = true,
     path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/telescope-dap.nvim"
+  },
+  ["telescope-fzf-native.nvim"] = {
+    loaded = true,
+    path = "/home/ghaith/.local/share/nvim/site/pack/packer/start/telescope-fzf-native.nvim"
   },
   ["telescope.nvim"] = {
     loaded = true,
