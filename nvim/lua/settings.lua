@@ -30,7 +30,8 @@ vim.o.updatetime = 300
 vim.o.timeoutlen = 500
 vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
-vim.o.guifont = "Hack Nerd Font"
+-- vim.o.guifont = "Hack Nerd Font"
+vim.o.guifont = "Fira Code Nerd Font"
 
 -- Set color theme
 vim.cmd('colorscheme gruvbox')

@@ -1,6 +1,7 @@
 #Scripts directory
 set $scripts ~/.config/i3/scripts
 set $display_script ~/.config/xrandr/configure.sh
+
 #Default Modifier (Mod4 = Meta Key)
 set $mod Mod4
 #Default Font
@@ -23,15 +24,18 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec --no-startup-id "alacritty -e tmux"
+bindsym $mod+Mod1+Return exec --no-startup-id "alacritty"
+bindsym $mod+Shift+d exec --no-startup-id "emacs --with-profile doom"
 #Thunar
 bindsym $mod+F3 exec thunar
 #Browser
-bindsym $mod+Shift+Return exec brave
+bindsym $mod+Shift+Return exec firefox
+bindsym $mod+F2 exec firefox
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show drun -show-icons 
+bindsym $mod+d exec rofi -show combi -show-icons 
 bindsym $mod+slash exec "splatmoji type"
 bindsym $mod+o exec bwmenu 
 #Screenshots 
@@ -72,7 +76,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+bindsym $mod+n focus child
 
 # toggle sticky
 bindsym $mod+Shift+s sticky toggle
@@ -233,6 +237,8 @@ exec thunar --daemon
 exec lxpolkit 
 exec flameshot
 exec solaar -w hide
+exec blueman-applet
+exec psensor
 
 exec $scripts/background.sh ; sleep 1; picom -b
 
