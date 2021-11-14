@@ -1,20 +1,29 @@
-#Configure scaling settings
-#export GDK_DPI_SCALE=1.5
-export EDITOR=nvim
-export VISUAL=nvim
-export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$XDG_CONFIG_HOME/emacs/bin:$HOME/.local/bin:$HOME/.local/usr/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
-export GRADLE_USER_HOME=$HOME/.gradle
-export DOOMDIR="$XDG_CONFIG_HOME/doom.d"
+# Download Znap, if it's not there yet.
+[[ -f ~/.local/git/zsh-snap/znap.zsh ]] ||
+    git clone --depth 1 -- \
+        https://github.com/marlonrichert/zsh-snap.git ~/.local/git/zsh-snap
 
-
+source ~/.local/git/zsh-snap/znap.zsh  # Start Znap
 if [ -n "$DESKTOP_SESSION" ];then
     eval $(gnome-keyring-daemon --start)
     export SSH_AUTH_SOCK
 fi
 
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
+
 alias vim=nvim
-alias crewlink=CrewLink-1.2.0.AppImage
+
+# ls
+TREE_IGNORE="cache|log|logs|node_modules|vendor"
+
+alias ls=' exa --group-directories-first'
+alias la=' ls -a'
+alias ll=' ls --git -l'
+alias lt=' ls --tree -D -L 2 -I ${TREE_IGNORE}'
+alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
+alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
+alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
 
 # vi mode
 bindkey -v
@@ -38,4 +47,6 @@ bindkey -M menuselect 'up' vi-up-line-or-history
 bindkey -M menuselect 'right' vi-forward-char
 # Fix backspace bug when switching modes
 bindkey "^?" backward-delete-char
-bindkey "^R" fzf-history-widget
+
+
+eval "$(starship init zsh)"

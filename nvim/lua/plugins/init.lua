@@ -69,6 +69,8 @@ return require('packer').startup(function()
 	use 'rust-lang/rust.vim'
 	use	'simrat39/rust-tools.nvim'
 	use 'cespare/vim-toml'
+	use 'sirtaj/vim-openscad'
+	use 'habamax/vim-godot'
 
 	-- LSP
 	use 'neovim/nvim-lspconfig'
