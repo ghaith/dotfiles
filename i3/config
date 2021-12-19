@@ -1,6 +1,6 @@
 #Scripts directory
 set $scripts ~/.config/i3/scripts
-set $display_script ~/.config/xrandr/configure.sh
+# set $display_script ~/.config/xrandr/configure.sh
 #Default Modifier (Mod4 = Meta Key)
 set $mod Mod4
 #Default Font
@@ -26,7 +26,7 @@ bindsym $mod+Return exec --no-startup-id "alacritty -e tmux"
 #Thunar
 bindsym $mod+F3 exec thunar
 #Browser
-bindsym $mod+Shift+Return exec brave
+	bindsym $mod+Shift+Return exec firefox
 # kill focused window
 bindsym $mod+Shift+q kill
 
@@ -129,20 +129,20 @@ bindsym $mod+Control+$left move workspace to output left
 bindsym $mod+Control+$right move workspace to output right
 
 #Screen configuration
-exec $display_script 5120 1440 reset
+# exec $display_script 5120 1440 reset
 
 bindsym $mod+Shift+F1 mode "$mode_display"
 set $mode_display (s)plit, (r)eset
 
-mode "$mode_display" {
-     bindsym s exec $display_script 5120 1440 split, mode "default"
-     bindsym r exec $display_script 5120 1440 reset, mode "default"
+# mode "$mode_display" {
+#      bindsym s exec $display_script 5120 1440 split, mode "default"
+#      bindsym r exec $display_script 5120 1440 reset, mode "default"
       
-      # exit system mode: "Enter" or "Escape"
-      bindsym Return mode "default"
-      bindsym Escape mode "default"
+#       # exit system mode: "Enter" or "Escape"
+#       bindsym Return mode "default"
+#       bindsym Escape mode "default"
 
-}
+# }
 
 #Open in workspaces
 #assign [class="google-chrome"] $workspace_2
