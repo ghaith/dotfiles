@@ -3,16 +3,16 @@ require('vimp')
 vimp.nnoremap('J', 'mzJ`z')
 
 -- Better window navigation
-vimp.nnoremap('<C-h>', '<C-w>h')
-vimp.nnoremap('<C-j>', '<C-w>j')
-vimp.nnoremap('<C-k>', '<C-w>k')
-vimp.nnoremap('<C-l>', '<C-w>l')
+--vimp.nnoremap('<C-h>', '<C-w>h')
+--vimp.nnoremap('<C-j>', '<C-w>j')
+--vimp.nnoremap('<C-k>', '<C-w>k')
+--vimp.nnoremap('<C-l>', '<C-w>l')
 
---Insert mode
-vimp.imap('<C-h>', '<C-w>h')
-vimp.imap('<C-j>', '<C-w>j')
-vimp.imap('<C-k>', '<C-w>k')
-vimp.imap('<C-l>', '<C-w>l')
+----Insert mode
+--vimp.imap('<C-h>', '<C-w>h')
+--vimp.imap('<C-j>', '<C-w>j')
+--vimp.imap('<C-k>', '<C-w>k')
+--vimp.imap('<C-l>', '<C-w>l')
 
 -- Better indenting
 vimp.vnoremap('<', '<gv')

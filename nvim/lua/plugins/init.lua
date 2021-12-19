@@ -76,9 +76,9 @@ return require('packer').startup(function()
 	use 'neovim/nvim-lspconfig'
 	use 'folke/lsp-colors.nvim'
 	use 'nvim-lua/lsp-status.nvim'
-	use {
-		"ray-x/lsp_signature.nvim",
-	}
+	-- use {
+	-- 	"ray-x/lsp_signature.nvim",
+	-- }
 	-- use {
 	-- 	"RishabhRD/nvim-lsputils",
 	-- 	requires = "RishabhRD/popfix"

@@ -1,3 +1,8 @@
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+
 # Download Znap, if it's not there yet.
 [[ -f ~/.local/git/zsh-snap/znap.zsh ]] ||
     git clone --depth 1 -- \
@@ -48,5 +53,9 @@ bindkey -M menuselect 'right' vi-forward-char
 # Fix backspace bug when switching modes
 bindkey "^?" backward-delete-char
 
+#Completions are not case sensitive
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# Enable this to make the completions case insensitive only when no case sensitive matches are found
+# zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 eval "$(starship init zsh)"
