@@ -36,6 +36,9 @@ function on_attach(client, bufnr)
   buf_set_keymap('n', '<leader>ldd', "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>", opts)
   buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
 
+	-- Add signrature information to lsp
+	require "lsp_signature".on_attach() 
+
   local wk = require("which-key")
 
 				wk.register({
@@ -60,6 +63,31 @@ function on_attach(client, bufnr)
 				}, {prefix= "<leader>"}) 
 end
 
+-- Trouble configuration
+vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+  {silent = true, noremap = true}
+)
+vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+  {silent = true, noremap = true}
+)
+
+-- Configure status bar
+-- local lsp_status = require('lsp-status')
+-- lsp_status.register_progress()
+-- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
+
 -- Add snippet support
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
@@ -74,7 +102,7 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 local nvim_lsp = require('lspconfig')
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "pyright", "rust_analyzer", "tsserver", "bashls" }
+local servers = { "gdscript", "pyright", "rust_analyzer", "tsserver", "bashls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -84,3 +112,4 @@ for _, lsp in ipairs(servers) do
 		capabilities = capabilities
   }
 end
+

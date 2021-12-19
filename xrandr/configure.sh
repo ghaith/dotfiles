@@ -38,6 +38,11 @@ function reset() {
 	xrandr --delmonitor $OUTPUT-2
 }
 
+function tablet() {
+	xrandr --addmode HDMI-A-1 1920x1080
+	xrandr --output DisplayPort-1 --mode 5120x1440 --output HDMI-A-1 --mode 1920x1080 --pos 1540x1440 
+}
+
 setResolution
 
 if [[ $ACTION == "split" ]]; then
@@ -46,6 +51,11 @@ if [[ $ACTION == "split" ]]; then
 	$XDG_CONFIG_HOME/polybar/launch.sh dual
 elif [[ $ACTION == "reset" ]]; then
 	reset
+	#Restart bar
+	$XDG_CONFIG_HOME/polybar/launch.sh
+elif [[ $ACTION == "tablet" ]]; then
+	reset
+	tablet
 	#Restart bar
 	$XDG_CONFIG_HOME/polybar/launch.sh
 fi      

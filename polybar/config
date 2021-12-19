@@ -63,7 +63,7 @@ font-3 = FontAwesome:pixelsize=13;1
 
 modules-left = i3
 modules-center = 
-modules-right = date home data filesystem memory cpu eth  powermenu
+modules-right = temperature date home data filesystem memory cpu eth  powermenu
 ;xkeyboard pulseaudio 
 
 tray-position = right

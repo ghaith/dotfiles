@@ -42,8 +42,7 @@ dap.configurations.rust = dap.configurations.cpp
 
 -- Configuration
 
-vim.g.dap_virtual_text = true
-
+require'nvim-dap-virtual-text'.setup()
 
 local utils = require('utils')
 
