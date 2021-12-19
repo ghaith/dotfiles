@@ -61,6 +61,7 @@ function on_attach(client, bufnr)
 												r =  "References" ,
 								},
 				}, {prefix= "<leader>"}) 
+	lsp_status.on_attach()
 end
 
 -- Trouble configuration
@@ -100,9 +101,14 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 }
 
 local nvim_lsp = require('lspconfig')
+
+-- Register the lsp satus
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "gdscript", "pyright", "rust_analyzer", "tsserver", "bashls" }
+local servers = { "clangd", "gdscript", "pyright", "tsserver", "bashls" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
