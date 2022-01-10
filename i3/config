@@ -1,5 +1,3 @@
-#Scripts directory
-set $scripts ~/.config/i3/scripts
 set $display_script ~/.config/xrandr/configure.sh
 
 #Default Modifier (Mod4 = Meta Key)
@@ -214,9 +212,6 @@ client.placeholder      #282A36 #282A36 #F8F8F2 #282A36   #282A36
 #Cache the lock screen information
 # exec betterlockscreen -u /home/ghaith/wallpapers/The_Wheel_of_Time_Wallpapers/
 
-#Lock the keyboard
-# bindsym $mod+shift+x exec betterlockscreen -l #$scripts/lock.sh
-
 #Autolock
 #exec xautolock -time 10 -locker "betterlockscreen -l" &
 
@@ -240,7 +235,7 @@ exec solaar -w hide
 exec blueman-applet
 exec psensor
 
-exec $scripts/background.sh ; sleep 1; picom -b
+exec --no-startup-id feh --randomize --bg-scale ~/wallpapers/* ; sleep 1; picom -b
 
 #KDE Connect indicator
 exec --no-startup-id kdeconnect-indicator
@@ -251,7 +246,7 @@ exec --no-startup-id pasystray
 exec --no-startup-id unclutter
 
 #Change Backgrounds
-bindsym $mod+shift+w exec $scripts/background.sh
+bindsym $mod+shift+w exec --no-startup-id feh --randomize --bg-scale ~/wallpapers/*
 
 #Disable borders
 #for_window [class="^.*"] border pixel 0
