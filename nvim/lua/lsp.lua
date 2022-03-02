@@ -1,8 +1,10 @@
+-- Expose the module to the outside
+local M = {}
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
 
-	require('folding').on_attach()
+	-- require('folding').on_attach()
 
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -36,9 +38,6 @@ function on_attach(client, bufnr)
   buf_set_keymap('n', '<leader>ldd', "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>", opts)
   buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
 
-	-- Add signrature information to lsp
-	require "lsp_signature".on_attach() 
-
   local wk = require("which-key")
 
 				wk.register({
@@ -61,33 +60,34 @@ function on_attach(client, bufnr)
 												r =  "References" ,
 								},
 				}, {prefix= "<leader>"}) 
-	lsp_status.on_attach()
+
+	-- Trouble configuration
+	vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
+		{silent = true, noremap = true}
+	)
+	vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>",
+		{silent = true, noremap = true}
+	)
+	vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>",
+		{silent = true, noremap = true}
+	)
+	vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
+		{silent = true, noremap = true}
+	)
+	vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
+		{silent = true, noremap = true}
+	)
+	vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
+		{silent = true, noremap = true}
+	)
+
+	require('lsp-status').on_attach(client)
 end
 
--- Trouble configuration
-vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-  {silent = true, noremap = true}
-)
-vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>",
-  {silent = true, noremap = true}
-)
-vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
-  {silent = true, noremap = true}
-)
-vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
-  {silent = true, noremap = true}
-)
-vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
-  {silent = true, noremap = true}
-)
+-- Register the lsp satus
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
 
--- Configure status bar
--- local lsp_status = require('lsp-status')
--- lsp_status.register_progress()
--- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
 -- Add snippet support
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -102,13 +102,11 @@ capabilities.textDocument.completion.completionItem.resolveSupport = {
 
 local nvim_lsp = require('lspconfig')
 
--- Register the lsp satus
-local lsp_status = require('lsp-status')
-lsp_status.register_progress()
+capabilities = vim.tbl_extend('keep', capabilities or {}, lsp_status.capabilities)
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "clangd", "gdscript", "pyright", "tsserver", "bashls" }
+local servers = { "clangd", "gdscript", "pyright", "tsserver", "bashls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
@@ -119,3 +117,7 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+M.on_attach = on_attach
+M.capabilities = capabilities
+
+return M

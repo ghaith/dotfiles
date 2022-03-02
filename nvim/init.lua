@@ -26,3 +26,5 @@ require('telescope_config')
 require('dbg')
 
 require('status')
+
+require('sidebar')

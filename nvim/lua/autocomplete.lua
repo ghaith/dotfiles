@@ -40,3 +40,6 @@ vimp.inoremap({'silent', 'expr'}, '<CR>', "compe#confirm('<CR>')")
 vimp.inoremap({'silent', 'expr'}, '<C-e>', "compe#close('<C-e>')")
 vimp.inoremap({'silent', 'expr'}, '<C-f>', "compe#scroll({ 'delta':+4 })")
 vimp.inoremap({'silent', 'expr'}, '<C-d>', "compe#scroll({ 'delta':-4 })")
+
+-- Autopair
+require('nvim-autopairs').setup{}

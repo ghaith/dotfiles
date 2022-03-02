@@ -26,13 +26,17 @@ return require('packer').startup(function()
 	-- Show icons for different file types
 	use 'lambdalisue/nerdfont.vim'
 	use 'kyazdani42/nvim-web-devicons'
-
+	use {
+		'romgrk/barbar.nvim',
+		requires = {'kyazdani42/nvim-web-devicons'}
+	}
 	-- Git
 	use 'airblade/vim-gitgutter'
 	use 'tpope/vim-fugitive'
   use 'junegunn/gv.vim'
   -- Make vim use the root .git directory if available
 	use 'airblade/vim-rooter'
+	use 'f-person/git-blame.nvim'
 
 
 	-- Tagbar
@@ -51,6 +55,7 @@ return require('packer').startup(function()
   -- Color themes Plugins
   -- use 'sainnhe/gruvbox-material'
   use 'gruvbox-community/gruvbox'
+	use 'overcache/NeoSolarized'
 
 	-- Colors
 	use {'rrethy/vim-hexokinase', run = 'make hexokinase'}
@@ -65,6 +70,19 @@ return require('packer').startup(function()
 	-- Tmux support
 	use 'tmux-plugins/vim-tmux'
 
+	-- Sidebar explorer
+	use {
+    'kyazdani42/nvim-tree.lua',
+    requires = {
+      'kyazdani42/nvim-web-devicons', -- optional, for file icon
+    },
+	}
+
+	-- LSP
+	use 'neovim/nvim-lspconfig'
+	use 'folke/lsp-colors.nvim'
+	use 'nvim-lua/lsp-status.nvim'
+
 	-- Programming languages
 	use 'rust-lang/rust.vim'
 	use	'simrat39/rust-tools.nvim'
@@ -72,17 +90,6 @@ return require('packer').startup(function()
 	use 'sirtaj/vim-openscad'
 	use 'habamax/vim-godot'
 
-	-- LSP
-	use 'neovim/nvim-lspconfig'
-	use 'folke/lsp-colors.nvim'
-	use 'nvim-lua/lsp-status.nvim'
-	-- use {
-	-- 	"ray-x/lsp_signature.nvim",
-	-- }
-	-- use {
-	-- 	"RishabhRD/nvim-lsputils",
-	-- 	requires = "RishabhRD/popfix"
-	-- }
 
 	--Diagnostics
 	use {
@@ -100,6 +107,7 @@ return require('packer').startup(function()
 	-- Completion
 	use 'hrsh7th/nvim-compe'
 
+	use 'windwp/nvim-autopairs'
 
 	-- Folding support
 	use 'pierreglaser/folding-nvim'
@@ -132,6 +140,8 @@ return require('packer').startup(function()
 				}
 
   use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+	-- Use telescope for ui select
+	use {'nvim-telescope/telescope-ui-select.nvim' }
 				
 	-- Debug support
 	use "mfussenegger/nvim-dap"
@@ -151,5 +161,11 @@ return require('packer').startup(function()
 			}
 		end
 	}
-  
+
+	--Dev containers
+	-- use 'jamestthompson3/nvim-remote-containers'
+
+	use("petertriho/nvim-scrollbar")
+  use {'kevinhwang91/nvim-hlslens'}
+
 end)
