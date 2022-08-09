@@ -21,9 +21,9 @@ new_float normal
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id "alacritty -e tmux"
-bindsym $mod+Mod1+Return exec --no-startup-id "alacritty"
-bindsym $mod+Shift+d exec --no-startup-id "emacs --with-profile doom"
+bindsym $mod+Return exec --no-startup-id "alacritty"
+# bindsym $mod+Mod1+Return exec --no-startup-id "alacritty"
+bindsym $mod+Shift+d exec --no-startup-id "emacs"
 #Thunar
 bindsym $mod+F3 exec thunar
 #Browser
@@ -157,9 +157,6 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
-#Start polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-
 #CAPS Indicators
 bindsym --release Caps_Lock exec pkill -SIGRTMIN+11 i3blocks
 bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
@@ -167,7 +164,11 @@ bindsym --release Num_Lock  exec pkill -SIGRTMIN+11 i3blocks
 
 #Floating notifications for teams
 for_window [title="Microsoft Teams Notification" class="microsoft teams - preview"] floating enable
-for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable 
+for_window [title="Microsoft Teams Notification" class="Microsoft Teams - Preview"] floating enable
+
+# Make the emacs documentation window floating
+# for_window [title=" \*lsp-ui.*\*" class="emacs"] floating enable
+# for_window [title=" \*company-box.*\*" class="emacs"] floating enable
 
 #Origin needs to float
 for_window [instance="origin.exe"] floating enable
@@ -250,6 +251,22 @@ bindsym $mod+shift+w exec --no-startup-id feh --randomize --bg-scale ~/wallpaper
 
 #Disable borders
 #for_window [class="^.*"] border pixel 0
+
+#Bar configuration
+bar {
+	font pango:Inconsolata 10
+	position top
+	status_command bumblebee-status -m title cpu memory \
+			datetime load bluetooth caffeine dunst pomodoro\
+			progress solaar system\
+			-t solarized-powerline
+	
+	colors{
+            background #282C34
+            statusline #fefefe
+            separator #666666
+        }
+	}
 
 #Gaps config
 smart_gaps on

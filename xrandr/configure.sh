@@ -48,15 +48,15 @@ setResolution
 if [[ $ACTION == "split" ]]; then
 	split
 	#Restart bar
-	$XDG_CONFIG_HOME/polybar/launch.sh dual
+	# $XDG_CONFIG_HOME/polybar/launch.sh dual
 elif [[ $ACTION == "reset" ]]; then
 	reset
 	#Restart bar
-	$XDG_CONFIG_HOME/polybar/launch.sh
+	# $XDG_CONFIG_HOME/polybar/launch.sh
 elif [[ $ACTION == "tablet" ]]; then
 	reset
 	tablet
 	#Restart bar
-	$XDG_CONFIG_HOME/polybar/launch.sh
+	# $XDG_CONFIG_HOME/polybar/launch.sh
 fi      
 refreshFb

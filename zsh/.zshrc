@@ -10,7 +10,6 @@ setopt SHARE_HISTORY
 
 source ~/.local/git/zsh-snap/znap.zsh  # Start Znap
 if [ -n "$DESKTOP_SESSION" ];then
-    eval $(gnome-keyring-daemon --start)
     export SSH_AUTH_SOCK
 fi
 
@@ -57,5 +56,23 @@ bindkey "^?" backward-delete-char
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # Enable this to make the completions case insensitive only when no case sensitive matches are found
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+
+# Make emacs a function that opens a client
+function emacs {
+    if [[ $# -eq 0 ]]; then
+        /usr/bin/emacs # "emacs" is function, will cause recursion
+        return
+    fi
+    args=($*)
+    for ((i=0; i <= ${#args}; i++)); do
+        local a=${args[i]}
+        # NOTE: -c for creating new frame
+        if [[ ${a:0:1} == '-' && ${a} != '-c' && ${a} != '--' ]]; then
+            /usr/bin/emacs ${args[*]}
+            return
+        fi
+    done
+    setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
+} 
 
 eval "$(starship init zsh)"

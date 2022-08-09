@@ -21,9 +21,10 @@ function on_attach(client, bufnr)
   buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
   buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
   buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+	buf_set_keymap('n', '<leader>lcc', "<cmd>lua vim.lsp.codelens.run()<CR>", opts)
+	buf_set_keymap('n', '<leader>lcr', "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
   buf_set_keymap('n', '<leader>lD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  -- buf_set_keymap('n', '<leader>lca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '<leader>ldn', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', '<leader>ldp', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
@@ -44,6 +45,11 @@ function on_attach(client, bufnr)
 								l = {
 												name = "Language Server",
 												a = "Code Action",
+												c = {
+														name = "Code Lense",
+														c = "Run Codelens",
+														r = "Refrse Codelens",
+												},
 												d = {
 																name = "Diagnostics",
 																d = "Document Diagnostics",

@@ -1,6 +1,6 @@
 configuration {
-	modi: "combi,drun,run,window,keys";
-	combi-modi: "drun,run,window";
+	modi: "combi,drun,run,keys";
+	combi-modi: "drun,run";
 	sidebar-mode: true;
 }
 @theme "/usr/share/rofi/themes/arthur.rasi"

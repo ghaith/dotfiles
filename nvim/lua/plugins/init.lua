@@ -89,7 +89,10 @@ return require('packer').startup(function()
 	use 'cespare/vim-toml'
 	use 'sirtaj/vim-openscad'
 	use 'habamax/vim-godot'
+	use 'lervag/vimtex'
 
+	-- Grammar check
+	use 'rhysd/vim-grammarous'
 
 	--Diagnostics
 	use {
