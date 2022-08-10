@@ -1,2 +1,6 @@
 vim/plugged
 rofi/themes
+.dotter/cache
+.dotter/cache.toml
+.dotter/local.toml
+*.zwc

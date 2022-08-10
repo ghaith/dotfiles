@@ -1,0 +1,32 @@
+# Reference : https://github.com/SuperCuber/dotter/wiki/Setup-and-Configuration#setup
+
+[alacritty.files]
+alacritty="~/.config/alacritty"
+
+[i3.files]
+i3="~/.config/i3"
+
+[dunst.files]
+dunst="~/.config/dunst"
+
+[lf.files]
+lf= { target = "~/.config/lf", type = "symbolic" }
+
+[nvim.files]
+nvim={ target = "~/.config/nvim", type = "symbolic" }
+
+[picom.files]
+picom="~/.config/picom"
+
+[rofi.files]
+rofi="~/.config/rofi"
+
+[starship.files]
+starship="~/.config/starship"
+
+[tmux.files]
+tmux="~/.config/tmux"
+
+[zsh.files]
+"zsh/zshenv"="~/.zshenv"
+"zsh/zshrc"="~/.config/zsh/.zshrc"

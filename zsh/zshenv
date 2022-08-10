@@ -1,3 +1,4 @@
+export ZDOTDIR=~/.config/zsh
 #Configure scaling settings
 #export GDK_DPI_SCALE=1.5
 export EDITOR=nvim
