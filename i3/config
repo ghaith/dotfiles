@@ -256,9 +256,10 @@ bindsym $mod+shift+w exec --no-startup-id feh --randomize --bg-scale ~/wallpaper
 bar {
 	font pango:Inconsolata 10
 	position top
-	status_command bumblebee-status -m title cpu memory \
-			datetime load bluetooth caffeine dunst pomodoro\
-			progress solaar system\
+	status_command bumblebee-status -m datetime title \
+			cpu memory load \
+			caffeine dunst pomodoro\
+			system\
 			-t solarized-powerline
 	
 	colors{

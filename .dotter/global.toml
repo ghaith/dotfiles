@@ -9,8 +9,8 @@ i3="~/.config/i3"
 [dunst.files]
 dunst="~/.config/dunst"
 
-[lf.files]
-lf= { target = "~/.config/lf", type = "symbolic" }
+# [lf.files]
+# lf= { target = "~/.config/lf", type = "symbolic" }
 
 [nvim.files]
 nvim={ target = "~/.config/nvim", type = "symbolic" }
