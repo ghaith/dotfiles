@@ -25,19 +25,19 @@ function on_attach(client, bufnr)
 	buf_set_keymap('n', '<leader>lcr', "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
   buf_set_keymap('n', '<leader>lD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
   buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  -- buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
   buf_set_keymap('n', '<leader>ldn', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
   buf_set_keymap('n', '<leader>ldp', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
   -- buf_set_keymap('n', '<leader>lq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-  buf_set_keymap('n', '<leader>lo', "<cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>", opts)
+  buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format {async = true}<CR>", opts)
+  buf_set_keymap('n', '<leader>lo', "<cmd>Telescope lsp_workspace_symbols<CR>", opts)
 
 
-  buf_set_keymap('n', '<leader>lr', "<cmd>lua require('telescope.builtin').lsp_references()<CR>", opts)
-  buf_set_keymap('n', '<A-o>', "<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>", opts)
-  buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
-  buf_set_keymap('n', '<leader>ldd', "<cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>", opts)
-  buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
+  buf_set_keymap('n', '<leader>lr', "<cmd>Telescope lsp_references<CR>", opts)
+  buf_set_keymap('n', '<A-o>', "<cmd>Telescope lsp_document_symbols<CR>", opts)
+  -- buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
+  buf_set_keymap('n', '<leader>ldd', "<cmd>Telescope diagnostics<CR>", opts)
+  -- buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
 
   local wk = require("which-key")
 
@@ -55,37 +55,17 @@ function on_attach(client, bufnr)
 																d = "Document Diagnostics",
 																n = "Next diagnostic",
 																p = "Previous diagnostic",
-																w = "Workspace Diagnostics",
+																-- w = "Workspace Diagnostics",
 
 												},
 												D =  "Type Definition" ,
-												e =  "Show line diagnostic" ,
+												-- e =  "Show line diagnostic" ,
 												f =  "Formatting" ,
 												n =  "Rename" ,
 												o =  "Workspace Symbols",
 												r =  "References" ,
 								},
 				}, {prefix= "<leader>"}) 
-
-	-- Trouble configuration
-	vim.api.nvim_set_keymap("n", "<leader>xx", "<cmd>TroubleToggle<cr>",
-		{silent = true, noremap = true}
-	)
-	vim.api.nvim_set_keymap("n", "<leader>xw", "<cmd>Trouble lsp_workspace_diagnostics<cr>",
-		{silent = true, noremap = true}
-	)
-	vim.api.nvim_set_keymap("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>",
-		{silent = true, noremap = true}
-	)
-	vim.api.nvim_set_keymap("n", "<leader>xl", "<cmd>Trouble loclist<cr>",
-		{silent = true, noremap = true}
-	)
-	vim.api.nvim_set_keymap("n", "<leader>xq", "<cmd>Trouble quickfix<cr>",
-		{silent = true, noremap = true}
-	)
-	vim.api.nvim_set_keymap("n", "gR", "<cmd>Trouble lsp_references<cr>",
-		{silent = true, noremap = true}
-	)
 
 	require('lsp-status').on_attach(client)
 end

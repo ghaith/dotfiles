@@ -1,15 +1,27 @@
+local actions = require("telescope.actions")
+local trouble = require("trouble.providers.telescope")
+local telescope = require("telescope")
+
 require('telescope').load_extension('fzf')
 
-vimp.nnoremap('<C-p>', "<cmd>lua require('telescope.builtin').find_files()<cr>")
-vimp.nnoremap('<leader>ff', "<cmd> lua require('telescope.builtin').find_files()<cr>")
-vimp.nnoremap('<leader>fg', "<cmd> lua require('telescope.builtin').live_grep()<cr>")
-vimp.nnoremap('<leader>fb', "<cmd> lua require('telescope.builtin').buffers()<cr>")
-vimp.nnoremap('<leader>fc', "<cmd> lua require('telescope.builtin').commands()<cr>")
-vimp.nnoremap('<leader>cc', "<cmd> lua require('telescope.builtin').colorscheme()<cr>")
-vimp.nnoremap('<leader>fs', "<cmd> lua require('telescope.builtin').current_buffer_fuzzy_find()<cr>")
+vimp.nnoremap('<C-p>', "<cmd>Telescope find_files<cr>")
+vimp.nnoremap('<leader><leader>', "<cmd>Telescope find_files<cr>")
+vimp.nnoremap('<leader>ff', "<cmd>Telescope find_files<cr>")
+vimp.nnoremap('<leader>fg', "<cmd>Telescope live_grep<cr>")
+vimp.nnoremap('<leader>fb', "<cmd>Telescope buffers<cr>")
+vimp.nnoremap('<leader>fc', "<cmd>Telescope commands<cr>")
+vimp.nnoremap('<leader>fh', "<cmd>Telescope help_tags<cr>")
+vimp.nnoremap('<leader>cc', "<cmd>Telescope colorscheme<cr>")
+vimp.nnoremap('<leader>fs', "<cmd>Telescope current_buffer_fuzzy_find<cr>")
 
 -- This is your opts table
-require("telescope").setup {
+telescope.setup {
+	defaults = {
+		mappings = {
+			i = { ["<c-t>"] = trouble.open_with_trouble },
+      n = { ["<c-t>"] = trouble.open_with_trouble }
+		}
+	},
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_dropdown {
@@ -20,7 +32,7 @@ require("telescope").setup {
 }
 -- To get fzf loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
-require("telescope").load_extension("ui-select")
+telescope.load_extension("ui-select")
 
 -- Whick key config
 
@@ -33,12 +45,14 @@ wk.register({
 				},
 				f = {
 								name = "File",
-								f =  "Find files" ,
-								g =  "Find In files" ,
 								b =  "Find Buffers" ,
 								c =  "Find Commands" ,
+								f =  "Find files" ,
+								g =  "Find In files" ,
+								h =	 "Help Tags",
 								s =  "Search in Buffer" ,
 				},
+				["<leader>"] = "Find files"
 }, {prefix= "<leader>"}) 
 
 require'nvim-web-devicons'.setup {

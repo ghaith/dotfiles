@@ -37,4 +37,4 @@ vim.o.guifont = "Fira Code Nerd Font"
 -- vim.cmd('colorscheme gruvbox')
 -- vim.g.gruvbox_contrast_dark = true 
 vim.cmd('colorscheme NeoSolarized')
-vim.cmd('set background=dark')
+vim.cmd('set background=light')

@@ -22,6 +22,7 @@ require('lsp')
 require('rust')
 
 require('telescope_config')
+require('trouble_config')
 
 require('dbg')
 

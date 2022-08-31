@@ -6,6 +6,9 @@ local function on_attach(client, bufnr)
 	lsp.on_attach(client, bufnr)
 
 	-- Mappings
+	vimp.nnoremap('<leader>ra', function() 
+					require'rust-tools.code_action'.code_action()
+	end)
 	vimp.nnoremap('<leader>rh', function() 
 					require'rust-tools.hover_actions'.hover_actions()
 	end)
@@ -63,6 +66,11 @@ local function on_attach(client, bufnr)
 
 
 end
+-- DAP uses codelldb
+local extension_path = vim.env.HOME .. '/.local/codelldb/'
+local codelldb_path = extension_path .. 'adapter/codelldb'
+local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
+
 local opts = {
 	tools = {
 		-- whether to show variable name before type hints with the inlay hints or not
@@ -78,6 +86,11 @@ local opts = {
 				command = "clippy",
 			},
 		},
+	},
+	dap = {
+		adapter = require('rust-tools.dap').get_codelldb_adapter(
+			codelldb_path, liblldb_path
+		)
 	},
 }
 require('rust-tools').setup(opts)

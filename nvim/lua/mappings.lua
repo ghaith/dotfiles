@@ -21,7 +21,8 @@ vimp.vnoremap('>', '>gv')
 -- Buffer navigation
 vimp.nnoremap('<leader>n', ':bnext<CR>')
 vimp.nnoremap('<leader>p', ':bprev<CR>')
-vimp.nnoremap('<leader>b', ':ls<CR>')
+vimp.nnoremap('<leader>cl', ':set background=light<CR>')
+vimp.nnoremap('<leader>cd', ':set background=dark<CR>')
 
 -- Which key configuration
 --
@@ -29,6 +30,5 @@ local wk = require("which-key")
 
 wk.register({
 				n = "Next Buffer",
-				p = "Previous Buffer",
-				b = "List Buffers"
+				p = "Previous Buffer"
 }, {prefix = "<leader>"})
