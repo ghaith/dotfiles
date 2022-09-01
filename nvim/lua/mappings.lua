@@ -32,3 +32,6 @@ wk.register({
 				n = "Next Buffer",
 				p = "Previous Buffer"
 }, {prefix = "<leader>"})
+
+-- Activate leap keymaps
+require('leap').set_default_keymaps()

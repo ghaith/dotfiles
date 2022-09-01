@@ -50,7 +50,9 @@ return require('packer').startup(function()
 	-- use 'jeffkreeftmeijer/vim-numbertoggle'
 
   -- Sneak to jump around in the buffer
-	use 'justinmk/vim-sneak'
+	-- use 'justinmk/vim-sneak'
+	-- Leap to jump around (like sneak but with labels)
+	use 'ggandor/leap.nvim'
 
   -- Color themes Plugins
   -- use 'sainnhe/gruvbox-material'
