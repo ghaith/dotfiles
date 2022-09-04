@@ -4,17 +4,15 @@ require('utils')
 require('plugins')
 
 -- Defaults
-
 require('settings')
-
-
 -- Mappings
 require('mappings')
 
 -- Language Configuration
 --
 -- Auto Completion
-require('autocomplete')
+-- require('autocomplete')
+require('cmp_config')
 --Git configuration
 require('git')
 -- LSP

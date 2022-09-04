@@ -9,9 +9,6 @@ function on_attach(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
   -- Mappings.
   local opts = { noremap=true, silent=true }
 
@@ -38,6 +35,10 @@ function on_attach(client, bufnr)
   -- buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
   buf_set_keymap('n', '<leader>ldd', "<cmd>Telescope diagnostics<CR>", opts)
   -- buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
+
+	vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
 
   local wk = require("which-key")
 
@@ -75,8 +76,8 @@ local lsp_status = require('lsp-status')
 lsp_status.register_progress()
 
 
--- Add snippet support
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- Add snippet and completion support
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = {

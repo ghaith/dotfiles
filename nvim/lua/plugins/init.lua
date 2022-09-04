@@ -37,7 +37,7 @@ return require('packer').startup(function()
   -- Make vim use the root .git directory if available
 	use 'airblade/vim-rooter'
 	use 'f-person/git-blame.nvim'
-
+	use({"petertriho/cmp-git", requires = "nvim-lua/plenary.nvim"})
 
 	-- Tagbar
   use 'liuchengxu/vista.vim'
@@ -84,6 +84,7 @@ return require('packer').startup(function()
 	use 'neovim/nvim-lspconfig'
 	use 'folke/lsp-colors.nvim'
 	use 'nvim-lua/lsp-status.nvim'
+	use 'onsails/lspkind.nvim'
 
 	-- Programming languages
 	use 'rust-lang/rust.vim'
@@ -110,15 +111,26 @@ return require('packer').startup(function()
 	}
 
 	-- Completion
-	use 'hrsh7th/nvim-compe'
+	-- use 'hrsh7th/nvim-compe'
+	use 'hrsh7th/nvim-cmp' --Engine
+	use 'hrsh7th/cmp-nvim-lsp'
+	use 'hrsh7th/cmp-nvim-lsp-signature-help' 
+	use 'hrsh7th/cmp-buffer'
+	use 'hrsh7th/cmp-path'
+	use 'hrsh7th/cmp-cmdline'
+	use 'hrsh7th/cmp-nvim-lua'
+	use 'saadparwaiz1/cmp_luasnip'
 
-	use 'windwp/nvim-autopairs'
-
+	use {
+		"windwp/nvim-autopairs",
+			config = function() require("nvim-autopairs").setup {} end
+	}
 	-- Folding support
 	use 'pierreglaser/folding-nvim'
 
 	-- Snippets
-	use 'hrsh7th/vim-vsnip'
+	use 'L3MON4D3/LuaSnip'
+	-- use 'hrsh7th/vim-vsnip'
 
 	-- Status line
 	use {
