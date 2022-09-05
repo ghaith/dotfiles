@@ -21,7 +21,7 @@ new_float normal
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id "alacritty"
+bindsym $mod+Return exec --no-startup-id "wezterm"
 # bindsym $mod+Mod1+Return exec --no-startup-id "alacritty"
 bindsym $mod+Shift+d exec --no-startup-id "emacs"
 #Thunar

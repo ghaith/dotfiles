@@ -58,6 +58,7 @@ return require('packer').startup(function()
   -- use 'sainnhe/gruvbox-material'
   use 'gruvbox-community/gruvbox'
 	use 'overcache/NeoSolarized'
+	use 'folke/tokyonight.nvim'
 
 	-- Colors
 	use {'rrethy/vim-hexokinase', run = 'make hexokinase'}

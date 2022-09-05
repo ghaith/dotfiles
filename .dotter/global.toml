@@ -27,6 +27,9 @@ starship="~/.config/starship"
 [tmux.files]
 tmux="~/.config/tmux"
 
+[wezterm.files]
+wezterm="~/.config/wezterm"
+
 [zsh.files]
 "zsh/zshenv"="~/.zshenv"
 "zsh/zshrc"="~/.config/zsh/.zshrc"
