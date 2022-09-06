@@ -1,11 +1,46 @@
 local wezterm = require'wezterm'
 local act = wezterm.action
 
--- The filled in variant of the < symbol
-local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
+-- -- The filled in variant of the < symbol
+-- local SOLID_LEFT_ARROW = utf8.char(0xe0b2)
 
--- The filled in variant of the > symbol
-local SOLID_RIGHT_ARROW = utf8.char(0xe0b0)
+-- -- The filled in variant of the > symbol
+-- local SOLID_RIGHT_ARROW = utf8.char(0xe0b0)
+
+-- wezterm.on(
+-- 	'format-tab-title',
+-- 	function(tab, tabs, panes, config, hover, max_width)
+-- 		local edge_background = '#0b0022'
+--     local background = '#1b1032'
+--     local foreground = '#808080'
+
+--     if tab.is_active then
+--       background = '#2b2042'
+--       foreground = '#c0c0c0'
+--     elseif hover then
+--       background = '#3b3052'
+--       foreground = '#909090'
+--     end
+
+--     local edge_foreground = background
+
+--     -- ensure that the titles fit in the available space,
+--     -- and that we have room for the edges.
+--     local title = wezterm.truncate_right(tab.active_pane.title, max_width - 2)
+
+--     return {
+--       { Background = { Color = edge_background } },
+--       { Foreground = { Color = edge_foreground } },
+--       { Text = SOLID_LEFT_ARROW },
+--       { Background = { Color = background } },
+--       { Foreground = { Color = foreground } },
+--       { Text = title },
+--       { Background = { Color = edge_background } },
+--       { Foreground = { Color = edge_foreground } },
+--       { Text = SOLID_RIGHT_ARROW },
+--     }
+-- 	end
+-- )
 
 return {
 	unix_domains = {
@@ -75,29 +110,11 @@ return {
 	font = wezterm.font 'Fira Code',
 	hide_tab_bar_if_only_one_tab = true,
 	tab_bar_at_bottom = true,
-
-	tab_bar_style = {
-    active_tab_left = wezterm.format {
-      { Background = { Color = '#0b0022' } },
-      { Foreground = { Color = '#2b2042' } },
-      { Text = SOLID_LEFT_ARROW },
-    },
-    active_tab_right = wezterm.format {
-      { Background = { Color = '#0b0022' } },
-      { Foreground = { Color = '#2b2042' } },
-      { Text = SOLID_RIGHT_ARROW },
-    },
-    inactive_tab_left = wezterm.format {
-      { Background = { Color = '#0b0022' } },
-      { Foreground = { Color = '#1b1032' } },
-      { Text = SOLID_LEFT_ARROW },
-    },
-    inactive_tab_right = wezterm.format {
-      { Background = { Color = '#0b0022' } },
-      { Foreground = { Color = '#1b1032' } },
-      { Text = SOLID_RIGHT_ARROW },
-    },
-  },
+	unix_domains = {
+		{
+			name = 'unix',
+		},
+	}
 
 	
 
