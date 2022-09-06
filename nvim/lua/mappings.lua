@@ -1,6 +1,8 @@
 require('vimp')
+
+local keymap = vim.keymap
 -- Keep the cursor in place while joining lines
-vimp.nnoremap('J', 'mzJ`z')
+keymap('n','J', 'mzJ`z')
 
 -- Better window navigation
 --vimp.nnoremap('<C-h>', '<C-w>h')

@@ -37,4 +37,5 @@ vim.o.guifont = "Fira Code Nerd Font"
 -- vim.cmd('colorscheme gruvbox')
 -- vim.g.gruvbox_contrast_dark = true 
 vim.cmd('colorscheme tokyonight')
-vim.cmd('set background=light')
+--- Dark theme by default, use <leader>cl to switch to light
+vim.cmd('set background=dark')

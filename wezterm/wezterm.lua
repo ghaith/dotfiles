@@ -98,15 +98,30 @@ return {
 		{ key = 's', mods = 'LEADER|CTRL', action = act.PaneSelect },
 
 		--- Copy and paste actions
-		{ key = 'X', mods = 'CTRL', action = wezterm.action.ActivateCopyMode },
+		{ key = 'X', mods = 'CTRL', action = act.ActivateCopyMode },
 		--- Increase / Decrease fonts sizes
-		{ key = '=', mods = 'CTRL', action = wezterm.action.IncreaseFontSize },
-		{ key = '-', mods = 'CTRL', action = wezterm.action.IncreaseFontSize },
-		{ key = '0', mods = 'CTRL', action = wezterm.action.ResetFontSize },
+		{ key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
+		{ key = '-', mods = 'CTRL', action = act.IncreaseFontSize },
+		{ key = '0', mods = 'CTRL', action = act.ResetFontSize },
+
+		--- Switch to light or dark theme on demand
+		{ key = '=', mods = 'LEADER', 
+		action = wezterm.action_callback(function(window) 
+			wezterm.log_info 'Test'
+			local overrides = window:get_config_overrides() or {}
+			overrides.color_scheme = 'TokyoNightLight (Gogh)'
+			window:set_config_overrides(overrides)
+		end)},
+		{ key = '=', mods = 'LEADER|CTRL', 
+		action = wezterm.action_callback(function(window) 
+			local overrides = window:get_config_overrides() or {}
+			overrides.color_scheme = 'TokyoNight (Gogh)'
+			window:set_config_overrides(overrides)
+		end)}
 
 	},
 	--- Appearence
-	color_scheme = 'TokyoNightLight (Gogh)',
+	color_scheme = 'TokyoNight (Gogh)',
 	font = wezterm.font 'Fira Code',
 	hide_tab_bar_if_only_one_tab = true,
 	tab_bar_at_bottom = true,
@@ -115,7 +130,4 @@ return {
 			name = 'unix',
 		},
 	}
-
-	
-
 }
