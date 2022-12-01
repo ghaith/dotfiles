@@ -46,11 +46,11 @@ require'nvim-dap-virtual-text'.setup()
 
 local utils = require('utils')
 
-utils.map('n', '<leader>dct', '<cmd>lua require"dap".continue()<CR>')
-utils.map('n', '<leader>dss', '<cmd>lua require"dap".step_over()<CR>')
-utils.map('n', '<leader>dsi', '<cmd>lua require"dap".step_into()<CR>')
-utils.map('n', '<leader>dso', '<cmd>lua require"dap".step_out()<CR>')
-utils.map('n', '<leader>dtb', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
+utils.map('n', '<F5>', '<cmd>lua require"dap".continue()<CR>')
+utils.map('n', '<F10>', '<cmd>lua require"dap".step_over()<CR>')
+utils.map('n', '<F11>', '<cmd>lua require"dap".step_into()<CR>')
+utils.map('n', '<Shift><F11>', '<cmd>lua require"dap".step_out()<CR>')
+utils.map('n', '<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
 
 utils.map('n', '<leader>dsc', '<cmd>lua require"dap.ui.variables".scopes()<CR>')
 utils.map('n', '<leader>dhh', '<cmd>lua require"dap.ui.variables".hover()<CR>')
@@ -61,9 +61,9 @@ utils.map('n', '<leader>duh', '<cmd>lua require"dap.ui.widgets".hover()<CR>')
 utils.map('n', '<leader>duf',
           "<cmd>lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>")
 
-utils.map('n', '<leader>dsbr',
+utils.map('n', '<leader>dB',
           '<cmd>lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
-utils.map('n', '<leader>dsbm',
+utils.map('n', '<leader>dL',
           '<cmd>lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>')
 utils.map('n', '<leader>dro', '<cmd>lua require"dap".repl.open()<CR>')
 utils.map('n', '<leader>drl', '<cmd>lua require"dap".repl.run_last()<CR>')
@@ -91,10 +91,11 @@ local wk = require("which-key")
 wk.register({
 				d = {
 								name = "Debug",
+								b = "Breakpoint",
+								B = "Conditional Breakpoint",
 								c = {
 												c = "Commands",
 												o = "Configurations",
-												t = "Continue",
 								},
 								f = "Frames",
 								h = {
@@ -106,25 +107,14 @@ wk.register({
 												name = "List",
 												b = "Breakpoints",
 								},
+								L = "Log point",
 								r = {
 												name = "Repl",
 												l = "Run Last",
 												o = "open",
 								},
 								s = {
-												b = {
-																name = "Breakpoints",
-																r = "Set Conditional",
-																m = "Set log point",
-												},
 												c = "Scopes",
-												i = "Into",
-												o = "Out",
-												s = "Over",
-								},
-								t = {
-												name = "Toggle",
-												b = "Breakpoint",
 								},
 								u = {
 												name  = "UI", 

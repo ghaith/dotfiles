@@ -55,6 +55,12 @@ return {
   leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 },
 	--- Keyboard shortcuts
 	keys = {
+		-- Send "CTRL-A" to the terminal when pressing CTRL-A, CTRL-A
+    {
+      key = 'a',
+      mods = 'LEADER|CTRL',
+      action = wezterm.action.SendString '\x01',
+    },
 		--- Window splits and navigation
 		{
 			--- Create a new tab, equivalant to tmux window
@@ -98,10 +104,10 @@ return {
 		{ key = 's', mods = 'LEADER|CTRL', action = act.PaneSelect },
 
 		--- Copy and paste actions
-		{ key = 'X', mods = 'CTRL', action = act.ActivateCopyMode },
+		{ key = 'x', mods = 'LEADER|CTRL', action = act.ActivateCopyMode },
 		--- Increase / Decrease fonts sizes
 		{ key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
-		{ key = '-', mods = 'CTRL', action = act.IncreaseFontSize },
+		{ key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
 		{ key = '0', mods = 'CTRL', action = act.ResetFontSize },
 
 		--- Switch to light or dark theme on demand
@@ -117,7 +123,19 @@ return {
 			local overrides = window:get_config_overrides() or {}
 			overrides.color_scheme = 'TokyoNight (Gogh)'
 			window:set_config_overrides(overrides)
-		end)}
+		end)},
+
+		--- Copy and Paste
+    { key = 'C', mods = 'SHIFT|CTRL', action = act.CopyTo 'Clipboard' },
+    { key = 'V', mods = 'SHIFT|CTRL', action = act.PasteFrom 'Clipboard' },
+
+		---Scrollback shortcuts
+		{ key = 'K', mods = 'SHIFT|CTRL', action = act.ClearScrollback 'ScrollbackOnly' },
+		{ key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
+		{ key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
+
+		--- Quickselect mode
+		{ key = 'phys:Space', mods = 'SHIFT|CTRL', action = act.QuickSelect },
 
 	},
 	--- Appearence
