@@ -1,4 +1,5 @@
 vim/plugged
+nvim/plugin
 rofi/themes
 .dotter/cache
 .dotter/cache.toml
