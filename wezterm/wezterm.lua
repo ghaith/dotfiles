@@ -143,6 +143,7 @@ return {
 	font = wezterm.font 'Fira Code',
 	hide_tab_bar_if_only_one_tab = true,
 	tab_bar_at_bottom = true,
+	adjust_window_size_when_changing_font_size = false,
 	unix_domains = {
 		{
 			name = 'unix',
