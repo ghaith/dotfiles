@@ -18,6 +18,7 @@ require('git')
 -- LSP
 require('lsp')
 require('rust')
+require('go')
 
 require('telescope_config')
 require('trouble_config')

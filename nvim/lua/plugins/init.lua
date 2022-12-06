@@ -122,6 +122,10 @@ return require('packer').startup(function()
 	use 'hrsh7th/cmp-nvim-lua'
 	use 'saadparwaiz1/cmp_luasnip'
 
+	--Go
+	use 'ray-x/go.nvim'
+	use 'ray-x/guihua.lua' -- For floating windows
+
 	use {
 		"windwp/nvim-autopairs",
 			config = function() require("nvim-autopairs").setup {} end

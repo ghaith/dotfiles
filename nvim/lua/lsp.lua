@@ -77,7 +77,7 @@ lsp_status.register_progress()
 
 
 -- Add snippet and completion support
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 capabilities.textDocument.completion.completionItem.resolveSupport = {
   properties = {
@@ -93,7 +93,7 @@ capabilities = vim.tbl_extend('keep', capabilities or {}, lsp_status.capabilitie
 
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
-local servers = { "clangd", "gdscript", "pyright", "tsserver", "bashls", "sumenko_lua"}
+local servers = { "clangd", "gdscript", "pyright", "tsserver", "bashls", "sumenko_lua", "gopls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
