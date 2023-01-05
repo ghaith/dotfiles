@@ -25,6 +25,12 @@ vimp.nnoremap('<leader>p', ':bprev<CR>')
 vimp.nnoremap('<leader>cl', ':set background=light<CR>')
 vimp.nnoremap('<leader>cd', ':set background=dark<CR>')
 
+-- Center the page on Ctrl+D and Ctrl+U
+vimp.nnoremap('<ctrl>d', '<ctrl>Dzz')
+vimp.nnoremap('<ctrl>U', '<ctrl>Uzz')
+vimp.nnoremap('n', 'nzz')
+vimp.nnoremap('N', 'Nzz')
+
 -- Which key configuration
 --
 local wk = require("which-key")

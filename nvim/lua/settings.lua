@@ -39,3 +39,7 @@ vim.o.guifont = "Fira Code Nerd Font"
 vim.cmd('colorscheme tokyonight')
 --- Dark theme by default, use <leader>cl to switch to light
 vim.cmd('set background=dark')
+--- Define markdown inner languages
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}
