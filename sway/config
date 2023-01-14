@@ -2,7 +2,8 @@ set $mod Mod4
 
 # Include modular files
 include /etc/sway/config.d/*
-include ~/.config/i3/config.d/*
+include ~/.config/sway/config.d/*
+include ~/.config/i3_sway/config.d/*
 
 #Set background
 output * bg `find ~/wallpapers/ -type f | shuf -n 1` stretch
