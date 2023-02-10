@@ -11,34 +11,32 @@ function on_attach(client, bufnr)
 
   -- Mappings.
   local opts = { noremap=true, silent=true }
+	local telescope = require('telescope.builtin')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
-	buf_set_keymap('n', '<leader>lcc', "<cmd>lua vim.lsp.codelens.run()<CR>", opts)
-	buf_set_keymap('n', '<leader>lcr', "<cmd>lua vim.lsp.codelens.refresh()<CR>", opts)
-  buf_set_keymap('n', '<leader>lD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', '<leader>ln', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  -- buf_set_keymap('n', '<leader>le', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '<leader>ldn', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', '<leader>ldp', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  -- buf_set_keymap('n', '<leader>lq', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap("n", "<leader>lf", "<cmd>lua vim.lsp.buf.format {async = true}<CR>", opts)
-  buf_set_keymap('n', '<leader>lo', "<cmd>Telescope lsp_workspace_symbols<CR>", opts)
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+	vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
+	vim.keymap.set('n', '<leader>lcc', vim.lsp.codelens.run, opts)
+	vim.keymap.set('n', '<leader>lcr', vim.lsp.codelens.refresh, opts)
+  vim.keymap.set('n', '<leader>lD', vim.lsp.buf.type_definition, opts)
+  vim.keymap.set('n', '<leader>ln', vim.lsp.buf.rename, opts)
+  vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, opts)
+  vim.keymap.set('n', '<leader>ldn', vim.diagnostic.goto_prev, opts)
+  vim.keymap.set('n', '<leader>ldp', vim.diagnostic.goto_next, opts)
+  -- vim.keymap.set('n', '<leader>lq', vim.lsp.diagnostic.set_loclist(), opts)
+  vim.keymap.set("n", "<leader>lf", function () vim.lsp.buf.format {async = true} end, opts)
+  vim.keymap.set('n', '<leader>lo', telescope.lsp_workspace_symbols, opts)
 
 
-  buf_set_keymap('n', '<leader>lr', "<cmd>Telescope lsp_references<CR>", opts)
-  buf_set_keymap('n', '<A-o>', "<cmd>Telescope lsp_document_symbols<CR>", opts)
-  -- buf_set_keymap('n', '<leader>la', "<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>", opts)
-  buf_set_keymap('n', '<leader>ldd', "<cmd>Telescope diagnostics<CR>", opts)
-  -- buf_set_keymap('n', '<leader>ldw', "<cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>", opts)
+  vim.keymap.set('n', '<leader>lr', telescope.lsp_references, opts)
+  vim.keymap.set('n', '<A-o>', telescope.lsp_document_symbols, opts)
+  vim.keymap.set('n', '<leader>ldd', telescope.diagnostics, opts)
 
-	vim.api.nvim_buf_set_option(bufnr, "formatexpr", "v:lua.vim.lsp.formatexpr()")
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	vim.api.nvim_buf_set_option(bufnr, "tagfunc", "v:lua.vim.lsp.tagfunc")
 
   local wk = require("which-key")
 
@@ -49,18 +47,17 @@ function on_attach(client, bufnr)
 												c = {
 														name = "Code Lense",
 														c = "Run Codelens",
-														r = "Refrse Codelens",
+														r = "Refresh Codelens",
 												},
 												d = {
 																name = "Diagnostics",
 																d = "Document Diagnostics",
 																n = "Next diagnostic",
 																p = "Previous diagnostic",
-																-- w = "Workspace Diagnostics",
 
 												},
 												D =  "Type Definition" ,
-												-- e =  "Show line diagnostic" ,
+												e =  "Show line diagnostic" ,
 												f =  "Formatting" ,
 												n =  "Rename" ,
 												o =  "Workspace Symbols",

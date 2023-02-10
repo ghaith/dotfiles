@@ -32,13 +32,13 @@ vim.o.clipboard = "unnamedplus"
 vim.o.termguicolors = true
 -- vim.o.guifont = "Hack Nerd Font"
 vim.o.guifont = "Fira Code Nerd Font"
-
 -- Set color theme
 -- vim.cmd('colorscheme gruvbox')
 -- vim.g.gruvbox_contrast_dark = true 
 vim.cmd('colorscheme tokyonight')
 --- Dark theme by default, use <leader>cl to switch to light
 vim.cmd('set background=dark')
+vim.cmd('set colorcolumn=110')
 --- Define markdown inner languages
 vim.g.markdown_fenced_languages = {
   "ts=typescript"
