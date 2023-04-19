@@ -94,6 +94,7 @@ return require('packer').startup(function()
 	use 'sirtaj/vim-openscad'
 	use 'habamax/vim-godot'
 	use 'lervag/vimtex'
+	use 'elkowar/yuck.vim'
 
 	-- Grammar check
 	use 'rhysd/vim-grammarous'
