@@ -14,9 +14,6 @@ return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  -- Install vimpeccable to allow easier lua vim config
-  use 'svermeulen/vimpeccable'
-
 	-- Enable repetition on complex actions
 	use 'tpope/vim-repeat'
 

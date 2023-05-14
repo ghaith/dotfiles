@@ -1,35 +1,21 @@
-require('vimp')
-
 -- Keep the cursor in place while joining lines
-vimp.nnoremap('J', 'mzJ`z')
-
--- Better window navigation
---vimp.nnoremap('<C-h>', '<C-w>h')
---vimp.nnoremap('<C-j>', '<C-w>j')
---vimp.nnoremap('<C-k>', '<C-w>k')
---vimp.nnoremap('<C-l>', '<C-w>l')
-
-----Insert mode
---vimp.imap('<C-h>', '<C-w>h')
---vimp.imap('<C-j>', '<C-w>j')
---vimp.imap('<C-k>', '<C-w>k')
---vimp.imap('<C-l>', '<C-w>l')
+vim.keymap.set('n', 'J', 'mzJ`z', {noremap = true, silent = true})
 
 -- Better indenting
-vimp.vnoremap('<', '<gv')
-vimp.vnoremap('>', '>gv')
+vim.keymap.set('v', '<', '<gv', {noremap = true, silent = true})
+vim.keymap.set('v', '>', '>gv', {noremap = true, silent = true})
 
 -- Buffer navigation
-vimp.nnoremap('<leader>n', ':bnext<CR>')
-vimp.nnoremap('<leader>p', ':bprev<CR>')
-vimp.nnoremap('<leader>cl', ':set background=light<CR>')
-vimp.nnoremap('<leader>cd', ':set background=dark<CR>')
+vim.keymap.set('n', '<leader>n', ':bnext<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>p', ':bprev<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>cl', ':set background=light<CR>', {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>cd', ':set background=dark<CR>', {noremap = true, silent = true})
 
 -- Center the page on Ctrl+D and Ctrl+U
-vimp.nnoremap('<ctrl>d', '<ctrl>Dzz')
-vimp.nnoremap('<ctrl>U', '<ctrl>Uzz')
-vimp.nnoremap('n', 'nzz')
-vimp.nnoremap('N', 'Nzz')
+vim.keymap.set('n', '<ctrl>d', '<ctrl>Dzz', {noremap = true, silent = true})
+vim.keymap.set('n', '<ctrl>U', '<ctrl>Uzz', {noremap = true, silent = true})
+vim.keymap.set('n', 'n', 'nzz', {noremap = true, silent = true})
+vim.keymap.set('n', 'N', 'Nzz', {noremap = true, silent = true})
 
 -- Which key configuration
 --

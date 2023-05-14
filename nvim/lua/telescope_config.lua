@@ -4,15 +4,15 @@ local telescope = require("telescope")
 
 require('telescope').load_extension('fzf')
 
-vimp.nnoremap('<C-p>', "<cmd>Telescope find_files<cr>")
-vimp.nnoremap('<leader><leader>', "<cmd>Telescope find_files<cr>")
-vimp.nnoremap('<leader>ff', "<cmd>Telescope find_files<cr>")
-vimp.nnoremap('<leader>fg', "<cmd>Telescope live_grep<cr>")
-vimp.nnoremap('<leader>fb', "<cmd>Telescope buffers<cr>")
-vimp.nnoremap('<leader>fc', "<cmd>Telescope commands<cr>")
-vimp.nnoremap('<leader>fh', "<cmd>Telescope help_tags<cr>")
-vimp.nnoremap('<leader>cc', "<cmd>Telescope colorscheme<cr>")
-vimp.nnoremap('<leader>fs', "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+vim.keymap.set('n', '<C-p>', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader><leader>', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>ff', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>fg', "<cmd>Telescope live_grep<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>fb', "<cmd>Telescope buffers<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>fc', "<cmd>Telescope commands<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>fh', "<cmd>Telescope help_tags<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>cc', "<cmd>Telescope colorscheme<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>fs', "<cmd>Telescope current_buffer_fuzzy_find<cr>", {noremap=true, silent=true})
 
 -- This is your opts table
 telescope.setup {

@@ -5,10 +5,6 @@ local M = {}
 function on_attach(client, bufnr)
 
 	-- require('folding').on_attach()
-
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
   -- Mappings.
   local opts = { noremap=true, silent=true }
 	local telescope = require('telescope.builtin')

@@ -1,2 +1,2 @@
 require'nvim-tree'.setup {}
-vimp.nnoremap('<leader>e', ":NvimTreeToggle<CR>")
+vim.keymap.set('n', '<leader>e', ":NvimTreeToggle<CR>", {noremap=true, silent=true})
