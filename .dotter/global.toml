@@ -14,6 +14,9 @@ i3_sway="~/.config/i3_sway"
 [swayidle.files]
 "swayidle"="~/.config/swayidle"
 
+[swaylock.files]
+"swaylock"="~/.config/swaylock"
+
 
 [dunst.files]
 dunst="~/.config/dunst"
@@ -42,9 +45,6 @@ wezterm="~/.config/wezterm"
 [zsh.files]
 "zsh/zshenv"="~/.zshenv"
 "zsh/zshrc"="~/.config/zsh/.zshrc"
-
-[emacs.files]
-emacs={ target= "~/.config/emacs", type = "symbolic"}
 
 [hypr.files]
 hypr="~/.config/hypr"
