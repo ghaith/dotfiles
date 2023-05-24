@@ -57,3 +57,6 @@ waybar="~/.config/waybar"
 
 [wpaperd.files]
 wpaperd="~/.config/wpaperd"
+
+[helix.files]
+helix="~/.config/helix"
