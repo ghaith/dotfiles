@@ -1,8 +1,14 @@
 theme = "tokyonight"
 [editor]
 line-number = "relative"
+cursorline = true
+bufferline = "multiple"
 
 [editor.cursor-shape]
 insert = "bar"
 normal = "block"
 select = "underline"
+
+[editor.lsp]
+display-messages = true
+display-inlay-hints = true
