@@ -47,7 +47,7 @@ wezterm="~/.config/wezterm"
 "zsh/zshrc"="~/.config/zsh/.zshrc"
 
 [hypr.files]
-hypr="~/.config/hypr"
+"hypr/hyprland.conf"="~/.config/hypr/hyprland.conf"
 
 [eww.files]
 eww="~/.config/eww"
