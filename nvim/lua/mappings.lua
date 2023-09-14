@@ -1,5 +1,5 @@
 -- Keep the cursor in place while joining lines
-vim.keymap.set('n', 'J', 'mzJ`z', {noremap = true, silent = true})
+vim.keymap.set("n", "J", "mzJ`z", {noremap = true, silent = true})
 
 -- Better indenting
 vim.keymap.set('v', '<', '<gv', {noremap = true, silent = true})

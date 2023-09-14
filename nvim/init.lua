@@ -1,5 +1,3 @@
--- Utils
-require('utils')
 -- Plugin Management 
 require('plugins')
 

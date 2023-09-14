@@ -5,11 +5,11 @@
     // "width": 1280, // Waybar width
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
-    "modules-left": ["wlr/workspaces"],
+    "modules-left": ["hyprland/workspaces"],
     "modules-center": [],
     "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "clock", "tray"],
     // Modules configuration
-     "wlr/workspaces": {
+     "hyprland/workspaces": {
          // "disable-scroll": true,
          "all-outputs": true,
 				 "on-scroll-up": "hyprctl dispatch workspace e+1",

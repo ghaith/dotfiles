@@ -4,15 +4,13 @@ local telescope = require("telescope")
 
 require('telescope').load_extension('fzf')
 
-vim.keymap.set('n', '<C-p>', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader><leader>', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>ff', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>fg', "<cmd>Telescope live_grep<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>fb', "<cmd>Telescope buffers<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>fc', "<cmd>Telescope commands<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>fh', "<cmd>Telescope help_tags<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>f', "<cmd>Telescope find_files<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>/', "<cmd>Telescope live_grep<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>b', "<cmd>Telescope buffers<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>?', "<cmd>Telescope commands<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>h', "<cmd>Telescope help_tags<cr>", {noremap=true, silent=true})
 vim.keymap.set('n', '<leader>cc', "<cmd>Telescope colorscheme<cr>", {noremap=true, silent=true})
-vim.keymap.set('n', '<leader>fs', "<cmd>Telescope current_buffer_fuzzy_find<cr>", {noremap=true, silent=true})
+vim.keymap.set('n', '<leader>g', "<cmd>Telescope current_buffer_fuzzy_find<cr>", {noremap=true, silent=true})
 
 -- This is your opts table
 telescope.setup {
@@ -43,15 +41,10 @@ wk.register({
 								name = "Color",
 								c = "Color scheme",
 				},
-				f = {
-								name = "File",
-								b =  "Find Buffers" ,
-								c =  "Find Commands" ,
-								f =  "Find files" ,
-								g =  "Find In files" ,
-								h =	 "Help Tags",
-								s =  "Search in Buffer" ,
-				},
+				f = "File",
+				b =  "Find Buffers" ,
+				h =	 "Help Tags",
+				g =  "Search in Buffer" ,
 				["<leader>"] = "Find files"
 }, {prefix= "<leader>"}) 
 

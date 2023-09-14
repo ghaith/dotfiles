@@ -44,46 +44,44 @@ dap.configurations.rust = dap.configurations.cpp
 
 require'nvim-dap-virtual-text'.setup()
 
-local utils = require('utils')
+vim.keymap.set('n', '<F5>', '<cmd>lua require"dap".continue()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<F10>', '<cmd>lua require"dap".step_over()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<F11>', '<cmd>lua require"dap".step_into()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<Shift><F11>', '<cmd>lua require"dap".step_out()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<CR>', {noremap = true, force})
 
-utils.map('n', '<F5>', '<cmd>lua require"dap".continue()<CR>')
-utils.map('n', '<F10>', '<cmd>lua require"dap".step_over()<CR>')
-utils.map('n', '<F11>', '<cmd>lua require"dap".step_into()<CR>')
-utils.map('n', '<Shift><F11>', '<cmd>lua require"dap".step_out()<CR>')
-utils.map('n', '<leader>db', '<cmd>lua require"dap".toggle_breakpoint()<CR>')
+vim.keymap.set('n', '<leader>dsc', '<cmd>lua require"dap.ui.variables".scopes()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dhh', '<cmd>lua require"dap.ui.variables".hover()<CR>', {noremap = true, force})
+vim.keymap.set('v', '<leader>dhv',
+          '<cmd>lua require"dap.ui.variables".visual_hover()<CR>', {noremap = true, force})
 
-utils.map('n', '<leader>dsc', '<cmd>lua require"dap.ui.variables".scopes()<CR>')
-utils.map('n', '<leader>dhh', '<cmd>lua require"dap.ui.variables".hover()<CR>')
-utils.map('v', '<leader>dhv',
-          '<cmd>lua require"dap.ui.variables".visual_hover()<CR>')
+vim.keymap.set('n', '<leader>duh', '<cmd>lua require"dap.ui.widgets".hover()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>duf', 
+          "<cmd>lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>", {noremap = true, force})
 
-utils.map('n', '<leader>duh', '<cmd>lua require"dap.ui.widgets".hover()<CR>')
-utils.map('n', '<leader>duf',
-          "<cmd>lua local widgets=require'dap.ui.widgets';widgets.centered_float(widgets.scopes)<CR>")
-
-utils.map('n', '<leader>dB',
-          '<cmd>lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
-utils.map('n', '<leader>dL',
-          '<cmd>lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>')
-utils.map('n', '<leader>dro', '<cmd>lua require"dap".repl.open()<CR>')
-utils.map('n', '<leader>drl', '<cmd>lua require"dap".repl.run_last()<CR>')
+vim.keymap.set('n', '<leader>dB',
+          '<cmd>lua require"dap".set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dL',
+          '<cmd>lua require"dap".set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dro', '<cmd>lua require"dap".repl.open()<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>drl', '<cmd>lua require"dap".repl.run_last()<CR>', {noremap = true, force})
 
 
 -- telescope-dap
-utils.map('n', '<leader>dcc',
-          '<cmd>lua require"telescope".extensions.dap.commands{}<CR>')
-utils.map('n', '<leader>dco',
-          '<cmd>lua require"telescope".extensions.dap.configurations{}<CR>')
-utils.map('n', '<leader>dlb',
-          '<cmd>lua require"telescope".extensions.dap.list_breakpoints{}<CR>')
-utils.map('n', '<leader>dv',
-          '<cmd>lua require"telescope".extensions.dap.variables{}<CR>')
-utils.map('n', '<leader>df',
-          '<cmd>lua require"telescope".extensions.dap.frames{}<CR>')
+vim.keymap.set('n', '<leader>dcc',
+          '<cmd>lua require"telescope".extensions.dap.commands{}<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dco',
+          '<cmd>lua require"telescope".extensions.dap.configurations{}<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dlb',
+          '<cmd>lua require"telescope".extensions.dap.list_breakpoints{}<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>dv',
+          '<cmd>lua require"telescope".extensions.dap.variables{}<CR>', {noremap = true, force})
+vim.keymap.set('n', '<leader>df',
+          '<cmd>lua require"telescope".extensions.dap.frames{}<CR>', {noremap = true, force})
 
 -- UI
 require("dapui").setup()
-utils.map('n', '<leader>dui', '<cmd>lua require"dapui".toggle()<CR>')
+vim.keymap.set('n', '<leader>dui', '<cmd>lua require"dapui".toggle()<CR>', {noremap = true, force})
 
 -- Whichkey bindings 
 local wk = require("which-key")

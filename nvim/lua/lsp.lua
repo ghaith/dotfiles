@@ -4,18 +4,18 @@ local M = {}
 -- after the language server attaches to the current buffer
 function on_attach(client, bufnr)
 
-	-- require('folding').on_attach()
   -- Mappings.
   local opts = { noremap=true, silent=true }
 	local telescope = require('telescope.builtin')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+  vim.keymap.set('n', 'gr', telescope.lsp_references, opts)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-	vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
+	vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
 	vim.keymap.set('n', '<leader>lcc', vim.lsp.codelens.run, opts)
 	vim.keymap.set('n', '<leader>lcr', vim.lsp.codelens.refresh, opts)
   vim.keymap.set('n', '<leader>lD', vim.lsp.buf.type_definition, opts)
@@ -25,11 +25,10 @@ function on_attach(client, bufnr)
   vim.keymap.set('n', '<leader>ldp', vim.diagnostic.goto_next, opts)
   -- vim.keymap.set('n', '<leader>lq', vim.lsp.diagnostic.set_loclist(), opts)
   vim.keymap.set("n", "<leader>lf", function () vim.lsp.buf.format {async = true} end, opts)
-  vim.keymap.set('n', '<leader>lo', telescope.lsp_workspace_symbols, opts)
 
 
-  vim.keymap.set('n', '<leader>lr', telescope.lsp_references, opts)
-  vim.keymap.set('n', '<A-o>', telescope.lsp_document_symbols, opts)
+  vim.keymap.set('n', '<leader>ls', telescope.lsp_document_symbols, opts)
+  vim.keymap.set('n', '<leader>lS', telescope.lsp_workspace_symbols, opts)
   vim.keymap.set('n', '<leader>ldd', telescope.diagnostics, opts)
 
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
@@ -56,8 +55,9 @@ function on_attach(client, bufnr)
 												e =  "Show line diagnostic" ,
 												f =  "Formatting" ,
 												n =  "Rename" ,
-												o =  "Workspace Symbols",
 												r =  "References" ,
+												s =  "Symbols",
+												S =  "Workspace Symbols",
 								},
 				}, {prefix= "<leader>"}) 
 
@@ -87,7 +87,7 @@ capabilities = vim.tbl_extend('keep', capabilities or {}, lsp_status.capabilitie
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 -- "tsserver", 
-local servers = { "clangd", "pyright", "bashls", "gopls", "denols"}
+local servers = { "bashls"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

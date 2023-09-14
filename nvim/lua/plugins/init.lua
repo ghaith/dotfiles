@@ -14,19 +14,12 @@ return require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-	-- Enable repetition on complex actions
-	use 'tpope/vim-repeat'
-
 	-- Enable better commenting
 	use 'tpope/vim-commentary'
 
 	-- Show icons for different file types
 	use 'lambdalisue/nerdfont.vim'
 	use 'kyazdani42/nvim-web-devicons'
-	use {
-		'romgrk/barbar.nvim',
-		requires = {'kyazdani42/nvim-web-devicons'}
-	}
 	-- Git
 	use 'airblade/vim-gitgutter'
 	use 'tpope/vim-fugitive'
@@ -39,12 +32,6 @@ return require('packer').startup(function()
 	-- Tagbar
   use 'liuchengxu/vista.vim'
 
-
-  use 'kana/vim-operator-user' -- Needed for formatting
-	use 'rhysd/vim-clang-format'
-
-	-- Toggle relative numbers automatically 
-	-- use 'jeffkreeftmeijer/vim-numbertoggle'
 
   -- Sneak to jump around in the buffer
 	-- use 'justinmk/vim-sneak'
@@ -63,13 +50,7 @@ return require('packer').startup(function()
 
 	-- Better syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-
-	-- Firenvim 
-	--  use { 'glacambre/firenvim', run = function() vim.fn['firenvim#install'](0) end }
 	
-	-- Tmux support
-	use 'tmux-plugins/vim-tmux'
-
 	-- Sidebar explorer
 	use {
     'kyazdani42/nvim-tree.lua',
@@ -85,13 +66,8 @@ return require('packer').startup(function()
 	use 'onsails/lspkind.nvim'
 
 	-- Programming languages
-	use 'rust-lang/rust.vim'
 	use	'simrat39/rust-tools.nvim'
 	use 'cespare/vim-toml'
-	use 'sirtaj/vim-openscad'
-	use 'habamax/vim-godot'
-	use 'lervag/vimtex'
-	use 'elkowar/yuck.vim'
 
 	-- Grammar check
 	use 'rhysd/vim-grammarous'
@@ -120,16 +96,10 @@ return require('packer').startup(function()
 	use 'hrsh7th/cmp-nvim-lua'
 	use 'saadparwaiz1/cmp_luasnip'
 
-	--Go
-	use 'ray-x/go.nvim'
-	use 'ray-x/guihua.lua' -- For floating windows
-
 	use {
 		"windwp/nvim-autopairs",
 			config = function() require("nvim-autopairs").setup {} end
 	}
-	-- Folding support
-	use 'pierreglaser/folding-nvim'
 
 	-- Snippets
 	use 'L3MON4D3/LuaSnip'
