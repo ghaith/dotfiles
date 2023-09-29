@@ -5,4 +5,9 @@ export EDITOR=nvim
 export VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.config/emacs/bin:$HOME/.local/scripts:$HOME/.local/bin:$HOME/.local/usr/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
-. "$HOME/.cargo/env"
+
+if [ ! -f $HOME/.cargo/env ]; then
+	. "$HOME/.cargo/env"
+elif [ ! -f /usr/local/cargo/env ]; then
+	. /usr/local/cargo/env 
+fi

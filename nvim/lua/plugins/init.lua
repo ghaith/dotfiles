@@ -10,7 +10,7 @@ if fn.empty(fn.glob(install_path)) > 0 then
   execute 'packadd packer.nvim'
 end
 
-return require('packer').startup(function()
+return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
@@ -21,17 +21,9 @@ return require('packer').startup(function()
 	use 'lambdalisue/nerdfont.vim'
 	use 'kyazdani42/nvim-web-devicons'
 	-- Git
-	use 'airblade/vim-gitgutter'
-	use 'tpope/vim-fugitive'
-  use 'junegunn/gv.vim'
+	use 'f-person/git-blame.nvim'
   -- Make vim use the root .git directory if available
 	use 'airblade/vim-rooter'
-	use 'f-person/git-blame.nvim'
-	use({"petertriho/cmp-git", requires = "nvim-lua/plenary.nvim"})
-
-	-- Tagbar
-  use 'liuchengxu/vista.vim'
-
 
   -- Sneak to jump around in the buffer
 	-- use 'justinmk/vim-sneak'
@@ -45,12 +37,11 @@ return require('packer').startup(function()
 	use 'folke/tokyonight.nvim'
 
 	-- Colors
-	use {'rrethy/vim-hexokinase', run = 'make hexokinase'}
+	-- use {'rrethy/vim-hexokinase', run = 'make hexokinase'}
 
 
 	-- Better syntax
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
-	
 	-- Sidebar explorer
 	use {
     'kyazdani42/nvim-tree.lua',
@@ -70,7 +61,7 @@ return require('packer').startup(function()
 	use 'cespare/vim-toml'
 
 	-- Grammar check
-	use 'rhysd/vim-grammarous'
+	-- use 'rhysd/vim-grammarous'
 
 	--Diagnostics
 	use {

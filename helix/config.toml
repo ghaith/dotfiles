@@ -12,3 +12,4 @@ select = "underline"
 [editor.lsp]
 display-messages = true
 display-inlay-hints = true
+

@@ -1,0 +1,16 @@
+[[language]]
+name = "toml"
+formatter = { command = "taplo", args = ["fmt", "-"] }
+
+[[language]]
+name = "css"
+language-servers = ["tailwindcss-language-server", "vscode-css-language-server"]
+
+[[language]]
+name = "html"
+language-servers = ["tailwindcss-language-server", "vscode-html-language-server" ]
+
+[language-server.tailwindcss-language-server]
+command = "tailwindcss-language-server"
+args = ["--stdio"]
+

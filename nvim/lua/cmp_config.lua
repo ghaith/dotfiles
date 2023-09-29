@@ -57,4 +57,4 @@ cmp.event:on(
 	cmp_autopairs.on_confirm_done()
 )
 
-require("cmp_git").setup()
+-- require("cmp_git").setup()
