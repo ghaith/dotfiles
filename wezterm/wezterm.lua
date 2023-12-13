@@ -115,13 +115,15 @@ return {
 		action = wezterm.action_callback(function(window) 
 			wezterm.log_info 'Test'
 			local overrides = window:get_config_overrides() or {}
-			overrides.color_scheme = 'TokyoNightLight (Gogh)'
+			-- overrides.color_scheme = 'TokyoNightLight (Gogh)'
+			overrides.color_scheme = 'Catppuccin (Latte)'
 			window:set_config_overrides(overrides)
 		end)},
 		{ key = '=', mods = 'LEADER|CTRL', 
 		action = wezterm.action_callback(function(window) 
 			local overrides = window:get_config_overrides() or {}
-			overrides.color_scheme = 'TokyoNight (Gogh)'
+			-- overrides.color_scheme = 'TokyoNight (Gogh)'
+			overrides.color_scheme = 'Catppuccin Moca'
 			window:set_config_overrides(overrides)
 		end)},
 
@@ -139,7 +141,8 @@ return {
 
 	},
 	--- Appearence
-	color_scheme = 'TokyoNight (Gogh)',
+	-- color_scheme = 'TokyoNight (Gogh)',
+	color_scheme = 'Catppuccin Moca',
 	font = wezterm.font 'Fira Code Nerd Font',
 	hide_tab_bar_if_only_one_tab = true,
 	tab_bar_at_bottom = true,

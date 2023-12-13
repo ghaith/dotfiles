@@ -9,9 +9,6 @@ include ~/.config/i3_sway/config.d/*
 output * bg `find ~/wallpapers/ -type f | shuf -n 1` stretch
 bindsym $mod+shift+w output * bg `find ~/wallpapers/ -type f | shuf -n 1` stretch
 
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your session.' -b 'Yes, exit sway' 'swaymsg exit'"
-
 set $lock 'swaylock -f -e -i `find ~/wallpapers/ -type f | shuf -n 1`'
 
 exec swayidle -w before-sleep 'swaymsg "output * dpms off"' before-sleep $lock lock $lock lock 'swaymsg "output * dpms off"' unlock 'swaymsg "output * dpms on"' 

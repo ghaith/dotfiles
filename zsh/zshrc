@@ -17,6 +17,7 @@ znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 
 alias vim=nvim
+alias hx=helix
 
 # ls
 TREE_IGNORE="cache|log|logs|node_modules|vendor"
@@ -54,25 +55,10 @@ bindkey "^?" backward-delete-char
 
 #Completions are not case sensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+#
 # Enable this to make the completions case insensitive only when no case sensitive matches are found
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
-# Make emacs a function that opens a client
-function emacs {
-    if [[ $# -eq 0 ]]; then
-        /usr/bin/emacs # "emacs" is function, will cause recursion
-        return
-    fi
-    args=($*)
-    for ((i=0; i <= ${#args}; i++)); do
-        local a=${args[i]}
-        # NOTE: -c for creating new frame
-        if [[ ${a:0:1} == '-' && ${a} != '-c' && ${a} != '--' ]]; then
-            /usr/bin/emacs ${args[*]}
-            return
-        fi
-    done
-    setsid emacsclient -n -a /usr/bin/emacs ${args[*]}
-} 
-
 eval "$(starship init zsh)"
+# export ZELLIJ_AUTO_EXIT=true
+# eval "$(zellij setup --generate-auto-start zsh)"

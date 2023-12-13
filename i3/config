@@ -8,7 +8,6 @@ include ~/.config/i3_sway/config.d/*
 exec --no-startup-id feh --randomize --bg-scale ~/wallpapers/* ; sleep 1; picom -b
 bindsym $mod+shift+w exec --no-startup-id feh --randomize --bg-scale ~/wallpapers/*
 
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
-
 exec --no-startup-id unclutter
+
+bindsym $mod+shift+f exec i3lock --image `find wallpapers -type f -name '*.png' | shuf -n 1`

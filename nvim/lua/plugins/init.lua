@@ -35,6 +35,7 @@ return require('packer').startup(function(use)
   use 'gruvbox-community/gruvbox'
 	use 'overcache/NeoSolarized'
 	use 'folke/tokyonight.nvim'
+	use { "catppuccin/nvim", as = "catppuccin"}
 
 	-- Colors
 	-- use {'rrethy/vim-hexokinase', run = 'make hexokinase'}

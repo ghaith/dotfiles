@@ -60,3 +60,9 @@ wpaperd="~/.config/wpaperd"
 
 [helix.files]
 helix="~/.config/helix"
+
+[environment.files]
+environment="~/.config/environment.d"
+
+[zellij.files]
+zellij="~/.config/zellij"
