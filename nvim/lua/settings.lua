@@ -1,7 +1,5 @@
 -- Default settings
 --
--- Leader is space
-vim.g.mapleader = " "
 
 vim.cmd('syntax enable') -- Enable syntax highlighting
 

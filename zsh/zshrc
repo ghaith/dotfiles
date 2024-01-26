@@ -29,7 +29,9 @@ znap source nix-community/nix-zsh-completions
 znap source lincheney/fzf-tab-completion zsh
 
 #Source nvm
-source /usr/share/nvm/init-nvm.sh
+if [ -f /usr/share/nvm/init-nvm.zsh ];then
+	source /usr/share/nvm/init-nvm.sh
+fi
 
 alias vim=nvim
 alias hx=helix

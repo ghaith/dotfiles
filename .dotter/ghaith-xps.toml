@@ -1,0 +1,9 @@
+packages = [
+  "alacritty",
+  "environment",
+  "helix",
+  "nvim",
+  "starship",
+  "zsh",
+  "zellij"
+]
