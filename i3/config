@@ -1,8 +1,8 @@
 set $mod Mod4
 
 # Include modular files
-include ~/.config/i3/config.d/*
-include ~/.config/i3_sway/config.d/*
+include ~/.config/i3/config.d/*.conf
+include ~/.config/i3_sway/config.d/*.conf
 
 #Change Backgrounds
 exec --no-startup-id feh --randomize --bg-scale ~/wallpapers/* ; sleep 1; picom -b
