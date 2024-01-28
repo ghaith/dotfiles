@@ -1,3 +1,5 @@
+-- Leader is space
+vim.g.mapleader = " "
 -- Plugin Management 
 require('plugins')
 

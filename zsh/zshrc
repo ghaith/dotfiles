@@ -13,10 +13,25 @@ if [ -n "$DESKTOP_SESSION" ];then
     export SSH_AUTH_SOCK
 fi
 
+if [ -f /usr/share/fzf/completion.zsh ];then
+	source /usr/share/fzf/completion.zsh
+fi
+
+if [ -f /usr/share/fzf/key-bindings.zsh ];then
+	source /usr/share/fzf/key-bindings.zsh
+fi
+
 znap source zsh-users/zsh-autosuggestions
 znap source zsh-users/zsh-syntax-highlighting
 znap source chisui/zsh-nix-shell
 znap source nix-community/nix-zsh-completions
+# znap source casonadams/skim.zsh
+znap source lincheney/fzf-tab-completion zsh
+
+#Source nvm
+if [ -f /usr/share/nvm/init-nvm.zsh ];then
+	source /usr/share/nvm/init-nvm.sh
+fi
 
 alias vim=nvim
 alias hx=helix
@@ -57,6 +72,8 @@ bindkey "^?" backward-delete-char
 
 #Completions are not case sensitive
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+# fzf compiletions also search in display string
+zstyle ':completion:*' fzf-search-display true
 #
 # Enable this to make the completions case insensitive only when no case sensitive matches are found
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
