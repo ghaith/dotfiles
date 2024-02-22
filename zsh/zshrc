@@ -29,7 +29,7 @@ znap source nix-community/nix-zsh-completions
 znap source lincheney/fzf-tab-completion zsh
 
 #Source nvm
-if [ -f /usr/share/nvm/init-nvm.zsh ];then
+if [ -f /usr/share/nvm/init-nvm.sh ]; then
 	source /usr/share/nvm/init-nvm.sh
 fi
 

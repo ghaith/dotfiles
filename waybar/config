@@ -6,8 +6,8 @@
     "spacing": 4, // Gaps between modules (4px)
     // Choose the order of the modules
     "modules-left": ["hyprland/workspaces"],
-    "modules-center": [],
-    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "keyboard-state", "clock", "tray"],
+    "modules-center": ["hyprland/window"],
+    "modules-right": ["idle_inhibitor", "pulseaudio", "network", "cpu", "memory", "temperature", "backlight", "hyprland/language", "clock", "tray"],
     // Modules configuration
      "hyprland/workspaces": {
          // "disable-scroll": true,
@@ -16,15 +16,10 @@
 				 "on-scroll-down": "hyprctl dispatch workspace e-1",
 				 "on-click": "activate"
      },
-    "keyboard-state": {
-        "numlock": true,
-        "capslock": true,
-        "format": "{name} {icon}",
-        "format-icons": {
-            "locked": "",
-            "unlocked": ""
-        }
-    },
+		"hyprland/window": {
+			"max-length": 200,
+			"separate-outputs":  true
+		},
     "idle_inhibitor": {
         "format": "{icon}",
         "format-icons": {

@@ -1,10 +1,17 @@
 includes = [".dotter/thinkpad.toml"]
 packages = [
   "alacritty",
+	"dunst",
   "environment",
   "helix",
+	"hypr",
   "nvim",
+	"rofi",
   "starship",
+	"swayidle",
+	"swaylock",
+	"wpaperd",
+	"waybar",
   "zsh",
   "zellij"
 ]

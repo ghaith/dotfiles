@@ -1,92 +1,25 @@
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local lsp = require'lsp'
-local rt = require("rust-tools")
-local function on_attach(client, bufnr) 
-	
-	lsp.on_attach(client, bufnr)
-
-	-- Mappings
-	vim.keymap.set('n', '<leader>ra', function() 
-					rt.code_action_group.code_action_group()
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rh', function() 
-					rt.hover_actions.hover_actions()
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rr', function() 
-					rt.runnables.runnables()
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rem', function() 
-					rt.expand_macro.expand_macro()
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rmu', function()
-					local up = true -- true = move up, false = move down
-					rt.move_item.move_item(up)
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rmd', function()
-					local up = false -- true = move up, false = move down
-					rt.move_item.move_item(up)
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rc', function()
-					rt.open_cargo_toml.open_cargo_toml()
-	end, {noremap=true, silent = true})
-
-	vim.keymap.set('n', '<leader>ru', function()
-					rt.parent_module.parent_module()
-	end, {noremap=true, silent = true})
-	vim.keymap.set('n', '<leader>rj', function()
-					rt.join_lines.join_lines()
-	end)
-	vim.keymap.set('n', '<leader>rd', function()
-					rt.debuggables.debuggables()
-	end, {noremap=true, silent = true})
-
-
-
-  local wk = require("which-key")
-
-				wk.register({
-								r = {
-												name = "Rust Tools",
-												a = "Code Action",
-												c = "Cargo toml",
-												d = "Debuggables",
-												e = {
-																m = "Expand Macro",
-												},
-												h = "Hover",
-												j = "Join Lines",
-												m = {
-																name = "Move",
-																d = "Down",
-																u = "Up",
-												},
-												r = "Runnables",
-												u = "Parent Module",
-								},
-				}, {prefix= "<leader>"}) 
-
-
-end
 -- DAP uses codelldb
 local extension_path = vim.env.HOME .. '/usr/lib/codelldb/'
 local codelldb_path = extension_path .. 'adapter/codelldb'
 local liblldb_path = extension_path .. 'lldb/lib/liblldb.so'
 
 
-local opts = {
+vim.g.rustaceanvim = {
 	tools = {
 		-- whether to show variable name before type hints with the inlay hints or not
 		show_variable_name = true,
 		hover_actions = {
 			auto_focus = true,
 		},
+		-- test_executor = 'background',
 	},
 	server = {
 		-- Call the lsp generic configuration for rust
-		on_attach = on_attach ,
-		-- standalone = false,
-		capabilities = lsp.capabilities,
+		on_attach = lsp.on_attach,
+		-- capabilities = lsp.capabilities,
 		-- ["rust-analyzer"] = {
 		-- 	on_init = function(client)
 		-- 		-- Override rust command if within the rust repo. hardcoded for now
@@ -120,10 +53,9 @@ local opts = {
 			--},
 		-- },
 	},
-	dap = {
-		adapter = require('rust-tools.dap').get_codelldb_adapter(
-			codelldb_path, liblldb_path
-		)
-	},
+	-- dap = {
+	-- 	adapter = require('rust-tools.dap').get_codelldb_adapter(
+	-- 		codelldb_path, liblldb_path
+	-- 	)
+	-- },
 }
-require('rust-tools').setup(opts)

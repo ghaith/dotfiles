@@ -20,6 +20,8 @@ require('lsp')
 require('rust')
 -- require('go')
 
+-- Testing
+require('test')
 require('telescope_config')
 require('trouble_config')
 

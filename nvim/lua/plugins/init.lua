@@ -59,8 +59,22 @@ require("lazy").setup({
 	'onsails/lspkind.nvim',
 
 	-- Programming languages
-	'simrat39/rust-tools.nvim',
+	{
+		'mrcjkb/rustaceanvim',
+		version = '^4', -- Recommended
+		ft = { 'rust' },
+	},
 	'cespare/vim-toml',
+
+	-- Tests
+	{ 
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter"
+		},
+	},
 
 	-- Grammar check
 	-- use 'rhysd/vim-grammarous'
