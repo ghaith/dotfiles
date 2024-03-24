@@ -1,8 +1,25 @@
-[i3.files]
-"i3/brainiac.conf"="~/.config/i3/config.d/99-brainiac.conf"
+includes = [".dotter/brainiac-conf.toml"]
 
-[sway.files]
-"sway/brainiac.conf"="~/.config/sway/config.d/99-brainiac.conf"
-
-[hypr.files]
-"hypr/brainiac.conf"="~/.config/hypr/custom.conf"
+packages = [
+	"alacritty",
+	"environment",
+	"i3",
+	"sway",
+	"swayidle",
+	"swaylock",
+	"dunst",
+	"environment",
+	"eww",
+	"helix",
+	"hypr",
+	"nvim",
+	"picom",
+	"rofi",
+	"starship",
+	"tmux",
+	"waybar",
+	"wezterm",
+	"wpaperd",
+	"zsh",
+	"zellij",
+]

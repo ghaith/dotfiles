@@ -1,0 +1,8 @@
+[i3.files]
+"i3/brainiac.conf"="~/.config/i3/config.d/99-brainiac.conf"
+
+[sway.files]
+"sway/brainiac.conf"="~/.config/sway/config.d/99-brainiac.conf"
+
+[hypr.files]
+"hypr/brainiac.conf"="~/.config/hypr/custom.conf"
