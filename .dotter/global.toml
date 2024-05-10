@@ -1,5 +1,8 @@
 # Reference : https://github.com/SuperCuber/dotter/wiki/Setup-and-Configuration#setup
 
+[bat.files]
+bat="~/.config/bat"
+
 [alacritty.files]
 alacritty="~/.config/alacritty"
 

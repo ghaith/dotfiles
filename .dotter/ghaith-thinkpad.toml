@@ -1,6 +1,7 @@
 includes = [".dotter/thinkpad.toml"]
 packages = [
   "alacritty",
+	"bat",
 	"dunst",
   "environment",
   "helix",

@@ -57,6 +57,9 @@ require("lazy").setup({
 	'folke/lsp-colors.nvim',
 	'nvim-lua/lsp-status.nvim',
 	'onsails/lspkind.nvim',
+	--
+	-- Formatter
+	'sbdchd/neoformat',
 
 	-- Programming languages
 	{
@@ -65,9 +68,16 @@ require("lazy").setup({
 		ft = { 'rust' },
 	},
 	'cespare/vim-toml',
+	'ixru/nvim-markdown',
+
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		dependencies = { "nvim-treesitter/nvim-treesitter" },
+		opts = {} -- your configuration
+	},
 
 	-- Tests
-	{ 
+	{
 		"nvim-neotest/neotest",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -109,8 +119,8 @@ require("lazy").setup({
 			config = function() require("nvim-autopairs").setup {} end
 	},
 
-	-- Snippets
-	'L3MON4D3/LuaSnip',
+	-- -- Snippets
+	-- 'L3MON4D3/LuaSnip',
 	-- use 'hrsh7th/vim-vsnip'
 
 	-- Status line
