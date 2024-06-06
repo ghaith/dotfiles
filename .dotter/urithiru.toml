@@ -1,0 +1,18 @@
+includes = [".dotter/urithiru-conf.toml"]
+
+packages = [
+	"alacritty",
+	"bat",
+	"environment",
+	"swayidle",
+	"swaylock",
+	"hypr",
+	"nvim",
+	"rofi",
+	"starship",
+	"tmux",
+	"waybar",
+	"wpaperd",
+	"zsh",
+	"zellij",
+]

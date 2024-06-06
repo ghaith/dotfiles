@@ -34,7 +34,8 @@ nvim={ target = "~/.config/nvim", type = "symbolic" }
 picom="~/.config/picom"
 
 [rofi.files]
-rofi="~/.config/rofi"
+"rofi/config.rasi"="~/.config/rofi/config.rasi"
+"rofi/themes"="~/.local/share/rofi/themes"
 
 [starship.files]
 starship="~/.config/starship"
