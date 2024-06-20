@@ -13,3 +13,6 @@ elif [ -f /usr/local/cargo/env ]; then
 	. /usr/local/cargo/env 
 fi
 
+if [ -f /etc/profile.d/conda.sh ]; then
+	source /etc/profile.d/conda.sh
+fi

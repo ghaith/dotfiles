@@ -52,6 +52,9 @@ wezterm="~/.config/wezterm"
 
 [hypr.files]
 "hypr/hyprland.conf"="~/.config/hypr/hyprland.conf"
+"hypr/hypridle.conf"="~/.config/hypr/hypridle.conf"
+"hypr/hyprlock.conf"="~/.config/hypr/hyprlock.conf"
+"hypr/systemd.target"="~/.config/systemd/user/hyprland-session.target"
 
 [eww.files]
 eww="~/.config/eww"
