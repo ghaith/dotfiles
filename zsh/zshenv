@@ -15,4 +15,7 @@ fi
 
 if [ -f /etc/profile.d/conda.sh ]; then
 	source /etc/profile.d/conda.sh
+# Conda/Mamba environment
+if [ -f /usr/bin/micromamba]; then
+	eval "$(/usr/bin/micromamba shell hook --shell zsh)"
 fi
