@@ -4,7 +4,7 @@ export ZDOTDIR=~/.config/zsh
 export EDITOR=nvim
 export VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
-export PATH="$HOME/.local/share/bob/nvim-bin:$HOME/.local/scripts:$HOME/.local/bin:$HOME/.local/usr/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
+export PATH="/opt/nvim-linux64/bin:$HOME/.local/share/bob/nvim-bin:$HOME/.local/scripts:$HOME/.local/bin:$HOME/.local/usr/bin:$HOME/.cargo/bin:$HOME/.gem/bin:$HOME/.gem/ruby/2.6.0/bin:$PATH"
 export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
 if [ -f $HOME/.cargo/env ]; then

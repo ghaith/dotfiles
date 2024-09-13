@@ -171,7 +171,7 @@ require("lazy").setup({
 	},
 
 	--Dev containers
-	-- use 'jamestthompson3/nvim-remote-containers'
+	-- "jamestthompson3/nvim-remote-containers",
 
 	"petertriho/nvim-scrollbar",
   'kevinhwang91/nvim-hlslens',
