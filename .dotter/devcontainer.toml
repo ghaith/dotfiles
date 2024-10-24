@@ -1,0 +1,9 @@
+packages = [
+	"bat",
+  "environment",
+  "helix",
+  "nvim",
+  "starship",
+  "zsh",
+  "zellij"
+]
