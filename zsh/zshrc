@@ -12,9 +12,9 @@ export LC_ALL=en_US.utf-8
         https://github.com/marlonrichert/zsh-snap.git ~/.local/git/zsh-snap
 
 source ~/.local/git/zsh-snap/znap.zsh  # Start Znap
-if [ -n "$DESKTOP_SESSION" ];then
-    export SSH_AUTH_SOCK
-fi
+# if [ -n "$DESKTOP_SESSION" ];then
+#     export SSH_AUTH_SOCK
+# fi
 
 if [ -f /usr/share/fzf/completion.zsh ];then
 	source /usr/share/fzf/completion.zsh
@@ -80,7 +80,9 @@ zstyle ':completion:*' fzf-search-display true
 #
 # Enable this to make the completions case insensitive only when no case sensitive matches are found
 # zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+fi
 eval "$(starship init zsh)"
 # export ZELLIJ_AUTO_EXIT=true
 # eval "$(zellij setup --generate-auto-start zsh)"
