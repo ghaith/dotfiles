@@ -33,7 +33,7 @@ install "eza"
 install "rg" "ripgrep"
 install "nvim" "neovim"
 install "zellij"
-install "helix"
+install "hx" "helix"
 
 # run dotter
 if ! which dotter > /dev/null; then

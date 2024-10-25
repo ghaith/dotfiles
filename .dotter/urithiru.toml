@@ -6,6 +6,7 @@ packages = [
 	"environment",
 	"swayidle",
 	"swaylock",
+	"helix",
 	"hypr",
 	"nvim",
 	"rofi",
