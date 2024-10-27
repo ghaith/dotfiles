@@ -1,9 +1,10 @@
 packages = [
 	"bat",
   "environment",
+	"git",
   "helix",
   "nvim",
   "starship",
+  "zellij",
   "zsh",
-  "zellij"
 ]

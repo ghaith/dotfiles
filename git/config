@@ -1,0 +1,58 @@
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+{{#if git_username}}
+[user]
+	name = {{git_username}}
+	email = {{email}}
+
+[credential]
+	helper = store
+
+{{/if}}
+[core]
+	{{#if (eq dotter.os "windows")}}
+    symlinks = true
+    autocrlf = true
+    {{else}}
+    autocrlf = input
+    {{/if}}
+	{{#if (is_executable "delta")}}
+		pager = delta
+	{{/if}}
+[init]
+	defaultBranch = main
+[pull]
+	rebase = true
+[interactive]
+	{{#if (is_executable "delta")}}
+		diffFilter = delta --color-only
+	{{/if}}
+{{#if (is_executable "delta")}}
+[delta]
+	navigate = true
+{{/if}}
+[merge]
+	conflictstyle = diff3
+[help]
+    autocorrect = 20
+
+[alias]
+	changes = "log -M -L"
+	fpush = push --force-with-lease
+	# Push a new branch, with some safety checks in case I forgot I'm not on a branch
+	do-push-branch = push -u origin HEAD
+	push-branch = "!master=$(git main-branch); if [ \"$(git symbolic-ref --short HEAD 2>/dev/null)\" = \"$master\" ]; then echo \"$master is not a branch\" 1>&2; exit 1; fi; git do-push-branch"
+	amend = commit --amend --no-edit
+	reword = commit --amend --only -v
+	undo = reset HEAD@{1}
+[push]
+    autoSetupRemote = true
+[fetch]
+	recurseSubmodules = on-demand
+	prune = true
+
+# vim:ft=gitconfig

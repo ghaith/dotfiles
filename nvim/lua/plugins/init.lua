@@ -52,6 +52,12 @@ require("lazy").setup({
     },
 	},
 
+	--Zellij
+	{
+	  'https://github.com/fresh2dev/zellij.vim.git',
+	  lazy = false,
+	},
+
 	-- LSP
 	'neovim/nvim-lspconfig',
 	'folke/lsp-colors.nvim',
@@ -75,6 +81,7 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
 		opts = {} -- your configuration
 	},
+	'imsnif/kdl.vim',
 
 	-- Tests
 	{

@@ -3,6 +3,16 @@ keybinds {
     normal {
         // uncomment this and adjust key if using copy_on_select=false
         // bind "Alt c" { Copy; }
+		bind "Enter" {  // Intercept `Enter`.
+            WriteChars "\u{000D}";  // Passthru `Enter`.
+            MessagePlugin "autolock" {};  // Activate the autolock plugin.
+        }
+        // Note: You may want to bind/intercept/relay other keys to activate this plugin,
+        // like `Ctrl+r` which opens shell history in Atuin / FZF. For example:
+        bind "Ctrl r" {  // Intercept `Ctrl+r`.
+            WriteChars "\u{0012}";  // Passthru `Ctrl+r`
+            MessagePlugin "autolock" {};  // Activate the autolock plugin.
+        }
     }
     locked {
         bind "Ctrl g" { SwitchToMode "Normal"; }
@@ -38,7 +48,7 @@ keybinds {
         bind "c" { SwitchToMode "RenamePane"; PaneNameInput 0;}
     }
     move {
-        bind "Ctrl h" { SwitchToMode "Normal"; }
+        bind "Ctrl m" { SwitchToMode "Normal"; }
         bind "n" "Tab" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "h" "Left" { MovePane "Left"; }
@@ -114,7 +124,7 @@ keybinds {
         bind "Ctrl s" { SwitchToMode "Scroll"; }
         bind "d" { Detach; }
         bind "w" {
-            LaunchOrFocusPlugin "zellij:session-manager" {
+            LaunchOrFocusPlugin "session-manager" {
                 floating true
                 move_to_focused_tab true
             };
@@ -148,18 +158,39 @@ keybinds {
         bind "Ctrl g" { SwitchToMode "Locked"; }
         bind "Ctrl q" { Quit; }
         bind "Alt n" { NewPane; }
-        bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
-        bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
-        bind "Alt j" "Alt Down" { MoveFocus "Down"; }
-        bind "Alt k" "Alt Up" { MoveFocus "Up"; }
+        bind "Alt i" { MoveTab "Left"; }
+        bind "Alt o" { MoveTab "Right"; }
+        // bind "Alt h" "Alt Left" { MoveFocusOrTab "Left"; }
+        // bind "Alt l" "Alt Right" { MoveFocusOrTab "Right"; }
+        // bind "Alt j" "Alt Down" { MoveFocus "Down"; }
+        // bind "Alt k" "Alt Up" { MoveFocus "Up"; }
         bind "Alt =" "Alt +" { Resize "Increase"; }
         bind "Alt -" { Resize "Decrease"; }
         bind "Alt [" { PreviousSwapLayout; }
         bind "Alt ]" { NextSwapLayout; }
+
+		// Put keybindings here if they conflict with Vim or others.
+        bind "Ctrl h" {
+            MoveFocusOrTab "Left";
+        }
+        bind "Ctrl l" {
+            MoveFocusOrTab "Right";
+        }
+        bind "Ctrl j" {
+            MoveFocusOrTab "Down";
+        }
+        bind "Ctrl k" {
+            MoveFocusOrTab "Up";
+        }
+
+        // bind "Ctrl d" { HalfPageScrollDown; }
+        // bind "Ctrl u" { HalfPageScrollUp; }
+
+        bind "Ctrl f" { PageScrollDown; }
+        bind "Ctrl b" { PageScrollUp; }
     }
     shared_except "normal" "locked" {
-        // bind "Enter" "Esc" { SwitchToMode "Normal"; }
-        bind "Enter" "Esc" { SwitchToMode "Locked"; }
+        bind "Enter" "Esc" { SwitchToMode "Normal"; }
     }
     shared_except "pane" "locked" {
         bind "Ctrl p" { SwitchToMode "Pane"; }
@@ -185,13 +216,29 @@ keybinds {
 }
 
 plugins {
-    tab-bar { path "tab-bar"; }
-    status-bar { path "status-bar"; }
-    strider { path "strider"; }
-    compact-bar { path "compact-bar"; }
-    session-manager { path "session-manager"; }
+    tab-bar location="zellij:tab-bar"
+    status-bar location="zellij:status-bar"
+    strider location="zellij:strider"
+    compact-bar location="zellij:compact-bar"
+    session-manager location="zellij:session-manager"
+    welcome-screen location="zellij:session-manager" {
+        welcome_screen true
+    }
+    filepicker location="zellij:strider" {
+        cwd "/"
+    }
+
+	// Define the "autolock" plugin.
+	autolock location="file:~/.config/zellij/plugins/zellij-autolock.wasm" {
+		//TODO: Helix
+		triggers "nvim|vim"  // Lock when any open these programs open. They are expected to unlock themselves when closed (e.g., using zellij.vim plugin).
+		watch_triggers "fzf|zoxide|atuin"  // Lock when any of these open and monitor until closed.
+		watch_interval "1.0"  // When monitoring, check every X seconds.
+	}
 }
 
+theme "catppuccin-mocha"
+// theme "catppuccin-latte"
 // Choose what to do when zellij receives SIGTERM, SIGINT, SIGQUIT or SIGHUP
 // eg. when terminal window with an active zellij session is closed
 // Options:
@@ -272,8 +319,7 @@ plugins {
 // Choose the theme that is specified in the themes section.
 // Default: default
 //
-// theme "catppuccin-latte"
-theme "catppuccin-mocha"
+// theme "default"
 
 // The name of the default layout to load on startup
 // Default: "default"
@@ -283,7 +329,7 @@ theme "catppuccin-mocha"
 // Choose the mode that zellij uses when starting up.
 // Default: normal
 //
-default_mode "locked"
+// default_mode "locked"
 
 // Toggle enabling the mouse mode.
 // On certain configurations, or terminals this could
@@ -351,3 +397,9 @@ default_mode "locked"
 // Default: true
 //
 // styled_underlines false
+
+// Enable or disable writing of session metadata to disk (if disabled, other sessions might not know
+// metadata info on this session)
+// Default: false
+//
+// disable_session_metadata true

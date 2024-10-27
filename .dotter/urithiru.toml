@@ -4,6 +4,7 @@ packages = [
 	"alacritty",
 	"bat",
 	"environment",
+	"git",
 	"swayidle",
 	"swaylock",
 	"helix",

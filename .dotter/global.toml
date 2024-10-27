@@ -72,4 +72,8 @@ helix="~/.config/helix"
 environment="~/.config/environment.d"
 
 [zellij.files]
-zellij="~/.config/zellij"
+"zellij/config.kdl"="~/.config/zellij/config.kdl"
+"zellij/plugins/zellij-autolock.wasm"={ target = "~/.config/zellij/plugins/zellij-autolock.wasm", type = "symbolic"}
+
+[git.files]
+"git/config"="~/.gitconfig"

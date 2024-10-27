@@ -31,6 +31,9 @@ znap source nix-community/nix-zsh-completions
 # znap source casonadams/skim.zsh
 znap source lincheney/fzf-tab-completion zsh
 
+#atuin
+znap source atuinsh/atuin
+
 #Source nvm
 if [ -f /usr/share/nvm/init-nvm.sh ]; then
 	source /usr/share/nvm/init-nvm.sh
@@ -86,3 +89,15 @@ fi
 eval "$(starship init zsh)"
 # export ZELLIJ_AUTO_EXIT=true
 # eval "$(zellij setup --generate-auto-start zsh)"
+
+if [ -f /etc/profile.d/conda.sh ]; then
+  source /etc/profile.d/conda.sh
+fi
+# Conda/Mamba environment
+if [ -f /usr/bin/micromamba ]; then
+  eval "$(/usr/bin/micromamba shell hook --shell zsh)"
+fi
+
+if command -v zoxide > /dev/null; then
+  eval "$(zoxide init zsh)"
+fi

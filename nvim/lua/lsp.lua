@@ -87,7 +87,7 @@ capabilities = vim.tbl_extend('keep', capabilities or {}, lsp_status.capabilitie
 -- Use a loop to conveniently call 'setup' on multiple servers and
 -- map buffer local keybindings when the language server attaches
 -- "tsserver", 
-local servers = { "bashls", "dockerls", "html", "tailwindcss", "taplo", "rnix", "marksman"}
+local servers = { "bashls", "dockerls", "html", "tailwindcss", "taplo", "rnix", "marksman", "pylsp"}
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,

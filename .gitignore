@@ -5,3 +5,4 @@ rofi/themes
 .dotter/cache.toml
 .dotter/local.toml
 *.zwc
+*.wasm

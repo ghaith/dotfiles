@@ -1,5 +1,6 @@
 #!/bin/env bash
 
+
 # If dotter is not yet installed, download dotter
 if ! which dotter > /dev/null; then
 	VER=$(curl --silent -qI https://github.com/SuperCuber/dotter/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
@@ -34,10 +35,28 @@ install "rg" "ripgrep"
 install "nvim" "neovim"
 install "zellij"
 install "hx" "helix"
+install "fzf"
+install "zoxide"
+install "atuin"
+install "gh"
 
+# Install zellij plugin for vim / helix integration
+if ! [ -f ./zellij/plugins/zellij-autolock.wasm ]; then
+	VER=$(curl --silent -qI https://github.com/fresh2dev/zellij-autolock/releases/latest | awk -F '/' '/^location/ {print  substr($NF, 1, length($NF)-1)}')
+	mkdir -p zellij/plugins
+	wget https://github.com/fresh2dev/zellij-autolock/releases/download/$VER/zellij-autolock.wasm -O ./zellij/plugins/zellij-autolock.wasm
+fi
+
+# Find the default configuration
+CONFIG=""
+if ! ([[ -f .dotter/local.toml ]] || [[ -f .dotter/$(uname -n).toml ]]); then
+	CONFIG="-l .dotter/default.toml"
+fi
+
+echo running dotter $CONFIG -v
 # run dotter
 if ! which dotter > /dev/null; then
-	./dotter -l .dotter/devcontainer.toml
+	./dotter $CONFIG -v
 else
-	dotter
+	dotter $CONFIG -v
 fi
