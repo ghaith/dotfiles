@@ -46,6 +46,8 @@ if ! which brew > /dev/null; then
 	wget https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -O /tmp/homebrew.sh
 	chmod +x /tmp/homebrew.sh
 	/tmp/homebrew.sh
+	# eval the brew environment
+	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 
