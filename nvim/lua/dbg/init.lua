@@ -99,41 +99,28 @@ vim.keymap.set('n', '<leader>dui', '<cmd>lua require"dapui".toggle()<CR>', {nore
 -- Whichkey bindings 
 local wk = require("which-key")
 
-wk.register({
-				d = {
-								name = "Debug",
-								b = "Breakpoint",
-								B = "Conditional Breakpoint",
-								c = {
-												c = "Commands",
-												o = "Configurations",
-								},
-								f = "Frames",
-								h = {
-												name = "Hover",
-												h = "Hover",
-												v = "Visual",
-								},
-								l = {
-												name = "List",
-												b = "Breakpoints",
-								},
-								L = "Log point",
-								r = {
-												name = "Repl",
-												l = "Run Last",
-												o = "open",
-								},
-								s = {
-												c = "Scopes",
-								},
-								u = {
-												name  = "UI", 
-												i = "Start UI",
-												h = "Hover",
-												f = "Scopes",
-								},
-								v = "Variables",
-
-				}
-}, {prefix = "<leader>"})
+wk.add(
+  {
+    { "<leader>d", group = "Debug" },
+    { "<leader>dB", desc = "Conditional Breakpoint" },
+    { "<leader>dL", desc = "Log point" },
+    { "<leader>db", desc = "Breakpoint" },
+    { "<leader>dcc", desc = "Commands" },
+    { "<leader>dco", desc = "Configurations" },
+    { "<leader>df", desc = "Frames" },
+    { "<leader>dh", group = "Hover" },
+    { "<leader>dhh", desc = "Hover" },
+    { "<leader>dhv", desc = "Visual" },
+    { "<leader>dl", group = "List" },
+    { "<leader>dlb", desc = "Breakpoints" },
+    { "<leader>dr", group = "Repl" },
+    { "<leader>drl", desc = "Run Last" },
+    { "<leader>dro", desc = "open" },
+    { "<leader>dsc", desc = "Scopes" },
+    { "<leader>du", group = "UI" },
+    { "<leader>duf", desc = "Scopes" },
+    { "<leader>duh", desc = "Hover" },
+    { "<leader>dui", desc = "Start UI" },
+    { "<leader>dv", desc = "Variables" },
+  }
+)

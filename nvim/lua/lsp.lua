@@ -5,61 +5,40 @@ local M = {}
 function on_attach(client, bufnr)
 
   -- Mappings.
-  local opts = { noremap=true, silent=true }
 	local telescope = require('telescope.builtin')
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'gr', telescope.lsp_references, opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-	vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, opts)
-	vim.keymap.set('n', '<leader>lcc', vim.lsp.codelens.run, opts)
-	vim.keymap.set('n', '<leader>lcr', vim.lsp.codelens.refresh, opts)
-  vim.keymap.set('n', '<leader>lD', vim.lsp.buf.type_definition, opts)
-  vim.keymap.set('n', '<leader>ln', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, opts)
-  vim.keymap.set('n', '<leader>ldn', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', '<leader>ldp', vim.diagnostic.goto_next, opts)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { noremap=true, silent=true, desc="Goto declaration" })
+  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap=true, silent=true, desc="Goto definition"})
+  vim.keymap.set('n', 'gr', telescope.lsp_references, { noremap=true, silent=true, desc="Find references"})
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, {noremap=true, silent=true, desc="Hover Info"})
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {noremap=true, silent=true, desc="Goto implementation"})
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, {noremap=true, silent=true, desc="Signature Help"})
+	vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, {noremap=true, silent=true, desc="Code Action"})
+	vim.keymap.set('n', '<leader>lcc', vim.lsp.codelens.run, {noremap=true, silent=true, desc="Run codelens"})
+	vim.keymap.set('n', '<leader>lcr', vim.lsp.codelens.refresh, {noremap=true, silent=true, desc="Refresh codelens"})
+  vim.keymap.set('n', '<leader>lD', vim.lsp.buf.type_definition, {noremap=true, silent=true, desc="Type Definition"})
+  vim.keymap.set('n', '<leader>ln', vim.lsp.buf.rename, {noremap=true, silent=true, desc="Rename"})
+  vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, {noremap=true, silent=true, desc="Show line diagnostics"})
+  vim.keymap.set('n', '<leader>ldn', vim.diagnostic.goto_prev, {noremap=true, silent=true, desc="Next diagnostic"})
+  vim.keymap.set('n', '<leader>ldp', vim.diagnostic.goto_next, {noremap=true, silent=true, desc="Previous diagnostic"})
   -- vim.keymap.set('n', '<leader>lq', vim.lsp.diagnostic.set_loclist(), opts)
-  vim.keymap.set("n", "<leader>lf", function () vim.lsp.buf.format {async = true} end, opts)
+  vim.keymap.set("n", "<leader>lf", function () vim.lsp.buf.format {async = true} end, {noremap=true, silent=true, desc="Format"})
 
 
-  vim.keymap.set('n', '<leader>ls', telescope.lsp_document_symbols, opts)
-  vim.keymap.set('n', '<leader>lS', telescope.lsp_workspace_symbols, opts)
-  vim.keymap.set('n', '<leader>ldd', telescope.diagnostics, opts)
+  vim.keymap.set('n', '<leader>ls', telescope.lsp_document_symbols, {noremap=true, silent=true, desc="Document Symbols"})
+  vim.keymap.set('n', '<leader>lS', telescope.lsp_workspace_symbols, {noremap=true, silent=true, desc="Workspace Symbols"})
+  vim.keymap.set('n', '<leader>ldd', telescope.diagnostics, {noremap=true, silent=true, desc="Document Diagnostics"})
 
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
   local wk = require("which-key")
 
-				wk.register({
-								l = {
-												name = "Language Server",
-												a = "Code Action",
-												c = {
-														name = "Code Lense",
-														c = "Run Codelens",
-														r = "Refresh Codelens",
-												},
-												d = {
-																name = "Diagnostics",
-																d = "Document Diagnostics",
-																n = "Next diagnostic",
-																p = "Previous diagnostic",
-
-												},
-												D =  "Type Definition" ,
-												e =  "Show line diagnostic" ,
-												f =  "Formatting" ,
-												n =  "Rename" ,
-												r =  "References" ,
-												s =  "Symbols",
-												S =  "Workspace Symbols",
-								},
-				}, {prefix= "<leader>"}) 
+	wk.add({
+    { "<leader>l", group = "Language Server" },
+    { "<leader>lc", group = "Code Lense" },
+    { "<leader>ld", group = "Diagnostics" },
+  })
 
 	require('lsp-status').on_attach(client)
 end

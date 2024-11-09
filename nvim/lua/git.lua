@@ -2,11 +2,11 @@
 
 local wk = require("which-key")
 
-wk.register({
-				h = {
-								name = "Git Hunks",
-								p = "Preview",
-								s = "Stage",
-								u = "Undo",
-				},
-}, {prefix= "<leader>"}) 
+wk.add({
+	{ "<leader>h", group = "Git Hunks"},
+	{ "<leader>p", desc = "Preview"},
+	{ "<leader>s", desc = "Stage"},
+	{ "<leader>u", desc = "Undo"},
+})
+
+

@@ -48,6 +48,7 @@ require("lazy").setup({
 	{
     'kyazdani42/nvim-tree.lua',
     dependencies = {
+			'echasnovski/mini.icons',
       'kyazdani42/nvim-web-devicons', -- optional, for file icon
     },
 	},
