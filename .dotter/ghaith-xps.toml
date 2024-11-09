@@ -2,9 +2,14 @@ packages = [
   "alacritty",
 	"bat",
   "environment",
+	"git",
   "helix",
   "nvim",
   "starship",
   "zsh",
   "zellij"
 ]
+
+[variables]
+git_username = 
+email = 
