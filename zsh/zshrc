@@ -101,3 +101,12 @@ fi
 if command -v zoxide > /dev/null; then
   eval "$(zoxide init zsh)"
 fi
+
+load-env() {
+	if [[ ! -f .env ]]; then
+		return
+	fi
+	set -a && source .env && set +a
+}
+
+add-zsh-hook chpwd load-env
