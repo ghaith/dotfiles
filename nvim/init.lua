@@ -20,6 +20,7 @@ require('mappings')
 -- Auto Completion
 -- require('autocomplete')
 require('cmp_config')
+require('codecompanion')
 --Git configuration
 require('git')
 -- LSP

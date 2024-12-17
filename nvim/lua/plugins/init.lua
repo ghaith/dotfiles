@@ -2,94 +2,94 @@
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	-- Enable better commenting
-	'tpope/vim-commentary',
+	"tpope/vim-commentary",
 
 	-- Package manager
 	{
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
-			"neovim/nvim-lspconfig",
+		"williamboman/mason.nvim",
+		"williamboman/mason-lspconfig.nvim",
+		"neovim/nvim-lspconfig",
 	},
 
 	-- Show icons for different file types
-	'lambdalisue/nerdfont.vim',
-	'kyazdani42/nvim-web-devicons',
+	"lambdalisue/nerdfont.vim",
+	"kyazdani42/nvim-web-devicons",
 	-- Git
-	'f-person/git-blame.nvim',
-  -- Make vim use the root .git directory if available
-	'airblade/vim-rooter',
+	"f-person/git-blame.nvim",
+	-- Make vim use the root .git directory if available
+	"airblade/vim-rooter",
 
-  -- Sneak to jump around in the buffer
+	-- Sneak to jump around in the buffer
 	-- use 'justinmk/vim-sneak'
 	-- Leap to jump around (like sneak but with labels)
-	'ggandor/leap.nvim',
+	"ggandor/leap.nvim",
 
-  -- Color themes Plugins
-  -- use 'sainnhe/gruvbox-material'
-  'gruvbox-community/gruvbox',
-	'overcache/NeoSolarized',
-	'folke/tokyonight.nvim',
-	{ "catppuccin/nvim", as = "catppuccin"},
+	-- Color themes Plugins
+	-- use 'sainnhe/gruvbox-material'
+	"gruvbox-community/gruvbox",
+	"overcache/NeoSolarized",
+	"folke/tokyonight.nvim",
+	{ "catppuccin/nvim", as = "catppuccin" },
 
 	-- Allow local configurations
 	{ "folke/neoconf.nvim", cmd = "Neoconf" },
 	-- Helpers for nvim config
-  "folke/neodev.nvim",
+	"folke/neodev.nvim",
 
 	-- Better syntax
-  { 'nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
 	-- Sidebar explorer
 	{
-    'kyazdani42/nvim-tree.lua',
-    dependencies = {
-			'echasnovski/mini.icons',
-      'kyazdani42/nvim-web-devicons', -- optional, for file icon
-    },
+		"kyazdani42/nvim-tree.lua",
+		dependencies = {
+			"echasnovski/mini.icons",
+			"kyazdani42/nvim-web-devicons", -- optional, for file icon
+		},
 	},
 
 	--Zellij
 	{
-	  'https://github.com/fresh2dev/zellij.vim.git',
-	  lazy = false,
+		"https://github.com/fresh2dev/zellij.vim.git",
+		lazy = false,
 	},
 
 	-- LSP
-	'folke/lsp-colors.nvim',
-	'nvim-lua/lsp-status.nvim',
-	'onsails/lspkind.nvim',
+	"folke/lsp-colors.nvim",
+	"nvim-lua/lsp-status.nvim",
+	"onsails/lspkind.nvim",
 	--
 	-- Formatter
-	'sbdchd/neoformat',
+	"sbdchd/neoformat",
 
 	-- Programming languages
 	{
-		'mrcjkb/rustaceanvim',
-		version = '^5', -- Recommended
+		"mrcjkb/rustaceanvim",
+		version = "^5", -- Recommended
 		lazy = false,
 		-- ft = { 'rust' },
 	},
-	'cespare/vim-toml',
-	'ixru/nvim-markdown',
+	"cespare/vim-toml",
+	"ixru/nvim-markdown",
 
 	{
 		"luckasRanarison/tailwind-tools.nvim",
 		dependencies = { "nvim-treesitter/nvim-treesitter" },
-		opts = {} -- your configuration
+		opts = {}, -- your configuration
 	},
-	'imsnif/kdl.vim',
+	"imsnif/kdl.vim",
 
 	-- Tests
 	{
@@ -98,7 +98,7 @@ require("lazy").setup({
 			"nvim-lua/plenary.nvim",
 			"antoinemadec/FixCursorHold.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			"nvim-neotest/nvim-nio"
+			"nvim-neotest/nvim-nio",
 		},
 	},
 
@@ -110,28 +110,30 @@ require("lazy").setup({
 		"folke/trouble.nvim",
 		dependencies = "kyazdani42/nvim-web-devicons",
 		config = function()
-			require("trouble").setup {
+			require("trouble").setup({
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
-			}
-		end
+			})
+		end,
 	},
 
 	-- Completion
 	-- use 'hrsh7th/nvim-compe'
-	'hrsh7th/nvim-cmp', --Engine
-	'hrsh7th/cmp-nvim-lsp',
-	'hrsh7th/cmp-nvim-lsp-signature-help' ,
-	'hrsh7th/cmp-buffer',
-	'hrsh7th/cmp-path',
-	'hrsh7th/cmp-cmdline',
-	'hrsh7th/cmp-nvim-lua',
-	'saadparwaiz1/cmp_luasnip',
+	"hrsh7th/nvim-cmp", --Engine
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-nvim-lsp-signature-help",
+	"hrsh7th/cmp-buffer",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-cmdline",
+	"hrsh7th/cmp-nvim-lua",
+	"saadparwaiz1/cmp_luasnip",
 
 	{
 		"windwp/nvim-autopairs",
-			config = function() require("nvim-autopairs").setup {} end
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
 	},
 
 	-- -- Snippets
@@ -140,36 +142,35 @@ require("lazy").setup({
 
 	-- Status line
 	{
-				'hoob3rt/lualine.nvim',
-				dependencies = {'kyazdani42/nvim-web-devicons', opt = true}
+		"hoob3rt/lualine.nvim",
+		dependencies = { "kyazdani42/nvim-web-devicons", opt = true },
 	},
 
-
-  -- Telescope fuzzy finding
+	-- Telescope fuzzy finding
 	{
-		'nvim-telescope/telescope.nvim',
-		dependencies = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}
+		"nvim-telescope/telescope.nvim",
+		dependencies = { { "nvim-lua/popup.nvim" }, { "nvim-lua/plenary.nvim" } },
 	},
 
 	{
 		"folke/which-key.nvim",
 		config = function()
-			require("which-key").setup {
+			require("which-key").setup({
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
-			}
-		end
+			})
+		end,
 	},
 
 	-- Use telescope for ui select
-	{ 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+	{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 
-	{'nvim-telescope/telescope-ui-select.nvim' },
+	{ "nvim-telescope/telescope-ui-select.nvim" },
 	-- Debug support
 	"mfussenegger/nvim-dap",
-  { "rcarriga/nvim-dap-ui", dependencies = {"mfussenegger/nvim-dap"} },
-  {'nvim-telescope/telescope-dap.nvim'},
+	{ "rcarriga/nvim-dap-ui", dependencies = { "mfussenegger/nvim-dap" } },
+	{ "nvim-telescope/telescope-dap.nvim" },
 	"theHamsta/nvim-dap-virtual-text",
 
 	-- Todo plugin
@@ -177,19 +178,32 @@ require("lazy").setup({
 		"folke/todo-comments.nvim",
 		dependencies = "nvim-lua/plenary.nvim",
 		config = function()
-			require("todo-comments").setup {
+			require("todo-comments").setup({
 				-- your configuration comes here
 				-- or leave it empty to use the default settings
 				-- refer to the configuration section below
-			}
-		end
+			})
+		end,
 	},
 
 	--Dev containers
 	-- "jamestthompson3/nvim-remote-containers",
 
 	"petertriho/nvim-scrollbar",
-  'kevinhwang91/nvim-hlslens',
+	"kevinhwang91/nvim-hlslens",
 	"lewis6991/gitsigns.nvim",
 
+	-- Ai Assistants
+	{
+		"github/copilot.vim",
+	},
+	{
+		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = true,
+	},
+	{ "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
 })
