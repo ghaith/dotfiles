@@ -17,6 +17,13 @@ require("lazy").setup({
 	-- Enable better commenting
 	'tpope/vim-commentary',
 
+	-- Package manager
+	{
+			"williamboman/mason.nvim",
+			"williamboman/mason-lspconfig.nvim",
+			"neovim/nvim-lspconfig",
+	},
+
 	-- Show icons for different file types
 	'lambdalisue/nerdfont.vim',
 	'kyazdani42/nvim-web-devicons',
@@ -60,7 +67,6 @@ require("lazy").setup({
 	},
 
 	-- LSP
-	'neovim/nvim-lspconfig',
 	'folke/lsp-colors.nvim',
 	'nvim-lua/lsp-status.nvim',
 	'onsails/lspkind.nvim',

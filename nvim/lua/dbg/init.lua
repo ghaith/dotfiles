@@ -1,18 +1,12 @@
 require('telescope').load_extension('dap')
 
 local dap = require('dap')
-dap.adapters.lldb = {
-  type = 'executable',
-  command = '/usr/bin/lldb-vscode', -- adjust as needed
-  name = "lldb"
-}
-
 dap.adapters.codelldb = {
   type = 'server',
   port = "${port}",
   executable = {
     -- CHANGE THIS to your path!
-    command = '/usr/lib/codelldb/adapter/codelldb',
+    command = 'codelldb',
     args = {"--port", "${port}"},
 
     -- On windows you may have to uncomment this:

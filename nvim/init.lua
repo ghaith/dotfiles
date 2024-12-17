@@ -3,6 +3,13 @@ vim.g.mapleader = " "
 -- Plugin Management 
 require('plugins')
 
+
+-- Package Management
+require("mason").setup()
+require("mason-lspconfig").setup {
+	ensure_installed = {"lua_ls", "rust_analyzer"}
+}
+
 -- Defaults
 require('settings')
 -- Mappings
