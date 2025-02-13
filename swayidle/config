@@ -1,4 +1,0 @@
-timeout 300 '~/.config/swaylock/lock.sh' 
-timeout 320 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
-
-before-sleep '~/.config/swaylock/lock.sh'
