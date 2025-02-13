@@ -5,16 +5,13 @@ packages = [
 	"bat",
 	"environment",
 	"git",
-	"swayidle",
-	"swaylock",
 	"helix",
-	"hypr",
 	"nvim",
-	"rofi",
 	"starship",
-	"tmux",
-	"waybar",
-	"wpaperd",
 	"zsh",
 	"zellij",
 ]
+
+[variables]
+git_username = 
+email = 

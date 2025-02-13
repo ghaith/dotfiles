@@ -1,26 +1,16 @@
-includes = [".dotter/brainiac-conf.toml"]
-
 packages = [
 	"alacritty",
 	"bat",
 	"environment",
-	"i3",
-	"sway",
-	"swayidle",
-	"swaylock",
-	"dunst",
-	"environment",
-	"eww",
+	"git",
 	"helix",
-	"hypr",
 	"nvim",
-	"picom",
-	"rofi",
 	"starship",
 	"tmux",
-	"waybar",
-	"wezterm",
-	"wpaperd",
 	"zsh",
 	"zellij",
 ]
+
+[variables]
+git_username = 
+email = 

@@ -1,8 +1,8 @@
 packages = [
   "alacritty",
-	"bat",
+  "bat",
   "environment",
-	"git",
+  "git",
   "helix",
   "nvim",
   "starship",
