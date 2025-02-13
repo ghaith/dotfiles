@@ -9,3 +9,7 @@ import = [
   # "~/.config/alacritty/catppuccin-macchiato.toml"
   "~/.config/alacritty/catppuccin-mocha.toml"
 ]
+
+[font]
+normal = { family = "Jetbrains Mono", style = "Regular"}
+# normal = { family = "Fira Code", style = "Regular"}
