@@ -110,5 +110,3 @@ load-env() {
 }
 
 add-zsh-hook chpwd load-env
-
-. "$HOME/.local/share/../bin/env"
