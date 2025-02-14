@@ -19,6 +19,9 @@ function install_ubuntu() {
   sudo add-apt-repository ppa:maveonair/helix-editor
   sudo apt update
   sudo apt install helix
+  
+  # Install starship
+  curl -sS https://starship.rs/install.sh | sh
  
   install_eza_apt
   install_atuin
@@ -29,6 +32,9 @@ function install_debian() {
   sudo apt-get update
   sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
 
+  # Install starship
+  curl -sS https://starship.rs/install.sh | sh
+
   install_eza_apt
   install_neovim
   install_nerd_fonts
@@ -36,9 +42,9 @@ function install_debian() {
 }
 
 function install_neovim() {
-	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \
-	&& chmod +x nvim.appimage && ./nvim.appimage --appimage-extract && cp -r squashfs-root/usr ~/.local/ \
-	&& rm -rf nvim.appimage squashfs-root
+  curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \
+  && chmod +x nvim.appimage && ./nvim.appimage --appimage-extract && cp -r squashfs-root/usr ~/.local/ \
+  && rm -rf nvim.appimage squashfs-root
 }
 
 function install_eza_apt() {
@@ -109,7 +115,7 @@ function install() {
   elif [[ -f /etc/lsb-release ]]; then
     install_ubuntu
   elif [[ -f /etc/debian_version ]]; then
-    install_ubuntu
+    install_debian
   elif [[ -f /etc/fedora-release ]]; then
     install_fedora
   elif [[ "$OSTYPE" == "msys" ]]; then
