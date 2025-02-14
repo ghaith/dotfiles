@@ -6,43 +6,57 @@ install_arch() {
 }
 
 # Function to install packages on Ubuntu/Pop!_OS
-install_ubuntu() {
+function install_ubuntu() {
 
   sudo apt-get update
   sudo apt-get install -y software-properties-common
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update 
   sudo apt-get install neovim
-  sudo apt-get install python-dev python-pip python3-dev python3-pip
-  sudo apt-get install -y git curl build-essential eza bat zsh
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
 
   # Install helix
   sudo add-apt-repository ppa:maveonair/helix-editor
   sudo apt update
   sudo apt install helix
  
-  # Install atuin
-  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-  
-  # Install nerd-fonts manually
-  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-  cd nerd-fonts
-  ./install.sh
-  cd ..
-  rm -rf nerd-fonts
+  install_eza_apt
+  install_atuin
+  install_nerd_fonts
+}
+
+function install_debian() {
+  sudo apt-get update
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
+
+  install_eza_apt
+  install_neovim
+  install_nerd_fonts
+
+}
+
+function install_neovim() {
+	curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage \
+	&& chmod +x nvim.appimage && ./nvim.appimage --appimage-extract && cp -r squashfs-root/usr ~/.local/ \
+	&& rm -rf nvim.appimage squashfs-root
+}
+
+function install_eza_apt() {
+  sudo apt-get update
+  sudo apt-get install -y gpg
+  sudo mkdir -p /etc/apt/keyrings
+  wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+  sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+  sudo apt update
+  sudo apt install -y eza
 }
 
 # Function to install packages on Fedora
 install_fedora() {
-  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat eza helix zoxide
-  # Install atuin
-  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-  # Install nerd-fonts manually
-  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-  cd nerd-fonts
-  ./install.sh
-  cd ..
-  rm -rf nerd-fonts
+  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat eza helix zoxide ripgrep fzf
+  install_atuin
+  install_nerd_fonts
 }
 
 # Function to install packages on Windows using winget
@@ -54,19 +68,89 @@ install_windows() {
 
 }
 
-# Detect OS and call the appropriate function
-if [[ -f /etc/arch-release ]]; then
-  install_arch
-elif [[ -f /etc/lsb-release ]]; then
-  install_ubuntu
-elif [[ -f /etc/fedora-release ]]; then
-  install_fedora
-elif [[ "$OSTYPE" == "msys" ]]; then
-  install_windows
-else
-  echo "Unsupported OS"
-  exit 1
+# Main function to run the installation and configuration
+function run() {
+  install
+  configure_shell
+}
+
+
+# Function to check and install necessary packages
+function install() {
+  # List of packages to check
+  packages=("zsh" "git" "nvim" "bat" "eza" "starship" "helix" "rg" "fzf" "zoxide" "atuin")
+
+  # Check each package
+  all_installed=true
+  for package in "${packages[@]}"; do
+    if ! command -v "$package" &> /dev/null; then
+      echo "$package is not installed."
+      all_installed=false
+      break
+    fi
+  done
+
+  # Exit early if all packages are installed
+  if [ "$all_installed" = true ]; then
+    echo "All packages are already installed."
+    return
+  fi
+
+  # Ask the user for confirmation and exit if they decline
+  read -p "Do you want to install the packages? (Y/n): " confirm
+  if [[ "$confirm" =~ ^[Nn]$ ]]; then
+    echo "Installation aborted."
+    exit 1
+  fi
+
+  # Detect OS and call the appropriate function
+  if [[ -f /etc/arch-release ]]; then
+    install_arch
+  elif [[ -f /etc/lsb-release ]]; then
+    install_ubuntu
+  elif [[ -f /etc/debian_version ]]; then
+    install_ubuntu
+  elif [[ -f /etc/fedora-release ]]; then
+    install_fedora
+  elif [[ "$OSTYPE" == "msys" ]]; then
+    install_windows
+  else
+    echo "Unsupported OS"
+    exit 1
+  fi
+
+}
+
+# Function to configure the shell to use zsh
+function configure_shell() {
+if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" ]]; then
+  if [[ "$SHELL" != *"zsh" ]]; then
+    chsh -s $(which zsh)
+  fi
 fi
+}
 
-echo "Installation complete!"
+function install_nerd_fonts() {
+   # Path to check if the font is installed
+   font_path="$HOME/.local/share/fonts/NerdFonts"
 
+  # Check if the font is already installed
+  if [ -d "$font_path" ]; then
+    echo "Nerd fonts are already installed."
+    return
+  fi
+
+  # Install nerd-fonts manually
+  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+  cd nerd-fonts
+  ./install.sh
+  cd ..
+  rm -rf nerd-fonts
+}
+
+function install_atuin() {
+  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+}
+
+# Start the installation process
+run

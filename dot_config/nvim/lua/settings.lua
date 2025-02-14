@@ -62,4 +62,7 @@ vim.opt.title = true
 vim.opt.hidden = true
 vim.opt.termguicolors = true
 
+-- Set tab width to 2 spaces
+vim.opt.tabstop = 2
+
 -- vim: ts=2 sts=2 sw=2 et
