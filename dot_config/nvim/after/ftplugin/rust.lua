@@ -1,7 +1,7 @@
 local bufnr = vim.api.nvim_get_current_buf()
 -- Mappings
 vim.keymap.set('n', '<leader>ra', function()
-  vim.cmd.RusLsp 'codeAction'
+  vim.cmd.RustLsp 'codeAction'
 end, { noremap = true, silent = true, buffer = bufnr, desc = 'Code Action' })
 vim.keymap.set('n', '<leader>rh', function()
   vim.cmd.RustLsp { 'hover', 'actions' }
