@@ -1,0 +1,55 @@
+#!/bin/sh
+# add binaries to PATH if they aren't added yet
+# affix colons on either side of $PATH to simplify matching
+case ":${PATH}:" in
+    *:"$HOME/.local/bin":*)
+        ;;
+    *)
+        # Prepending path in case a system-installed binary needs to be overridden
+        export PATH="$HOME/.local/bin:$PATH"
+        ;;
+esac
+
+# Add Cargo's bin directory to the PATH if it exists
+if [ -d "$HOME/.cargo/bin" ] ; then
+    case ":${PATH}:" in
+        *:"$HOME/.cargo/bin":*)
+            ;;
+        *)
+            export PATH="$HOME/.cargo/bin:$PATH"
+            ;;
+    esac
+fi
+
+# If you have a custom bin directory, add it to the PATH
+if [ -d "$HOME/.local/usr/bin" ] ; then
+    case ":${PATH}:" in
+        *:"$HOME/.local/usr/bin":*)
+            ;;
+        *)
+            export PATH="$HOME/.local/usr/bin:$PATH"
+            ;;
+    esac
+fi
+
+# If the scripts directory exits at $HOME/.local/scripts, add it to the PATH
+if [ -d "$HOME/.local/scripts" ] ; then
+    case ":${PATH}:" in
+        *:"$HOME/.local/scripts":*)
+            ;;
+        *)
+            export PATH="$HOME/.local/scripts:$PATH"
+            ;;
+    esac
+fi
+
+# If lm studio binaries directory exists, add it to the PATH
+if [ -d "$HOME/.lmstudio/bin" ] ; then
+    case ":${PATH}:" in
+        *:"$HOME/.lmstudio/bin":*)
+            ;;
+        *)
+            export PATH="$HOME/.lmstudio/bin:$PATH"
+            ;;
+    esac
+fi

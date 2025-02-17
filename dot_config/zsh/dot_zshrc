@@ -90,6 +90,16 @@ eval "$(starship init zsh)"
 # export ZELLIJ_AUTO_EXIT=true
 # eval "$(zellij setup --generate-auto-start zsh)"
 
+if [ -f $HOME/.local/bin/env ]; then
+  source $HOME/.local/bin/env
+fi
+
+if [ -f $HOME/.cargo/env ]; then
+	source "$HOME/.cargo/env"
+elif [ -f /usr/local/cargo/env ]; then
+	source /usr/local/cargo/env 
+fi
+
 if [ -f /etc/profile.d/conda.sh ]; then
   source /etc/profile.d/conda.sh
 fi
@@ -103,10 +113,9 @@ if command -v zoxide > /dev/null; then
 fi
 
 load-env() {
-	if [[ ! -f .env ]]; then
-		return
+	if [[ -f .env ]]; then
+    set -a && source .env && set +a
 	fi
-	set -a && source .env && set +a
 }
 
 add-zsh-hook chpwd load-env

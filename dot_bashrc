@@ -1,0 +1,37 @@
+. "$HOME/.local/bin/env"
+
+# Eval starship
+eval "$(starship init bash)"
+
+# Aliases
+alias vim='nvim'
+alias ls=' eza --group-directories-first'
+alias la=' ls -a'
+alias ll=' ls --git -l'
+alias lt=' ls --tree -D -L 2 -I ${TREE_IGNORE}'
+alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
+alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
+alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
+
+# Vi mode
+set -o vi
+
+[[ -f ~/.bash-preexec.sh ]] && source ~/.bash-preexec.sh
+
+# Source cargo env
+if [ -f $HOME/.cargo/env ]; then
+	source "$HOME/.cargo/env"
+elif [ -f /usr/local/cargo/env ]; then
+	source /usr/local/cargo/env 
+fi
+
+
+# if atuin exits in ~/.atuin/bin/env" source it
+if [ -f $HOME/.atuin/bin/env ]; then
+  . ~/.atuin/bin/env
+fi
+
+# If atuin is installed, eval init bash
+if command -v atuin &> /dev/null; then
+  eval "$(atuin init bash)"
+fi
