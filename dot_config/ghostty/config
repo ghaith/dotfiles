@@ -43,7 +43,7 @@
 # resize-overlay-duration = 4s 200ms
 #
 theme = catppuccin-latte
-font-family = Iosevka
+# font-family = Iosevka Nerd Font Mono
 
 # Keybinds
 # Split creation
