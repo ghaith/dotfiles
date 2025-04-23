@@ -26,6 +26,7 @@ require('lazy').setup({
   require 'ghaith.plugins.gitsigns',
   require 'ghaith.plugins.which-key',
   require 'ghaith.plugins.telescope',
+  require 'ghaith.plugins.trouble',
   require 'ghaith.plugins.lspconfig',
   require 'ghaith.plugins.conform',
   require 'ghaith.plugins.cmp',
