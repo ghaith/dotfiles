@@ -26,6 +26,7 @@ function install_ubuntu() {
   install_eza_apt
   install_atuin
   install_nerd_fonts
+  install_node
 }
 
 function install_debian() {
@@ -38,16 +39,40 @@ function install_debian() {
   install_eza_apt
   install_neovim
   install_nerd_fonts
+  install_node
+}
 
+function install_node() {
+  # Check if Node.js is already installed
+  if command -v node &> /dev/null; then
+    echo "Node.js is already installed."
+    return
+  fi
+
+  # Install Node.js from node source  repo
+  sudo apt-get install -y curl
+  curl -fsSL https://deb.nodesource.com/setup_23.x -o nodesource_setup.sh
+  sudo -E bash nodesource_setup.sh
+  sudo apt-get install -y nodejs
 }
 
 function install_neovim() {
+  # Check if Neovim is already installed
+  if command -v nvim &> /dev/null; then
+    echo "Neovim is already installed."
+    return
+  fi
   curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage \
   && chmod +x nvim-linux-x86_64.appimage && ./nvim-linux-x86_64.appimage --appimage-extract && cp -r squashfs-root/usr ~/.local/ \
   && rm -rf nvim-linux-x86_64.appimage squashfs-root
 }
 
 function install_eza_apt() {
+  # Check if eza is already installed
+  if command -v eza &> /dev/null; then
+    echo "eza is already installed."
+    return
+  fi
   sudo apt-get update
   sudo apt-get install -y gpg
   sudo mkdir -p /etc/apt/keyrings
