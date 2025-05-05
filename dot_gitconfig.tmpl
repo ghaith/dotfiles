@@ -12,20 +12,26 @@
 	helper = store
 
 [core]
-    autocrlf = input
-		pager = delta
+	autocrlf = input
+	pager = delta
 [init]
 	defaultBranch = main
 [pull]
 	rebase = true
 [interactive]
-		diffFilter = delta --color-only
+	diffFilter = delta --color-only
+
+# Diff tool for git, install with `git-delta`
 [delta]
 	navigate = true
+	side-by-side = true
+	line-numbers = true
+	hyperlinks = true
+	light = true
 [diff]
 	tool = nvimdiff
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 	tool = nvimdiff
 [help]
     autocorrect = 20

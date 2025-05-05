@@ -2,7 +2,7 @@
 
 # Function to install packages on Arch Linux
 install_arch() {
-  sudo pacman -Syu --noconfirm git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin
+  sudo pacman -Syu --noconfirm git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta
 }
 
 # Function to install packages on Ubuntu/Pop!_OS
@@ -13,7 +13,7 @@ function install_ubuntu() {
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update 
   sudo apt-get install neovim
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta
 
   # Install helix
   sudo add-apt-repository ppa:maveonair/helix-editor
