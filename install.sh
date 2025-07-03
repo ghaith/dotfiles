@@ -55,7 +55,7 @@ function install_chezmoi() {
   fi
 
   # Register the current directory as the chezmoi source directory
-  chezmoi init --apply
+  chezmoi init -S . --apply
 
 }
 
