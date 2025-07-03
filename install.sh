@@ -2,7 +2,7 @@
 
 # Function to install packages on Arch Linux
 install_arch() {
-  sudo pacman -Syu --noconfirm git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta
+  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin delta
 }
 
 # Function to install packages on Ubuntu/Pop!_OS
@@ -21,12 +21,13 @@ function install_ubuntu() {
   sudo apt install helix
   
   # Install starship
-  curl -sS https://starship.rs/install.sh | sh
+  curl -sS https://starship.rs/install.sh | sh -s -- --yes
  
   install_eza_apt
   install_atuin
   install_nerd_fonts
   install_node
+  install_chezmoi
 }
 
 function install_debian() {
@@ -34,12 +35,26 @@ function install_debian() {
   sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
 
   # Install starship
-  curl -sS https://starship.rs/install.sh | sh
+  curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
   install_eza_apt
   install_neovim
   install_nerd_fonts
   install_node
+  install_chezmoi
+}
+
+function install_chezmoi() {
+  # Check if chezmoi is already installed
+  if command -v chezmoi &> /dev/null; then
+    echo "chezmoi is already installed."
+  else 
+    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
+  fi
+
+  # Register the current directory as the chezmoi source directory
+  chezmoi init --apply
+
 }
 
 function install_node() {
@@ -127,11 +142,15 @@ function install() {
     return
   fi
 
-  # Ask the user for confirmation and exit if they decline
-  read -p "Do you want to install the packages? (Y/n): " confirm
-  if [[ "$confirm" =~ ^[Nn]$ ]]; then
-    echo "Installation aborted."
-    exit 1
+  # Ask the user for confirmation and exit if they decline, only do this if run in interactive mode
+  if [[ -z $PS1 ]]; then
+    echo "The script is not interactive, install applications without confirmation"
+  else 
+   read -p "Do you want to install the packages? (Y/n): " confirm
+    if [[ "$confirm" =~ ^[Nn]$ ]]; then
+      echo "Installation aborted."
+      exit 1
+    fi
   fi
 
   # Detect OS and call the appropriate function
