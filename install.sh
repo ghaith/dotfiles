@@ -51,6 +51,7 @@ function install_chezmoi() {
     echo "chezmoi is already installed."
   else 
     sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
+    export PATH="$HOME/.local/bin:$PATH"
   fi
 
   # Register the current directory as the chezmoi source directory
