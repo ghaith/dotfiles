@@ -28,6 +28,7 @@ return {
         },
       },
       'saadparwaiz1/cmp_luasnip',
+      'zbirenbaum/copilot-cmp',
 
       -- Adds other completion capabilities.
       --  nvim-cmp does not ship with all sources by default. They are split
@@ -103,6 +104,7 @@ return {
           --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
         },
         sources = {
+          { name = 'copilot' },
           {
             name = 'lazydev',
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
@@ -113,6 +115,41 @@ return {
           { name = 'path' },
         },
       }
+      
+      -- Setup copilot-cmp integration
+      require('copilot_cmp').setup()
+      
+      -- Function to toggle copilot in cmp sources
+      local function toggle_copilot_source()
+        local cmp = require('cmp')
+        local config = cmp.get_config()
+        local sources = config.sources
+        
+        -- Check if copilot is in sources
+        local copilot_index = nil
+        for i, source in ipairs(sources) do
+          if source.name == 'copilot' then
+            copilot_index = i
+            break
+          end
+        end
+        
+        if copilot_index then
+          -- Remove copilot
+          table.remove(sources, copilot_index)
+          print('Copilot removed from completion sources')
+        else
+          -- Add copilot at the beginning
+          table.insert(sources, 1, { name = 'copilot' })
+          print('Copilot added to completion sources')
+        end
+        
+        -- Update cmp config
+        cmp.setup({ sources = sources })
+      end
+      
+      -- Keymap to toggle copilot in cmp
+      vim.keymap.set('n', '<leader>cc', toggle_copilot_source, { desc = 'Toggle Copilot in completion' })
     end,
   },
 }

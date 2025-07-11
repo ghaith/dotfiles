@@ -1,0 +1,84 @@
+#!/bin/bash
+# Shared shell configuration for both bash and zsh
+
+# TREE_IGNORE variable
+export TREE_IGNORE="cache|log|logs|node_modules|vendor"
+
+# Common aliases
+alias vim='nvim'
+alias ls=' eza --group-directories-first'
+alias la=' ls -a'
+alias ll=' ls --git -l'
+alias lt=' ls --tree -D -L 2 -I ${TREE_IGNORE}'
+alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
+alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
+alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
+
+# Source cargo env
+if [ -f "$HOME/.cargo/env" ]; then
+    source "$HOME/.cargo/env"
+elif [ -f "/usr/local/cargo/env" ]; then
+    source "/usr/local/cargo/env" 
+fi
+
+# Atuin setup
+if [ -f "$HOME/.atuin/bin/env" ]; then
+    source "$HOME/.atuin/bin/env"
+fi
+
+# Environment
+if [ -f "$HOME/.local/bin/env" ]; then
+    source "$HOME/.local/bin/env"
+fi
+
+# Conda/Mamba environment
+if [ -f "/etc/profile.d/conda.sh" ]; then
+    source "/etc/profile.d/conda.sh"
+fi
+
+if [ -f "/usr/bin/micromamba" ]; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(/usr/bin/micromamba shell hook --shell zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(/usr/bin/micromamba shell hook --shell bash)"
+    fi
+fi
+
+# Zoxide
+if command -v zoxide > /dev/null; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(zoxide init zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(zoxide init bash)"
+    fi
+fi
+
+# Starship
+if command -v starship > /dev/null; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(starship init zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(starship init bash)"
+    fi
+fi
+
+# Atuin init
+if command -v atuin > /dev/null; then
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(atuin init zsh)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(atuin init bash)"
+    fi
+fi
+
+# Load .env function (zsh-specific, but harmless in bash)
+if [ -n "$ZSH_VERSION" ]; then
+    load-env() {
+        if [[ -f .env ]]; then
+            set -a && source .env && set +a
+        fi
+    }
+    
+    autoload -U add-zsh-hook
+    add-zsh-hook chpwd load-env
+fi

@@ -43,6 +43,7 @@
 # resize-overlay-duration = 4s 200ms
 #
 theme = catppuccin-latte
+# theme = catppuccin-mocha
 # font-family = Iosevka Nerd Font Mono
 
 # Keybinds

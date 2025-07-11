@@ -39,19 +39,8 @@ if [ -f /usr/share/nvm/init-nvm.sh ]; then
 	source /usr/share/nvm/init-nvm.sh
 fi
 
-alias vim=nvim
-# alias hx=helix
-
-# ls
-TREE_IGNORE="cache|log|logs|node_modules|vendor"
-
-alias ls=' eza --group-directories-first'
-alias la=' ls -a'
-alias ll=' ls --git -l'
-alias lt=' ls --tree -D -L 2 -I ${TREE_IGNORE}'
-alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
-alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
-alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
+# Source shared shell configuration
+source "$HOME/.local/bin/shell-common"
 
 # vi mode
 bindkey -v
@@ -86,36 +75,3 @@ zstyle ':completion:*' fzf-search-display true
 if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
 	eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
-eval "$(starship init zsh)"
-# export ZELLIJ_AUTO_EXIT=true
-# eval "$(zellij setup --generate-auto-start zsh)"
-
-if [ -f $HOME/.local/bin/env ]; then
-  source $HOME/.local/bin/env
-fi
-
-if [ -f $HOME/.cargo/env ]; then
-	source "$HOME/.cargo/env"
-elif [ -f /usr/local/cargo/env ]; then
-	source /usr/local/cargo/env 
-fi
-
-if [ -f /etc/profile.d/conda.sh ]; then
-  source /etc/profile.d/conda.sh
-fi
-# Conda/Mamba environment
-if [ -f /usr/bin/micromamba ]; then
-  eval "$(/usr/bin/micromamba shell hook --shell zsh)"
-fi
-
-if command -v zoxide > /dev/null; then
-  eval "$(zoxide init zsh)"
-fi
-
-load-env() {
-	if [[ -f .env ]]; then
-    set -a && source .env && set +a
-	fi
-}
-
-add-zsh-hook chpwd load-env

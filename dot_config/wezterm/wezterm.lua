@@ -7,6 +7,7 @@ local config = wezterm.config_builder()
 -- This is where you actually apply your config choices
 
 config.color_scheme = "Catppuccin Latte"
+-- config.color_scheme = "Catppuccin Mocha"
 config.font = wezterm.font("JetBrains Mono")
 
 config.hide_tab_bar_if_only_one_tab = true
