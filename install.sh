@@ -2,7 +2,7 @@
 
 # Function to install packages on Arch Linux
 install_arch() {
-  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin delta git-delta fuzzel
+  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel
   install_chezmoi
 }
 
