@@ -1,0 +1,12 @@
+[Unit]
+PartOf=graphical-session.target
+After=graphical-session.target
+Requisite=graphical-session.target
+Description=Set the wallpaper with swaybg
+
+[Service]
+Type=simple
+ExecStart=%h/.local/scripts/changebg.sh
+Restart=no
+
+
