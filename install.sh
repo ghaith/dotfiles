@@ -2,7 +2,7 @@
 
 # Function to install packages on Arch Linux
 install_arch() {
-  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel
+  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang
   install_chezmoi
 }
 
@@ -14,7 +14,7 @@ function install_ubuntu() {
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update 
   sudo apt-get install neovim
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta golang
 
   # Install helix
   sudo add-apt-repository ppa:maveonair/helix-editor
@@ -33,7 +33,7 @@ function install_ubuntu() {
 
 function install_debian() {
   sudo apt-get update
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf golang
 
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes

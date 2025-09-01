@@ -6,19 +6,21 @@ return {
   },
   opts = {
     adapters = {
-      llmstudio = function()
-        return require('codecompanion.adapters').extend('openai_compatible', {
-          name = 'llmstudio',
-          env = {
-            url = 'http://localhost:1234', -- optional: default value is ollama url http://127.0.0.1:11434
-          },
-          schema = {
-            model = {
-              default = 'qwen3-32b',
+      http = {
+        llmstudio = function()
+          return require('codecompanion.adapters').extend('openai_compatible', {
+            name = 'llmstudio',
+            env = {
+              url = 'http://localhost:1234', -- optional: default value is ollama url http://127.0.0.1:11434
             },
-          },
-        })
-      end,
+            schema = {
+              model = {
+                default = 'qwen3-32b',
+              },
+            },
+          })
+        end,
+      },
     },
     strategies = {
       -- Change the default chat adapter
