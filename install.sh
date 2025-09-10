@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit immediately if a command exits with a non-zero status, and treat unset variables as an error
+set -eu
+
 # Function to install packages on Arch Linux
 install_arch() {
   sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang
@@ -14,7 +17,7 @@ function install_ubuntu() {
   sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update 
   sudo apt-get install neovim
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta golang
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta
 
   # Install helix
   sudo add-apt-repository ppa:maveonair/helix-editor
@@ -24,6 +27,7 @@ function install_ubuntu() {
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes
  
+  install_golang
   install_eza_apt
   install_atuin
   install_nerd_fonts
@@ -33,11 +37,12 @@ function install_ubuntu() {
 
 function install_debian() {
   sudo apt-get update
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf golang
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
 
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes
 
+  install_golang
   install_eza_apt
   install_neovim
   install_nerd_fonts
@@ -45,18 +50,59 @@ function install_debian() {
   install_chezmoi
 }
 
-function install_chezmoi() {
-  # Check if chezmoi is already installed
-  if command -v chezmoi &> /dev/null; then
-    echo "chezmoi is already installed."
-  else 
-    sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/.local/bin
-    export PATH="$HOME/.local/bin:$PATH"
+function install_golang() {
+  if command -v go &> /dev/null; then
+    echo "Go is already installed."
+    return
   fi
 
-  # Register the current directory as the chezmoi source directory
-  chezmoi init -S . --apply
+  GO_VERSION="1.25.1"
+  ARCH=$(uname -m)
 
+  if [ "$ARCH" = "x86_64" ]; then
+    ARCH="amd64"
+  elif [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
+    ARCH="arm64"
+  else
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+  fi
+
+  wget https://go.dev/dl/go${GO_VERSION}.linux-${ARCH}.tar.gz -O /tmp/go${GO_VERSION}.linux-${ARCH}.tar.gz
+  sudo tar -C /usr/local -xzf /tmp/go${GO_VERSION}.linux-${ARCH}.tar.gz
+  rm /tmp/go${GO_VERSION}.linux-${ARCH}.tar.gz
+
+  # Add Go to PATH for the current session
+  export PATH=$PATH:/usr/local/go/bin
+
+  echo "Go ${GO_VERSION} installed successfully."
+}
+
+function install_chezmoi() {
+  if ! chezmoi="$(command -v chezmoi)"; then
+    bin_dir="${HOME}/.local/bin"
+    chezmoi="${bin_dir}/chezmoi"
+    echo "Installing chezmoi to '${chezmoi}'" >&2
+    if command -v curl >/dev/null; then
+      chezmoi_install_script="$(curl -fsSL https://chezmoi.io/get)"
+    elif command -v wget >/dev/null; then
+      chezmoi_install_script="$(wget -qO- https://chezmoi.io/get)"
+    else
+      echo "To install chezmoi, you must have curl or wget installed." >&2
+      exit 1
+    fi
+    sh -c "${chezmoi_install_script}" -- -b "${bin_dir}"
+    unset chezmoi_install_script bin_dir
+  fi
+
+  # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
+  script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+
+  set -- init --apply --source="${script_dir}"
+
+  echo "Running 'chezmoi $*'" >&2
+  # exec: replace current process with chezmoi
+  exec "$chezmoi" "$@"
 }
 
 function install_node() {
@@ -181,7 +227,7 @@ function install() {
 function configure_shell() {
 if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" ]]; then
   if [[ "$SHELL" != *"zsh" ]]; then
-    chsh -s $(which zsh)
+    sudo chsh -s $(which zsh) $USER # Using sudo to insure it works within containers where the password is not set
   fi
 fi
 }
