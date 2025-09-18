@@ -191,7 +191,7 @@ function install() {
   fi
 
   # Ask the user for confirmation and exit if they decline, only do this if run in interactive mode
-  if [[ -z $PS1 ]]; then
+  if [[ -t 0 ]]; then
     echo "The script is not interactive, install applications without confirmation"
   else 
    read -p "Do you want to install the packages? (Y/n): " confirm
