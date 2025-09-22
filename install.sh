@@ -6,7 +6,6 @@ set -eu
 # Function to install packages on Arch Linux
 install_arch() {
   sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang
-  install_chezmoi
 }
 
 # Function to install packages on Ubuntu/Pop!_OS
@@ -32,7 +31,6 @@ function install_ubuntu() {
   install_atuin
   install_nerd_fonts
   install_node
-  install_chezmoi
 }
 
 function install_debian() {
@@ -47,7 +45,6 @@ function install_debian() {
   install_neovim
   install_nerd_fonts
   install_node
-  install_chezmoi
 }
 
 function install_golang() {
@@ -79,6 +76,7 @@ function install_golang() {
 }
 
 function install_chezmoi() {
+
   if ! chezmoi="$(command -v chezmoi)"; then
     bin_dir="${HOME}/.local/bin"
     chezmoi="${bin_dir}/chezmoi"
@@ -164,13 +162,14 @@ install_windows() {
 
 # Main function to run the installation and configuration
 function run() {
-  install
+  install_packages
   configure_shell
+  install_chezmoi
 }
 
 
 # Function to check and install necessary packages
-function install() {
+function install_packages() {
   # List of packages to check
   packages=("zsh" "git" "nvim" "bat" "eza" "starship" "helix" "rg" "fzf" "zoxide" "atuin")
 
@@ -256,3 +255,4 @@ function install_atuin() {
 
 # Start the installation process
 run
+

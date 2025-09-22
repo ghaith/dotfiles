@@ -1,30 +1,14 @@
 {{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
-{{- $interactive := stdinIsATTY -}}
+{{- $ci := stdinIsATTY -}}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
-{{- /* Initializes the name variable with a default value */ -}}
-{{- $name := "Ghaith Hachem" -}}
-{{- /* If name was previously set, reuses it */ -}}
-{{- if hasKey . "name" -}}
-{{-   $name = .name -}}
-{{- /* Otherwise, if running interactively, prompts for a name */ -}}
-{{- else if $interactive -}}
-{{-   $name = promptString "name" $name -}}
-{{- end -}}
+[data]
+    interactive = {{ $ci }}
+{{- if $ci }}
+    name = "Ghaith Hachem"
+    email = "git@mail.hachem.at"
+{{- else }}
+    name = {{ promptString "Name" | quote }}
+    email = {{ promptString "Email" | quote }}
+{{- end }}
 
-{{- /* Does the same for the email */ -}}
-{{- $email := "git@mail.hachem.at" -}}
-{{- if hasKey . "email" -}}
-{{-   $email = .email -}}
-{{- else if $interactive -}}
-{{-   $email = promptString "email" $email -}}
-{{- end -}}
-
-{{- if $interactive -}}
-{{-   writeToStdout "💡 Tip: you can re-enter your name and email with `chezmoi init --data=false`.\n" -}}
-{{- end -}}
-
-sourceDir: {{ .chezmoi.sourceDir | quote }}
-
-data:
-  name: {{ $name | quote }}
-  email: {{ $email | quote }}
