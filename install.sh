@@ -189,16 +189,7 @@ function install_packages() {
     return
   fi
 
-  # Ask the user for confirmation and exit if they decline, only do this if run in interactive mode
-  if [[ -t 0 ]]; then
-    echo "The script is not interactive, install applications without confirmation"
-  else 
-   read -p "Do you want to install the packages? (Y/n): " confirm
-    if [[ "$confirm" =~ ^[Nn]$ ]]; then
-      echo "Installation aborted."
-      exit 1
-    fi
-  fi
+  echo "Installing missing packages..."
 
   # Detect OS and call the appropriate function
   if [[ -f /etc/arch-release ]]; then
