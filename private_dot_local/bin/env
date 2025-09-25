@@ -21,6 +21,17 @@ if [ -d "$HOME/.cargo/bin" ] ; then
     esac
 fi
 
+# Add snap
+if [ -d "/snap/bin" ] ; then
+    case ":${PATH}:" in
+        *:"/snap/bin":*)
+            ;;
+        *)
+            export PATH="/snap/bin:$PATH"
+            ;;
+    esac
+fi
+
 # If you have a custom bin directory, add it to the PATH
 if [ -d "$HOME/.local/usr/bin" ] ; then
     case ":${PATH}:" in
