@@ -44,7 +44,7 @@ if [ -d "$HOME/.local/usr/bin" ] ; then
 fi
 
 # If you have a go bin directory, add it to the PATH
-if [ -d "/usr/local/local/go/bin" ] ; then
+if [ -d "/usr/local/go/bin" ] ; then
     case ":${PATH}:" in
         *:"/usr/local/go/bin":*)
             ;;

@@ -13,20 +13,14 @@ function install_ubuntu() {
 
   sudo apt-get update
   sudo apt-get install -y software-properties-common
-  sudo add-apt-repository ppa:neovim-ppa/stable
   sudo apt-get update 
-  sudo apt-get install neovim
   sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta
 
-  # Install helix
-  sudo add-apt-repository ppa:maveonair/helix-editor
-  sudo apt update
-  sudo apt install helix
-  
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes
  
   install_golang
+  install_neovim
   install_eza_apt
   install_atuin
   install_nerd_fonts
@@ -209,8 +203,11 @@ function install_packages() {
 
   # Checkout additional repositories
   # Clone the fuzzel repository into catppuccin-fuzzel directory in home directory
-  git clone https://github.com/catppuccin/fuzzel.git "$HOME/catppuccin-fuzzel"
-
+  if [ -d "$HOME/catppuccin-fuzzel"]; then 
+    echo "Catppuccin already installed"
+  else 
+    git clone https://github.com/catppuccin/fuzzel.git "$HOME/catppuccin-fuzzel"
+  fi
 }
 
 # Function to configure the shell to use zsh
