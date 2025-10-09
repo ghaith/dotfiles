@@ -158,7 +158,13 @@ install_windows() {
 function run() {
   install_packages
   configure_shell
+  configure_npm
   install_chezmoi
+}
+
+function configure_npm() {
+  mkdir -p $HOME/.local/npm/bin
+  npm config set prefix $HOME/.local/npm
 }
 
 

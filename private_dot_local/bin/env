@@ -21,6 +21,17 @@ if [ -d "$HOME/.cargo/bin" ] ; then
     esac
 fi
 
+# Add npm's bin directory to the PATH if it exists
+if [ -d "$HOME/.local/npm/bin" ] ; then
+    case ":${PATH}:" in
+        *:"$HOME/.local/npm/bin":*)
+            ;;
+        *)
+            export PATH="$HOME/.local/npm/bin:$PATH"
+            ;;
+    esac
+fi
+
 # Add snap
 if [ -d "/snap/bin" ] ; then
     case ":${PATH}:" in

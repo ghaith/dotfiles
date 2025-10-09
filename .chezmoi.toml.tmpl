@@ -4,7 +4,7 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
     interactive = {{ $ci }}
-{{- if $ci }}
+{{- if not $ci }}
     name = "Ghaith Hachem"
     email = "git@mail.hachem.at"
 {{- else }}
