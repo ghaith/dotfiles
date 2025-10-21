@@ -6,6 +6,7 @@ set -eu
 # Function to install packages on Arch Linux
 install_arch() {
   sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang
+  install_rust
 }
 
 # Function to install packages on Ubuntu/Pop!_OS
@@ -25,6 +26,7 @@ function install_ubuntu() {
   install_atuin
   install_nerd_fonts
   install_node
+  install_rust
 }
 
 function install_debian() {
@@ -39,6 +41,7 @@ function install_debian() {
   install_neovim
   install_nerd_fonts
   install_node
+  install_rust
 }
 
 function install_golang() {
@@ -227,24 +230,53 @@ fi
 
 function install_nerd_fonts() {
    # Path to check if the font is installed
-   font_path="$HOME/.local/share/fonts/NerdFonts"
+   font_path="$HOME/.local/share/fonts"
 
-  # Check if the font is already installed
-  if [ -d "$font_path" ]; then
-    echo "Nerd fonts are already installed."
-    return
-  fi
+   # Download FiraCode, Iosevka, Hack Nerd, JetBrains Mono if they do no exist
+   # FiraCode
+    if [ ! -f "${font_path}/FiraCodeNerdFont-Regular.ttf" ]; then
+      mkdir -p "${font_path}"
+      wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/FiraCode.tar.xz -O /tmp/FiraCode.tar.xz
+      tar -xf /tmp/FiraCode.tar.xz -C "${font_path}"
+      rm /tmp/FiraCode.tar.xz
+    fi
+    if [ ! -f "${font_path}/IosevkaNerdFont-Regular.ttf" ]; then
+      mkdir -p "${font_path}"
+      wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Iosevka.tar.xz -O /tmp/Iosevka.tar.xz
+      tar -xf /tmp/Iosevka.tar.xz -C "${font_path}"
+      rm /tmp/Iosevka.tar.xz
+    fi
+    if [ ! -f "${font_path}/HackNerdFont-Regular.ttf" ]; then
+      mkdir -p "${font_path}"
+      wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/Hack.tar.xz -O /tmp/Hack.tar.xz
+      tar -xf /tmp/Hack.tar.xz -C "${font_path}"
+      rm /tmp/Hack.tar.xz
+    fi
+    if [ ! -f "${font_path}/JetBrainsMonoNerdFont-Regular.ttf" ]; then
+      mkdir -p "${font_path}"
+      wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/JetBrainsMono.tar.xz -O /tmp/JetBrainsMono.tar.xz
+      tar -xf /tmp/JetBrainsMono.tar.xz -C "${font_path}"
+      rm /tmp/JetBrainsMono.tar.xz
+    fi
 
-  # Install nerd-fonts manually
-  git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
-  cd nerd-fonts
-  ./install.sh
-  cd ..
-  rm -rf nerd-fonts
 }
 
 function install_atuin() {
   curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+}
+
+function install_rust() {
+  if command -v rustc &> /dev/null; then
+    echo "Rust is already installed."
+    return
+  fi
+
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+  # Add Rust to PATH for the current session
+  export PATH="$HOME/.cargo/bin:$PATH"
+
+  echo "Rust installed successfully."
 }
 
 # Start the installation process

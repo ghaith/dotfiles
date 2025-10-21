@@ -12,6 +12,7 @@
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  'elkowar/yuck.vim', -- Yuck filetype support
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -49,6 +50,7 @@ require('lazy').setup({
   require 'ghaith.plugins.terminal',
   require 'ghaith.plugins.chezmoi',
   require 'ghaith.plugins.gonvim',
+  require 'ghaith.plugins.parinfer',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
