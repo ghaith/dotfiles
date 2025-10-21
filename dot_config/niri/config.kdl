@@ -6,7 +6,6 @@
 // Environment variables can be set here.
 environment {
     ELECTRON_OZONE_PLATFORM_HINT "auto"
-    DISPLAY ":0"
 }
 
 // Input device configuration.
@@ -14,16 +13,6 @@ environment {
 // https://github.com/YaLTeR/niri/wiki/Configuration:-Input
 input {
     keyboard {
-        xkb {
-            // You can set rules, model, layout, variant and options.
-            // For more information, see xkeyboard-config(7).
-
-            // For example:
-            // layout "us,ru"
-            // options "grp:win_space_toggle,compose:ralt,ctrl:nocaps"
-            layout "eu"
-        }
-
         // Enable numlock on startup, omitting this setting disables it.
         numlock
     }
@@ -259,13 +248,6 @@ layout {
     }
 }
 
-// Add lines like this to spawn processes at startup.
-// Note that running niri as a session supports xdg-desktop-autostart,
-// which may be more convenient to use.
-// See the binds section below for more spawn examples.
-// Make sure the xwayland sattelite is running
-spawn-at-startup "xwayland-satellite"
-
 // Make sure the nm applet is loaded
 spawn-at-startup "nm-applet"
 
@@ -357,8 +339,9 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return hotkey-overlay-title="Open a Terminal: ghostty" { spawn "ghostty"; }
+    Mod+Return hotkey-overlay-title="Open a Terminal: wezterm" { spawn "wezterm"; }
     Mod+Shift+Return hotkey-overlay-title="Open a Browser: zen" { spawn "flatpak" "run" "app.zen_browser.zen"; }
+    Mod+Ctrl+Return hotkey-overlay-title="Open a Browser: helium" { spawn "helium-browser"; }
     Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "$HOME/.local/scripts/lock.sh"; }
     Mod+Shift+P hotkey-overlay-title="Displays" {spawn "wdisplays";}

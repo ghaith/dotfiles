@@ -3,9 +3,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
 
-export LANG=en_US.utf-8
-export LC_ALL=en_US.utf-8
-
 # Download Znap, if it's not there yet.
 [[ -f ~/.local/git/zsh-snap/znap.zsh ]] ||
     git clone --depth 1 -- \
