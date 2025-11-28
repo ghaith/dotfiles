@@ -1,10 +1,10 @@
 return {
   'zbirenbaum/copilot.lua',
-  require = {
+  dependencies = {
     'copilotlsp-nvim/copilot-lsp',
     init = function()
       vim.g.copilot_nes_debounce = 500
-      require('copilot_lsp').setup {
+      require('copilot-lsp').setup {
         server_opts_overrides = {
           settings = {
             advanced = {
