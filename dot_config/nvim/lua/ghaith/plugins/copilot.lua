@@ -1,27 +1,43 @@
 return {
-  'github/copilot.vim',
+  'zbirenbaum/copilot.lua',
+  require = {
+    'copilotlsp-nvim/copilot-lsp',
+    init = function()
+      vim.g.copilot_nes_debounce = 500
+      require('copilot_lsp').setup {
+        server_opts_overrides = {
+          settings = {
+            advanced = {
+              inlineSuggestCount = 3,
+            },
+          },
+        },
+      }
+    end,
+  },
+  cmd = 'Copilot',
+  event = 'InsertEnter',
   config = function()
-    -- Disable default ghost text (since we're using cmp integration)
-    -- vim.g.copilot_no_tab_map = true
-    -- vim.g.copilot_assume_mapped = true
-    --
-    -- -- Optional: Disable Copilot by default, enable on-demand
-    -- -- vim.g.copilot_enabled = false
-    --
-    -- -- Keymaps for manual control
-    -- vim.keymap.set('n', '<leader>ce', '<cmd>Copilot enable<CR>', { desc = 'Enable Copilot' })
-    -- vim.keymap.set('n', '<leader>cd', '<cmd>Copilot disable<CR>', { desc = 'Disable Copilot' })
-    -- vim.keymap.set('n', '<leader>cs', '<cmd>Copilot status<CR>', { desc = 'Copilot Status' })
-    --
-    -- -- Toggle Copilot on/off
-    -- vim.keymap.set('n', '<leader>ct', function()
-    --   if vim.g.copilot_enabled == false then
-    --     vim.cmd('Copilot enable')
-    --     print('Copilot enabled')
-    --   else
-    --     vim.cmd('Copilot disable')
-    --     print('Copilot disabled')
-    --   end
-    -- end, { desc = 'Toggle Copilot' })
+    require('copilot').setup {
+      suggession = {
+        keymap = {
+          accept = '<leader>ca',
+          accept_word = false,
+          accept_line = false,
+          next = '<leader>cn',
+          prev = '<leader>cp',
+          dismiss = '<leader>cx',
+        },
+      },
+      nes = {
+        enabled = true, -- requires copilot-lsp as a dependency
+        auto_trigger = true,
+        keymap = {
+          accept_and_goto = '<leader>cg',
+          accept = '<leader>cna',
+          dismiss = '<ledaer>cnx',
+        },
+      },
+    }
   end,
 }
