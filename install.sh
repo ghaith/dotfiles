@@ -141,11 +141,19 @@ function install_eza_apt() {
   sudo apt install -y eza
 }
 
+install_eza() {
+  curl -L https://github.com/eza-community/eza/releases/download/v0.23.4/eza_x86_64-unknown-linux-gnu.tar.gz --output /tmp/eza.tar.gz \
+  && tar xvzf /tmp/eza.tar.gz --directory $HOME/.local/bin/
+}
+
 # Function to install packages on Fedora
 install_fedora() {
-  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat eza helix zoxide ripgrep fzf
+  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat zoxide ripgrep fzf
   install_atuin
   install_nerd_fonts
+  install_eza
+  # Install starship
+  curl -sS https://starship.rs/install.sh | sh -s -- --yes
 }
 
 # Function to install packages on Windows using winget
