@@ -229,6 +229,7 @@ return {
         'copilot-language-server',
         'marksman',
         'markdownlint',
+        'tree-sitter-cli',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

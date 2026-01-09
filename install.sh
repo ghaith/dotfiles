@@ -5,7 +5,7 @@ set -eu
 
 # Function to install packages on Arch Linux
 install_arch() {
-  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang
+  sudo pacman -Syu --noconfirm chezmoi git neovim curl bat eza starship zsh helix zellij alacritty python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel golang fd
   install_rust
 }
 
@@ -15,7 +15,7 @@ function install_ubuntu() {
   sudo apt-get update
   sudo apt-get install -y software-properties-common
   sudo apt-get update 
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf git-delta fd-find
 
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes
@@ -31,7 +31,7 @@ function install_ubuntu() {
 
 function install_debian() {
   sudo apt-get update
-  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf
+  sudo apt-get install -y git curl build-essential bat zsh ripgrep fzf fd-find
 
   # Install starship
   curl -sS https://starship.rs/install.sh | sh -s -- --yes
@@ -148,7 +148,7 @@ install_eza() {
 
 # Function to install packages on Fedora
 install_fedora() {
-  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat zoxide ripgrep fzf
+  sudo dnf install -y git neovim python3-neovim curl alacritty zsh bat zoxide ripgrep fzf fd-find
   install_atuin
   install_nerd_fonts
   install_eza
@@ -231,7 +231,7 @@ function install_packages() {
 function configure_shell() {
 if [[ "$OSTYPE" != "msys" && "$OSTYPE" != "cygwin" ]]; then
   if [[ "$SHELL" != *"zsh" ]]; then
-    sudo chsh -s $(which zsh) $USER # Using sudo to insure it works within containers where the password is not set
+    sudo chsh -s $(which zsh) `whoami` # Using sudo to insure it works within containers where the password is not set
   fi
 fi
 }
