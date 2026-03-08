@@ -1,0 +1,14 @@
+#!/bin/bash
+# Merge only chezmoi-managed keys into pi's settings.json.
+# Pi manages: defaultModel, defaultProvider, lastChangelogVersion, etc.
+# Chezmoi manages: theme (and any other stable preferences).
+
+current=$(cat)
+
+if [ -z "$current" ]; then
+    current='{}'
+fi
+
+echo "$current" | jq '
+    .theme = "catppuccin-mocha"
+'
