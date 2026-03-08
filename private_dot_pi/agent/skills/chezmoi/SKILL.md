@@ -62,3 +62,23 @@ Same pattern — create in `~/.pi/agent/skills/` or `~/.pi/agent/prompts/`, then
 ```
 ~/.local/share/chezmoi/private_dot_pi/agent/modify_settings.json
 ```
+
+## Testing install.sh Changes
+
+When modifying `install.sh` (e.g. adding packages), test the relevant package-install commands in Docker on all supported distros. You don't need to run the full script — just verify the package names resolve:
+
+```bash
+# Arch
+docker run --rm archlinux:latest bash -c "pacman -Sy --noconfirm && pacman -S --noconfirm <packages>"
+
+# Ubuntu (latest LTS)
+docker run --rm ubuntu:latest bash -c "apt-get update && apt-get install -y <packages>"
+
+# Debian (stable)
+docker run --rm debian:stable bash -c "apt-get update && apt-get install -y <packages>"
+
+# Fedora
+docker run --rm fedora:latest bash -c "dnf install -y <packages>"
+```
+
+Always test before committing — package names differ across distros (e.g. `fd-find` vs `fd`, `bat` vs `batcat`).
