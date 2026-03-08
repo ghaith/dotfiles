@@ -1,0 +1,10 @@
+#!/bin/sh
+# Smart clipboard paste — tries native providers.
+# OSC 52 paste is not reliably supported, so we return empty as last resort.
+if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste >/dev/null 2>&1; then
+    exec wl-paste --no-newline "$@"
+elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
+    exec xclip -selection clipboard -o "$@"
+elif command -v win32yank.exe >/dev/null 2>&1; then
+    exec win32yank.exe -o --lf
+fi

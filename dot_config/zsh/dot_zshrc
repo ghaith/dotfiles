@@ -31,11 +31,6 @@ znap source lincheney/fzf-tab-completion zsh
 #atuin
 znap source atuinsh/atuin
 
-#Source nvm
-if [ -f /usr/share/nvm/init-nvm.sh ]; then
-	source /usr/share/nvm/init-nvm.sh
-fi
-
 # Source shared shell configuration
 source "$HOME/.local/bin/shell-common"
 

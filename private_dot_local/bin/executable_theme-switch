@@ -1,0 +1,212 @@
+#!/bin/bash
+# Switch all tools between catppuccin mocha (dark) and latte (light).
+#
+# Updates chezmoi SOURCE files, runs chezmoi apply, then live-reloads
+# tools that support it. No conflicts, no drift.
+#
+# Usage: theme-switch [mocha|latte|dark|light]   — set theme
+#        theme-switch                            — toggle current theme
+set -u
+
+THEME_FILE="$HOME/.config/theme"
+CHEZMOI_SRC="$(chezmoi source-path 2>/dev/null || echo "$HOME/.local/share/chezmoi")"
+
+changed=()
+failed=()
+
+# ── Resolve target theme ─────────────────────────────────────────────
+
+current() {
+  if [ -f "$THEME_FILE" ]; then
+    cat "$THEME_FILE"
+  else
+    echo "mocha"
+  fi
+}
+
+if [ $# -ge 1 ]; then
+  case "$1" in
+    mocha|dark)  TARGET="mocha" ;;
+    latte|light) TARGET="latte" ;;
+    *) echo "Usage: theme-switch [mocha|latte|dark|light]"; exit 1 ;;
+  esac
+else
+  if [ "$(current)" = "mocha" ]; then TARGET="latte"; else TARGET="mocha"; fi
+fi
+
+mkdir -p "$(dirname "$THEME_FILE")"
+echo "$TARGET" > "$THEME_FILE"
+
+OTHER=$([ "$TARGET" = "mocha" ] && echo "latte" || echo "mocha")
+TARGET_CAP="$(echo "$TARGET" | sed 's/.*/\u&/')"
+OTHER_CAP="$(echo "$OTHER" | sed 's/.*/\u&/')"
+DELTA_LIGHT=$([ "$TARGET" = "mocha" ] && echo "false" || echo "true")
+
+# ── Helpers ──────────────────────────────────────────────────────────
+
+src() {
+  chezmoi source-path "$1" 2>/dev/null
+}
+
+# Run a component update; on failure record the name and error
+try() {
+  local name="$1"; shift
+  local err
+  if err=$("$@" 2>&1); then
+    changed+=("$name")
+  else
+    failed+=("$name: $err")
+  fi
+}
+
+# ── Component update functions ───────────────────────────────────────
+
+update_bat() {
+  local f; f="$(src "$HOME/.config/bat/config")"
+  [ -f "$f" ] || return 1
+  sed -i "s/^--theme=.*/--theme=\"Catppuccin ${TARGET_CAP}\"/" "$f"
+}
+
+update_kitty() {
+  local current_src conf_src src_dir theme_file
+  current_src="$(src "$HOME/.config/kitty/current-theme.conf")"
+  [ -n "$current_src" ] || return 1
+  src_dir="$(dirname "$current_src")"
+  if [ "$TARGET" = "mocha" ]; then
+    theme_file="$src_dir/dark-theme.auto.conf"
+  else
+    theme_file="$src_dir/light-theme.auto.conf"
+  fi
+  [ -f "$theme_file" ] || { echo "theme file not found: $theme_file"; return 1; }
+  cp "$theme_file" "$current_src"
+  conf_src="$(src "$HOME/.config/kitty/kitty.conf" 2>/dev/null || true)"
+  if [ -n "$conf_src" ] && [ -f "$conf_src" ]; then
+    sed -i "s/^# Catppuccin-.*/# Catppuccin-${TARGET_CAP}/" "$conf_src"
+  fi
+}
+
+update_ghostty() {
+  local f; f="$(src "$HOME/.config/ghostty/config")"
+  [ -f "$f" ] || return 1
+  sed -i \
+    -e "s/^theme = catppuccin-${OTHER}/# theme = catppuccin-${OTHER}/" \
+    -e "s/^# theme = catppuccin-${TARGET}/theme = catppuccin-${TARGET}/" \
+    "$f"
+}
+
+update_wezterm() {
+  local f; f="$(src "$HOME/.config/wezterm/wezterm.lua")"
+  [ -f "$f" ] || return 1
+  sed -i \
+    -e "s/^config\.color_scheme = \"Catppuccin ${OTHER_CAP}\"/-- config.color_scheme = \"Catppuccin ${OTHER_CAP}\"/" \
+    -e "s/^-- config\.color_scheme = \"Catppuccin ${TARGET_CAP}\"/config.color_scheme = \"Catppuccin ${TARGET_CAP}\"/" \
+    "$f"
+}
+
+update_alacritty() {
+  local f; f="$(src "$HOME/.config/alacritty/alacritty.toml")"
+  [ -f "$f" ] || return 1
+  sed -i \
+    -e "s|^  \"~/.config/alacritty/catppuccin-${OTHER}.toml\"|  # \"~/.config/alacritty/catppuccin-${OTHER}.toml\"|" \
+    -e "s|^  # \"~/.config/alacritty/catppuccin-${TARGET}.toml\"|  \"~/.config/alacritty/catppuccin-${TARGET}.toml\"|" \
+    "$f"
+}
+
+update_zellij() {
+  local f; f="$(src "$HOME/.config/zellij/config.kdl")"
+  [ -f "$f" ] || return 1
+  sed -i \
+    -e "s|^theme \"catppuccin-${OTHER}\"|//theme \"catppuccin-${OTHER}\"|" \
+    -e "s|^//theme \"catppuccin-${TARGET}\"|theme \"catppuccin-${TARGET}\"|" \
+    "$f"
+}
+
+update_tmux() {
+  local f; f="$(src "$HOME/.config/tmux/tmux.conf")"
+  [ -f "$f" ] || return 1
+  sed -i "s/@catppuccin_flavor \"${OTHER}\"/@catppuccin_flavor \"${TARGET}\"/" "$f"
+}
+
+update_git_delta() {
+  local f; f="$(src "$HOME/.gitconfig")"
+  [ -f "$f" ] || return 1
+  sed -i "s/^\(\s*\)light = .*/\1light = ${DELTA_LIGHT}/" "$f"
+}
+
+update_pi() {
+  local f="$CHEZMOI_SRC/private_dot_pi/agent/modify_settings.json"
+  [ -f "$f" ] || return 1
+  sed -i "s/\.theme = \"catppuccin-${OTHER}\"/\.theme = \"catppuccin-${TARGET}\"/" "$f"
+}
+
+# ── Update chezmoi source files ──────────────────────────────────────
+
+try bat        update_bat
+try kitty      update_kitty
+try ghostty    update_ghostty
+try wezterm    update_wezterm
+try alacritty  update_alacritty
+try zellij     update_zellij
+try tmux       update_tmux
+try git-delta  update_git_delta
+try pi         update_pi
+
+# ── Apply chezmoi ────────────────────────────────────────────────────
+
+echo "Applying chezmoi..."
+if ! chezmoi apply 2>&1; then
+  failed+=("chezmoi: apply failed")
+fi
+
+# ── Live reloads (post-apply) ────────────────────────────────────────
+
+# Kitty: use unix socket so it works from inside tmux too
+if command -v kitten &>/dev/null && [ -f "$HOME/.config/kitty/current-theme.conf" ]; then
+  kitty_ok=false
+  for sock in /tmp/kitty-*; do
+    if [ -S "$sock" ]; then
+      if kitten @ --to "unix:$sock" set-colors --all "$HOME/.config/kitty/current-theme.conf" 2>&1; then
+        kitty_ok=true
+      fi
+    fi
+  done
+  if ! $kitty_ok; then
+    failed+=("kitty-reload: no kitty socket found (restart kitty to enable listen_on)")
+  fi
+fi
+
+# tmux: unset theme colors (catppuccin uses set -o, "only if not set"),
+# then set new flavor and re-source config.
+if command -v tmux &>/dev/null && tmux list-sessions &>/dev/null 2>&1; then
+  local_fail=""
+  while IFS= read -r var; do
+    tmux set -gu "$var" 2>/dev/null
+  done < <(tmux show -g 2>/dev/null | grep '^@thm_' | cut -d' ' -f1)
+  tmux set -g @catppuccin_flavor "$TARGET" 2>/dev/null || local_fail="set flavor"
+  if ! tmux source-file ~/.config/tmux/tmux.conf 2>&1; then
+    local_fail="${local_fail:+$local_fail, }source-file"
+  fi
+  if [ -n "$local_fail" ]; then
+    failed+=("tmux-reload: $local_fail")
+  fi
+fi
+
+# ── Summary ──────────────────────────────────────────────────────────
+
+echo ""
+echo "Theme: $TARGET ($([ "$TARGET" = "mocha" ] && echo "dark" || echo "light"))"
+
+if [ ${#changed[@]} -gt 0 ]; then
+  echo "  ✓ ${changed[*]}"
+fi
+
+if [ ${#failed[@]} -gt 0 ]; then
+  echo ""
+  echo "Failures:"
+  for f in "${failed[@]}"; do
+    echo "  ✗ $f"
+  done
+fi
+
+echo ""
+echo "Restart needed: nvim, zellij"

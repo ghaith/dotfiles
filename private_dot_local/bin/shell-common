@@ -4,8 +4,20 @@
 # TREE_IGNORE variable
 export TREE_IGNORE="cache|log|logs|node_modules|vendor"
 
+# Default editor — prefer nvim > vim > vi
+if command -v nvim > /dev/null; then
+    export EDITOR="nvim"
+elif command -v vim > /dev/null; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
+export VISUAL="$EDITOR"
+
 # Common aliases
 alias vim='nvim'
+alias dark='theme-switch mocha'
+alias light='theme-switch latte'
 alias ls=' eza --group-directories-first'
 alias la=' ls -a'
 alias ll=' ls --git -l'
@@ -24,6 +36,14 @@ fi
 # Atuin setup
 if [ -f "$HOME/.atuin/bin/env" ]; then
     source "$HOME/.atuin/bin/env"
+fi
+
+# fnm (node version manager)
+if [ -d "$HOME/.local/share/fnm" ]; then
+    export PATH="$HOME/.local/share/fnm:$PATH"
+fi
+if command -v fnm > /dev/null; then
+    eval "$(fnm env)"
 fi
 
 # Environment

@@ -45,16 +45,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- Shortcuts to yank and paste from clipboard
-vim.keymap.set('n', '<leader>y', '"+y', { desc = 'Yank to clipboard' })
-vim.keymap.set('v', '<leader>y', '"+y', { desc = 'Yank to clipboard' })
-vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste to clipboard' })
-vim.keymap.set('v', '<leader>p', '"+p', { desc = 'Paste to clipboard' })
-vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Yank to end to clipboard' })
-vim.keymap.set('n', '<leader>P', '"+P', { desc = 'Paste before to clipboard' })
--- Delete without copying to clipboard
-vim.keymap.set('n', '<leader>d', '"_d', { desc = 'Delete without copying to clipboard' })
-vim.keymap.set('v', '<leader>d', '"_d', { desc = 'Delete without copying to clipboard' })
+-- Shortcuts to yank and paste from system clipboard
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Yank to clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Yank line to clipboard' })
+vim.keymap.set('n', '<leader>p', '"+p', { desc = 'Paste from clipboard' })
+vim.keymap.set('n', '<leader>P', '"+P', { desc = 'Paste before from clipboard' })
+-- Visual paste: replace selection without clobbering clipboard
+vim.keymap.set('v', '<leader>p', '"_d"+P', { desc = 'Paste from clipboard (replace selection)' })
+-- Delete without copying
+vim.keymap.set({ 'n', 'v' }, '<leader>d', '"_d', { desc = 'Delete without copying' })
 
 -- Tab controls
 vim.keymap.set('n', '<leader>tn', '<cmd>tabnew<CR>', { desc = 'New tab' })

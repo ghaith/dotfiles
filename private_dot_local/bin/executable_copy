@@ -1,0 +1,13 @@
+#!/bin/sh
+# Smart clipboard copy — tries native providers, falls back to OSC 52.
+# Works on Wayland, X11, WSL, and over SSH/containers via OSC 52.
+if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy >/dev/null 2>&1; then
+    exec wl-copy "$@"
+elif [ -n "$DISPLAY" ] && command -v xclip >/dev/null 2>&1; then
+    exec xclip -selection clipboard "$@"
+elif command -v win32yank.exe >/dev/null 2>&1; then
+    exec win32yank.exe -i --crlf
+else
+    # OSC 52 fallback (dev containers, SSH, etc.)
+    printf '\033]52;c;%s\a' "$(base64 | tr -d '\n')"
+fi
