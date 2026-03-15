@@ -26,6 +26,96 @@ alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
 alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
 alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
 
+# SSH agent and askpass helpers
+__shell_common_setup_ssh_socket() {
+    local candidate uid found
+
+    if [ -n "${SSH_AUTH_SOCK:-}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
+        return
+    fi
+
+    local -a candidates=()
+
+    if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
+        candidates+=("${XDG_RUNTIME_DIR}/ssh-agent.socket")
+    fi
+
+    uid="$(id -u 2>/dev/null)"
+    if [ -n "$uid" ]; then
+        candidates+=("/run/user/${uid}/ssh-agent.socket")
+    fi
+
+    candidates+=("$HOME/.ssh/ssh-agent.socket")
+
+    if command -v find > /dev/null 2>&1; then
+        found="$(find /tmp -maxdepth 1 -type s -name 'vscode-ssh-auth-*' -print 2>/dev/null | head -n 1)"
+        if [ -n "$found" ]; then
+            candidates+=("$found")
+        fi
+
+        found="$(find /tmp -maxdepth 2 -type s -path '/tmp/ssh-*/agent.*' -print 2>/dev/null | head -n 1)"
+        if [ -n "$found" ]; then
+            candidates+=("$found")
+        fi
+    fi
+
+    for candidate in "${candidates[@]}"; do
+        if [ -n "$candidate" ] && [ -S "$candidate" ]; then
+            export SSH_AUTH_SOCK="$candidate"
+            return
+        fi
+    done
+}
+__shell_common_setup_ssh_socket
+
+__shell_common_setup_ssh_askpass() {
+    local candidate resolved=""
+
+    if [ -n "${SSH_ASKPASS:-}" ] && [ -x "${SSH_ASKPASS}" ]; then
+        if [ -z "${SSH_ASKPASS_REQUIRE:-}" ]; then
+            export SSH_ASKPASS_REQUIRE=prefer
+        fi
+        return
+    fi
+
+    local -a askpass_candidates=(
+        ksshaskpass
+        ssh-askpass
+        gnome-ssh-askpass
+        qt5-ssh-askpass
+        x11-ssh-askpass
+        lxqt-openssh-askpass
+    )
+
+    for candidate in "${askpass_candidates[@]}"; do
+        if command -v "$candidate" > /dev/null 2>&1; then
+            resolved="$(command -v "$candidate" 2>/dev/null)"
+            break
+        fi
+    done
+
+    if [ -z "$resolved" ]; then
+        local -a askpass_paths=(
+            /usr/libexec/seahorse/ssh-askpass
+            /usr/lib/seahorse/ssh-askpass
+            /usr/lib/ssh/ssh-askpass
+        )
+
+        for candidate in "${askpass_paths[@]}"; do
+            if [ -x "$candidate" ]; then
+                resolved="$candidate"
+                break
+            fi
+        done
+    fi
+
+    if [ -n "$resolved" ]; then
+        export SSH_ASKPASS="$resolved"
+        export SSH_ASKPASS_REQUIRE=prefer
+    fi
+}
+__shell_common_setup_ssh_askpass
+
 # Source cargo env
 if [ -f "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
