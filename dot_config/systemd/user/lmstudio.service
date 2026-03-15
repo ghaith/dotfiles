@@ -1,0 +1,11 @@
+[Unit]
+Description=LM Studio Server
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -lc 'lms daemon up && lms server start --bind 0.0.0.0 --port 1234'
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
