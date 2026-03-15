@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/bin/bash -lc 'lms daemon up && lms server start --bind 0.0.0.0 --port 1234'
+ExecStart=/bin/bash -lc 'lms daemon up && lms server start --bind 127.0.0.1 --port 1234'
 ExecStop=/bin/bash -lc 'lms server stop && lms daemon down'
 Restart=on-failure
 RestartSec=10

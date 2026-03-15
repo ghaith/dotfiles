@@ -1,0 +1,13 @@
+[Unit]
+Description=ComfyUI Image Generation Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/shared/ComfyUI
+ExecStart=/shared/comfyui-venv/bin/python main.py --listen 127.0.0.1 --port 8188
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
