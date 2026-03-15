@@ -191,6 +191,11 @@ if command -v atuin > /dev/null; then
         eval "$(atuin init bash)"
     fi
 fi
+#
+# Podman as Docker-compatible backend (only if Docker isn't installed)
+if command -v podman &> /dev/null && ! command -v docker &> /dev/null; then
+    export DOCKER_HOST="unix://${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/podman/podman.sock"
+fi
 
 # Load .env function (zsh-specific, but harmless in bash)
 if [ -n "$ZSH_VERSION" ]; then

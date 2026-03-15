@@ -4,5 +4,3 @@ export ZDOTDIR=~/.config/zsh
 export EDITOR=nvim
 export VISUAL=nvim
 export XDG_CONFIG_HOME="$HOME/.config"
-# export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
-# SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
