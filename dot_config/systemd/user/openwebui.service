@@ -1,0 +1,14 @@
+[Unit]
+Description=Open WebUI Chat Interface
+After=network.target lmstudio.service comfyui.service
+
+[Service]
+Type=simple
+Environment=OPENAI_API_BASE_URL=http://localhost:1234/v1
+Environment=OPENAI_API_KEY=lm-studio
+ExecStart=/shared/openwebui-venv/bin/open-webui serve --host 0.0.0.0 --port 3000
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=default.target
