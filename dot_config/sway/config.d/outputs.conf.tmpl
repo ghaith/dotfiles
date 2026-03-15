@@ -1,0 +1,9 @@
+{{ if eq .chezmoi.hostname "urithiru" -}}
+# ── Urithiru: LG 4K TV over HDMI 2.1 ──
+output HDMI-A-1 {
+    mode 3840x2160@120Hz
+    adaptive_sync on
+    scale 1.5
+}
+{{ end -}}
+

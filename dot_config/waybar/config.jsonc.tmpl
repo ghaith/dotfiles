@@ -1,0 +1,94 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 36,
+    "spacing": 8,
+
+    "modules-left": [
+        "sway/workspaces",
+        "sway/mode"
+    ],
+    "modules-center": [
+        "sway/window"
+    ],
+    "modules-right": [
+{{ if eq .chezmoi.hostname "urithiru" -}}
+        "custom/gpu",
+{{ end -}}
+        "cpu",
+        "memory",
+        "temperature",
+        "network",
+        "pulseaudio",
+        "clock",
+        "tray"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": true,
+        "format": "{name}"
+    },
+
+    "sway/mode": {
+        "format": " {} "
+    },
+
+    "sway/window": {
+        "max-length": 60
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %d %b %Y  %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>"
+    },
+
+    "cpu": {
+        "format": "CPU {usage}%",
+        "interval": 3,
+        "tooltip": true
+    },
+
+    "memory": {
+        "format": "RAM {percentage}%",
+        "interval": 5,
+        "tooltip-format": "{used:0.1f} / {total:0.1f} GiB"
+    },
+
+    "temperature": {
+        "hwmon-path-abs": "/sys/class/hwmon",
+        "input-filename": "temp1_input",
+        "critical-threshold": 85,
+        "format": "{temperatureC}°C",
+        "format-critical": "{temperatureC}°C!"
+    },
+
+    "network": {
+        "format-ethernet": "ETH {ipaddr}",
+        "format-wifi": "WiFi {signalStrength}%",
+        "format-disconnected": "Offline",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}\n{bandwidthUpBits} up / {bandwidthDownBits} down"
+    },
+
+    "pulseaudio": {
+        "format": "Vol {volume}%",
+        "format-muted": "Muted",
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-click-right": "pavucontrol"
+    },
+
+{{ if eq .chezmoi.hostname "urithiru" -}}
+    "custom/gpu": {
+        "exec": "cat /sys/class/drm/card1/device/gpu_busy_percent 2>/dev/null || echo 'N/A'",
+        "format": "GPU {}%",
+        "interval": 3,
+        "tooltip": false
+    },
+{{ end -}}
+
+    "tray": {
+        "spacing": 8
+    }
+}
+
