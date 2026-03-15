@@ -7,13 +7,24 @@ NERD_FONTS_VERSION="3.4.0"
 GO_VERSION="1.25.1"
 NERD_FONTS=(FiraCode Iosevka Hack JetBrainsMono)
 
+DEFAULT_CHEZMOI_SOURCE="https://github.com/ghaith/dotfiles.git"
+CHEZMOI_SOURCE_OVERRIDE="${CHEZMOI_SOURCE:-}"
+SKIP_CHEZMOI_INIT=0
+
+log() {
+  printf '[install.sh] %s\n' "$*"
+}
+
+HOSTNAME_VALUE="$(hostname 2>/dev/null || echo unknown-host)"
+log "starting install.sh (SHELL=${SHELL:-<unset>} USER=$(whoami) HOST=${HOSTNAME_VALUE})"
+
 # ── Distro installers ────────────────────────────────────────────────
 
 install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
-    go fd fontconfig fnm wl-clipboard xclip
+    go fd fontconfig fnm wl-clipboard xclip jq
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   install_node_lts
@@ -26,7 +37,7 @@ install_ubuntu() {
   sudo apt-get update
   sudo apt-get install -y \
     git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat git-delta xz-utils unzip wl-clipboard xclip
+    bat git-delta xz-utils unzip wl-clipboard xclip jq
 
   # bat installs as batcat on Ubuntu — symlink to expected name
   symlink_batcat
@@ -46,7 +57,7 @@ install_debian() {
   sudo apt-get update
   sudo apt-get install -y \
     git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat xz-utils unzip wl-clipboard xclip
+    bat xz-utils unzip wl-clipboard xclip jq
 
   # bat installs as batcat on Debian — symlink to expected name
   symlink_batcat
@@ -68,7 +79,7 @@ install_debian() {
 install_fedora() {
   sudo dnf install -y \
     git neovim python3-neovim curl zsh bat ripgrep fzf fd-find \
-    git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip
+    git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq
 
   install_starship
   install_golang
@@ -179,7 +190,7 @@ install_fnm() {
 
 install_node_lts() {
   # Install Node LTS and set as default (requires fnm to be on PATH)
-  eval "$(fnm env --shell bash)"
+  eval "$(fnm env --shell bash --use-on-cd)"
   fnm install --lts
   fnm default lts-latest
 }
@@ -188,7 +199,7 @@ install_pi() {
   command -v pi &>/dev/null && return
   # Ensure fnm/node is available in this shell
   if command -v fnm &>/dev/null; then
-    eval "$(fnm env --shell bash)"
+    eval "$(fnm env --shell bash --use-on-cd)"
   fi
   npm install -g @mariozechner/pi-coding-agent
 }
@@ -241,20 +252,80 @@ install_nerd_fonts() {
 
 configure_shell() {
   [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]] && return
-  if [[ "$SHELL" != *"zsh" ]]; then
-    sudo chsh -s "$(which zsh)" "$(whoami)"
+
+  log "configure_shell: current SHELL=${SHELL:-<unset>}"
+
+  # Already using zsh? Nothing to do.
+  if [[ "${SHELL:-}" == *"zsh" ]]; then
+    log "configure_shell: already using zsh; skipping"
+    return
+  fi
+
+  local desired_shell
+  desired_shell="$(command -v zsh 2>/dev/null || true)"
+  if [ -z "$desired_shell" ]; then
+    log "configure_shell: zsh not found on PATH; skipping"
+    return
+  fi
+
+  local have_tty=0
+  if [ -t 0 ] && [ -t 1 ]; then
+    have_tty=1
+  fi
+  log "configure_shell: have_tty=$have_tty"
+
+  if command -v sudo >/dev/null 2>&1; then
+    if [ "$have_tty" -eq 1 ]; then
+      if sudo chsh -s "$desired_shell" "$(whoami)"; then
+        log "configure_shell: changed shell via sudo chsh"
+      else
+        log "configure_shell: failed to change shell via sudo (interactive); skipping"
+      fi
+    elif sudo -n true 2>/dev/null; then
+      if sudo chsh -s "$desired_shell" "$(whoami)"; then
+        log "configure_shell: changed shell via sudo (non-interactive)"
+      else
+        log "configure_shell: failed to change shell via sudo (non-interactive); skipping"
+      fi
+    else
+      log "configure_shell: skipping shell change (sudo requires interactive password)"
+    fi
+  else
+    if [ "$have_tty" -eq 1 ]; then
+      if chsh -s "$desired_shell" "$(whoami)"; then
+        log "configure_shell: changed shell via chsh"
+      else
+        log "configure_shell: failed to change shell via chsh; skipping"
+      fi
+    else
+      log "configure_shell: skipping shell change (no sudo and not running in a TTY)"
+    fi
   fi
 }
 
 configure_npm() {
-  command -v npm &>/dev/null || return
+  log "configure_npm: start"
+  if ! command -v npm >/dev/null 2>&1; then
+    log "configure_npm: npm not found; skipping"
+    return 0
+  fi
+
   mkdir -p "$HOME/.local/npm/bin"
-  npm config set prefix "$HOME/.local/npm"
+  log "configure_npm: setting npm prefix to $HOME/.local/npm"
+  if npm config set prefix "$HOME/.local/npm"; then
+    log "configure_npm: npm prefix configured"
+  else
+    local status=$?
+    log "configure_npm: npm config set failed with status $status"
+    return $status
+  fi
 }
 
 # ── Chezmoi bootstrap ────────────────────────────────────────────────
 
 install_chezmoi() {
+  [ "$SKIP_CHEZMOI_INIT" -eq 1 ] && return
+
   local chezmoi
   if ! chezmoi="$(command -v chezmoi)"; then
     local bin_dir="$HOME/.local/bin"
@@ -264,18 +335,39 @@ install_chezmoi() {
     curl -fsSL https://chezmoi.io/get | sh -s -- -b "$bin_dir"
   fi
 
-  # POSIX way to get script's dir: https://stackoverflow.com/a/29834779/12156188
-  local script_dir
-  script_dir="$(cd -P -- "$(dirname -- "$(command -v -- "$0")")" && pwd -P)"
+  # Resolve this script's real directory reliably (works with `bash install.sh` too)
+  local script_path script_dir chezmoi_source
+  script_path="${BASH_SOURCE[0]:-$0}"
+  script_dir="$(cd -P -- "$(dirname -- "$script_path")" && pwd -P)"
 
-  echo "Running 'chezmoi init --apply --source=$script_dir'"
-  exec "$chezmoi" init --apply --source="$script_dir"
+  # Source selection:
+  # 1) explicit --source / $CHEZMOI_SOURCE override
+  # 2) local dotfiles dir if this script lives inside it
+  # 3) default remote repository (for curl bootstrap)
+  if [ -n "$CHEZMOI_SOURCE_OVERRIDE" ]; then
+    chezmoi_source="$CHEZMOI_SOURCE_OVERRIDE"
+  elif [ -f "$script_dir/.chezmoi.toml.tmpl" ]; then
+    chezmoi_source="$script_dir"
+  else
+    chezmoi_source="$DEFAULT_CHEZMOI_SOURCE"
+  fi
+
+  # Prevent the run_once bootstrap script from re-running setup in this same flow.
+  export DOTFILES_BOOTSTRAPPED=1
+
+  if [ -d "$chezmoi_source" ]; then
+    echo "Running 'chezmoi init --apply --source=$chezmoi_source'"
+    exec "$chezmoi" init --apply --source="$chezmoi_source"
+  else
+    echo "Running 'chezmoi init --apply $chezmoi_source'"
+    exec "$chezmoi" init --apply "$chezmoi_source"
+  fi
 }
 
 # ── Package detection ────────────────────────────────────────────────
 
 install_packages() {
-  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin)
+  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin jq)
   local all_installed=true
 
   for pkg in "${packages[@]}"; do
@@ -316,11 +408,51 @@ install_packages() {
 
 # ── Main ─────────────────────────────────────────────────────────────
 
-run() {
-  install_packages
-  configure_shell
-  configure_npm
-  install_chezmoi
+parse_args() {
+  log "parse_args called with: $*"
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --from-chezmoi|--skip-chezmoi-init)
+        SKIP_CHEZMOI_INIT=1
+        log "flag set: SKIP_CHEZMOI_INIT=1"
+        ;;
+      --source=*)
+        CHEZMOI_SOURCE_OVERRIDE="${1#*=}"
+        log "flag set: CHEZMOI_SOURCE_OVERRIDE=$CHEZMOI_SOURCE_OVERRIDE"
+        ;;
+      --source)
+        shift
+        CHEZMOI_SOURCE_OVERRIDE="${1:-}"
+        log "flag set: CHEZMOI_SOURCE_OVERRIDE=$CHEZMOI_SOURCE_OVERRIDE"
+        ;;
+      --help|-h)
+        cat <<'EOF'
+Usage: install.sh [options]
+  --from-chezmoi        Run bootstrap tasks without calling `chezmoi init`
+  --source <path|repo>  Override chezmoi source (local path or remote repo URL)
+EOF
+        exit 0
+        ;;
+      *)
+        echo "Unknown option: $1" >&2
+        exit 1
+        ;;
+    esac
+    shift
+  done
 }
 
+run() {
+  log "run(): starting bootstrap sequence"
+  install_packages
+  log "run(): finished install_packages"
+  configure_shell
+  log "run(): finished configure_shell"
+  configure_npm
+  log "run(): finished configure_npm"
+  install_chezmoi
+  log "run(): finished install_chezmoi"
+}
+
+parse_args "$@"
 run

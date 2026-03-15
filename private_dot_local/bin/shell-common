@@ -43,12 +43,23 @@ if [ -d "$HOME/.local/share/fnm" ]; then
     export PATH="$HOME/.local/share/fnm:$PATH"
 fi
 if command -v fnm > /dev/null; then
-    eval "$(fnm env)"
+    if [ -n "$ZSH_VERSION" ]; then
+        eval "$(fnm env --shell zsh --use-on-cd)"
+    elif [ -n "$BASH_VERSION" ]; then
+        eval "$(fnm env --shell bash --use-on-cd)"
+    else
+        eval "$(fnm env --use-on-cd)"
+    fi
 fi
 
 # Environment
 if [ -f "$HOME/.local/bin/env" ]; then
     source "$HOME/.local/bin/env"
+fi
+
+# LM Studio (machine-local install)
+if [ -d "$HOME/.lmstudio/bin" ]; then
+    export PATH="$HOME/.lmstudio/bin:$PATH"
 fi
 
 # Conda/Mamba environment
