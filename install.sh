@@ -24,7 +24,7 @@ install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
-    go fd fontconfig fnm wl-clipboard xclip jq
+    go fd fontconfig fnm wl-clipboard xclip jq uv
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   install_node_lts
@@ -210,9 +210,49 @@ install_atuin() {
 }
 
 install_rust() {
-  command -v rustc &>/dev/null && return
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-  export PATH="$HOME/.cargo/bin:$PATH"
+  local cargo_bin="$HOME/.cargo/bin"
+  export PATH="$cargo_bin:$PATH"
+
+  if ! command -v rustup &>/dev/null; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
+    export PATH="$cargo_bin:$PATH"
+  fi
+
+  if command -v rustup &>/dev/null; then
+    rustup toolchain install stable
+    rustup default stable
+    rustup component add rust-analyzer --toolchain stable
+  fi
+}
+
+install_uv_from_package_manager() {
+  if command -v pacman &>/dev/null; then
+    sudo pacman -S --needed --noconfirm uv
+    return 0
+  fi
+
+  if command -v dnf &>/dev/null; then
+    sudo dnf install -y uv
+    return 0
+  fi
+
+  return 1
+}
+
+install_uv() {
+  local local_bin="$HOME/.local/bin"
+  export PATH="$local_bin:$PATH"
+
+  if command -v uv &>/dev/null; then
+    return
+  fi
+
+  if install_uv_from_package_manager; then
+    return
+  fi
+
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  export PATH="$local_bin:$PATH"
 }
 
 install_nerd_fonts() {
@@ -446,6 +486,10 @@ run() {
   log "run(): starting bootstrap sequence"
   install_packages
   log "run(): finished install_packages"
+  install_rust
+  log "run(): finished install_rust"
+  install_uv
+  log "run(): finished install_uv"
   configure_shell
   log "run(): finished configure_shell"
   configure_npm
