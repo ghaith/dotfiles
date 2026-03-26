@@ -139,6 +139,29 @@ update_pi() {
   sed -i "s/\.theme = \"catppuccin-${OTHER}\"/\.theme = \"catppuccin-${TARGET}\"/" "$f"
 }
 
+update_gsettings() {
+  command -v gsettings &>/dev/null || return 1
+  local scheme gtk_theme
+  if [ "$TARGET" = "mocha" ]; then
+    scheme="prefer-dark"
+    # Use Breeze-Dark if available, otherwise Adwaita:dark fallback
+    if [ -d "/usr/share/themes/Breeze-Dark" ]; then
+      gtk_theme="Breeze-Dark"
+    else
+      gtk_theme="Adwaita:dark"
+    fi
+  else
+    scheme="prefer-light"
+    if [ -d "/usr/share/themes/Breeze" ]; then
+      gtk_theme="Breeze"
+    else
+      gtk_theme="Adwaita"
+    fi
+  fi
+  gsettings set org.gnome.desktop.interface color-scheme "$scheme"
+  gsettings set org.gnome.desktop.interface gtk-theme "$gtk_theme"
+}
+
 # ── Update chezmoi source files ──────────────────────────────────────
 
 try bat        update_bat
@@ -150,6 +173,8 @@ try zellij     update_zellij
 try tmux       update_tmux
 try git-delta  update_git_delta
 try pi         update_pi
+# gsettings is live (D-Bus), no chezmoi source change needed
+try gsettings  update_gsettings
 
 # ── Apply chezmoi ────────────────────────────────────────────────────
 

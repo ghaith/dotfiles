@@ -155,16 +155,20 @@ window-rule {
     open-floating true
 }
 
+hotkey-overlay {
+    skip-at-startup
+}
+
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Apps — controlled via TERMINAL and BROWSER env vars above
     Mod+Return       hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
-    Mod+Shift+Return hotkey-overlay-title="Open Browser"  { spawn "vivaldi" "--password-store=kwallet6"; }
+    Mod+Shift+Return hotkey-overlay-title="Open Browser"  { spawn "vivaldi"; }
     Mod+Shift+P      hotkey-overlay-title="Displays"      { spawn "wdisplays"; }
 
     // DMS launchers
-    Mod+Space  hotkey-overlay-title="Application Launcher"  { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+    Mod+D      hotkey-overlay-title="Application Launcher"  { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Mod+V      hotkey-overlay-title="Clipboard Manager"     { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
     Mod+M      hotkey-overlay-title="Task Manager"          { spawn "dms" "ipc" "call" "processlist" "focusOrToggle"; }
     Mod+Comma  hotkey-overlay-title="Settings"              { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }

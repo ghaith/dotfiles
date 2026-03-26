@@ -1,9 +1,18 @@
 [Unit]
+Description=Idle manager for Wayland (swayidle)
+Documentation=man:swayidle(1)
 PartOf=graphical-session.target
 After=graphical-session.target
-Requisite=graphical-session.target
 
 [Service]
-ExecStart=/usr/bin/swayidle -w timeout 601 'niri msg action power-off-monitors' timeout 600 '%h/.local/scripts/lock.sh' before-sleep '%h/.local/scripts/lock.sh'
+Type=simple
+ExecStart=swayidle -w \
+    timeout 300 'dms ipc call lock lock' \
+    timeout 600 'niri msg action power-off-monitors' \
+    resume  'niri msg action power-on-monitors' \
+    before-sleep 'dms ipc call lock lock'
 Restart=on-failure
+RestartSec=3
 
+[Install]
+WantedBy=graphical-session.target

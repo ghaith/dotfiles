@@ -7,6 +7,7 @@ vim.g.have_nerd_font = true
 
 -- [[ Global settings ]]
 require 'settings'
+require('ghaith.clipboard').setup()
 require 'keymaps'
 
 -- Install lazy
