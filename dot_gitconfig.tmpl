@@ -42,6 +42,8 @@
 	# Push a new branch, with some safety checks in case I forgot I'm not on a branch
 	do-push-branch = push -u origin HEAD
 	push-branch = "!master=$(git main-branch); if [ \"$(git symbolic-ref --short HEAD 2>/dev/null)\" = \"$master\" ]; then echo \"$master is not a branch\" 1>&2; exit 1; fi; git do-push-branch"
+	gpush = "!f() { remote=\"${1:-origin}\"; branch=\"${2:-master}\"; git push \"$remote\" \"HEAD:refs/for/$branch\"; }; f"
+	gfetch = "!f() { id=\"$1\"; remote=\"${2:-origin}\"; if [ -z \"$id\" ]; then echo 'Usage: git gfetch <change-id> [remote]' >&2; exit 1; fi; suffix=$(printf '%02d' $((id % 100))); ps=$(git ls-remote \"$remote\" \"refs/changes/$suffix/$id/*\" | sed 's|.*/||' | sort -n | tail -1); if [ -z \"$ps\" ]; then echo \"No patchsets found for change $id\" >&2; exit 1; fi; echo \"Fetching change $id patchset $ps\"; git fetch \"$remote\" \"refs/changes/$suffix/$id/$ps\" && git checkout FETCH_HEAD -b \"change-$id\"; }; f"
 	amend = commit --amend --no-edit
 	reword = commit --amend --only -v
 	undo = reset HEAD@{1}
