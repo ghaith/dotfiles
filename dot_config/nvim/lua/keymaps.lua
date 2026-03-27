@@ -62,4 +62,26 @@ vim.keymap.set('n', '<leader>to', '<cmd>tabonly<CR>', { desc = 'Close other tabs
 vim.keymap.set('n', '<leader>tj', '<cmd>tabnext<CR>', { desc = 'Tab Next' })
 vim.keymap.set('n', '<leader>tk', '<cmd>tabprev<CR>', { desc = 'Previous Tab' })
 
+-- Set filetype via Telescope picker
+vim.keymap.set('n', '<leader>ft', function()
+  local filetypes = vim.fn.getcompletion('', 'filetype')
+  require('telescope.pickers')
+    .new({}, {
+      prompt_title = 'Set Filetype',
+      finder = require('telescope.finders').new_table { results = filetypes },
+      sorter = require('telescope.config').values.generic_sorter {},
+      attach_mappings = function(prompt_bufnr)
+        require('telescope.actions').select_default:replace(function()
+          local selection = require('telescope.actions.state').get_selected_entry()
+          require('telescope.actions').close(prompt_bufnr)
+          if selection then
+            vim.bo.filetype = selection[1]
+          end
+        end)
+        return true
+      end,
+    })
+    :find()
+end, { desc = 'Set [F]ile[T]ype' })
+
 -- vim: ts=2 sts=2 sw=2 et
