@@ -1,4 +1,6 @@
 { pkgs, inputs, ... }: {
+  programs.zsh.enable = true;
+
   environment.systemPackages = with pkgs; [
     # shell
     zsh
@@ -34,7 +36,7 @@
 
     # ai agents
     pi-coding-agent
-    inputs.claude-code-nix.packages.${pkgs.system}.claude-code
+    inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
 
     # system
     chezmoi

@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix
     ../../shared/nixos/cli.nix
@@ -30,6 +30,7 @@
   users.users.ghaith = {
     isNormalUser = true;
     description = "Ghaith Hachem";
+    shell = pkgs.zsh;
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
