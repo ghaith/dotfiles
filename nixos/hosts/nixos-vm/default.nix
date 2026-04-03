@@ -1,5 +1,8 @@
-{ pkgs, ... }: {
-  imports = [ ./hardware-configuration.nix ];
+{ ... }: {
+  imports = [
+    ./hardware-configuration.nix
+    ../../shared/nixos/cli.nix
+  ];
 
   boot.loader.grub = {
     enable = true;
@@ -32,16 +35,7 @@
 
   services.openssh.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    git
-    gh
-    neovim
-    htop
-    curl
-  ];
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   nixpkgs.config.allowUnfree = true;
 
   system.stateVersion = "25.11";
