@@ -16,7 +16,7 @@ if [ -n "${DOTFILES_BOOTSTRAPPED:-}" ]; then
   exit 0
 fi
 
-INSTALL_SCRIPT="$HOME/.local/share/chezmoi/install.sh"
+INSTALL_SCRIPT="${CHEZMOI_SOURCE_DIR:-$HOME/.local/share/chezmoi}/install.sh"
 log "looking for install script at $INSTALL_SCRIPT"
 if [ -x "$INSTALL_SCRIPT" ]; then
   log "running install.sh directly (executable)"

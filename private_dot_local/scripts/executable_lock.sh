@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # File: ~/.local/scripts/lock.sh
 
 WALLPAPER_SCRIPT="$HOME/.local/scripts/random_wallpaper.sh"

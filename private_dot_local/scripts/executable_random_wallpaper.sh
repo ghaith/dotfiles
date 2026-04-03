@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Default wallpaper directory (change this to your wallpaper folder)
 WALLPAPER_DIR="${1:-$HOME/Pictures/wallpapers}"

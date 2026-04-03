@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Path to your random wallpaper script
 WALLPAPER_SCRIPT="$HOME/.local/scripts/random_wallpaper.sh"
 
