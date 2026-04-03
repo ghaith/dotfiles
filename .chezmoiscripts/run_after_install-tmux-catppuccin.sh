@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Clone catppuccin/tmux plugin if not already present.
 CATPPUCCIN_DIR="$HOME/.config/tmux/plugins/catppuccin"
 CATPPUCCIN_TAG="v2.1.3"

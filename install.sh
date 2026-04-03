@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Dotfiles bootstrap script — installs packages and runs chezmoi init.
 # Supports: Arch, Ubuntu/Pop!_OS, Debian, Fedora, Windows (MSYS/Git Bash).
 set -eu

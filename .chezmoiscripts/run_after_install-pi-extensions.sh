@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Install npm dependencies for any pi extension that has a package.json.
 # No-op if no extensions have dependencies yet.
 
