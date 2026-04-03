@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, self, ... }: {
   programs.zsh.enable = true;
 
   environment.systemPackages = with pkgs; [
@@ -10,7 +10,7 @@
     fzf
 
     # editor
-    neovim
+    self.packages.${pkgs.stdenv.hostPlatform.system}.neovim
     helix
 
     # file tools
@@ -31,12 +31,13 @@
     go
     fnm
     rustup
+    rust-analyzer
     uv
     python3Packages.pynvim
 
     # ai agents
     pi-coding-agent
-    inputs.claude-code-nix.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+    self.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
 
     # system
     chezmoi
