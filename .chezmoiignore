@@ -1,3 +1,7 @@
+# nixos config — managed separately, not deployed as dotfiles
+nixos
+nixos/**
+
 # pi - machine-local state and secrets
 .pi/agent/auth.json
 .pi/agent/usage.json

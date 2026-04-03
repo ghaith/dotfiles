@@ -484,6 +484,14 @@ EOF
 
 run() {
   log "run(): starting bootstrap sequence"
+
+  # NixOS manages packages declaratively — skip all package/tool installs
+  if [ -f /etc/NIXOS ]; then
+    log "NixOS detected — skipping package bootstrap, running chezmoi only"
+    install_chezmoi
+    return
+  fi
+
   install_packages
   log "run(): finished install_packages"
   install_rust
