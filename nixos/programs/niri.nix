@@ -15,10 +15,16 @@
         # wayland / clipboard
         wl-clipboard
         xclip
+        cliphist
 
         # idle & wallpaper
         swayidle
         swaybg
+
+        # system tray & tools
+        networkmanagerapplet  # nm-applet
+        wdisplays
+        wireplumber           # wpctl
       ];
     };
   };
