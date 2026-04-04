@@ -10,14 +10,11 @@
     systemd.enable = true;
   };
 
-  # Display manager — greetd with tuigreet
-  services.greetd = {
+  # Display manager — DankGreeter
+  services.displayManager.dms-greeter = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
-      };
-    };
+    compositor.name = "niri";
+    quickshell.package = pkgs.quickshell;
   };
 
   # Browsers
