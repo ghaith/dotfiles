@@ -10,14 +10,12 @@
     systemd.enable = true;
   };
 
-  # Display manager — greetd launching niri session
-  # DMS greeter is enabled via `dms greeter enable` on first setup
+  # Display manager — greetd with DMS greeter
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "niri-session";
-        user = "ghaith";
+        command = "${pkgs.dms-shell}/bin/dms greeter run";
       };
     };
   };

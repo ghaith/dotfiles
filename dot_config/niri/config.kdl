@@ -87,7 +87,6 @@ layout {
     }
 }
 
-spawn-at-startup "bash" "-c" "command -v nm-applet && nm-applet &"
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 
 screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
