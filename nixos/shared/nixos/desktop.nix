@@ -10,12 +10,12 @@
     systemd.enable = true;
   };
 
-  # Display manager — greetd with DMS greeter
+  # Display manager — greetd with tuigreet
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.dms-shell}/bin/dms greeter run";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --cmd niri-session";
       };
     };
   };
