@@ -24,6 +24,7 @@ Built on [flake-parts](https://flake.parts) with [import-tree](https://github.co
 | `import-tree` | Auto-import all `.nix` files in a directory tree |
 | `claude-code-nix` | Claude Code package |
 | `wrapper-modules` | Nix wrapper modules for wrapped programs |
+| `home-manager` | User environment management (follows nixpkgs) |
 
 ## Directory Structure
 
@@ -41,9 +42,9 @@ nixos/
 │   │   ├── cli.nix                # CLI packages (editors, dev tools, agents)
 │   │   └── desktop.nix            # Desktop packages (wayland, fonts, launcher)
 │   └── home/
-│       └── .keep                  # Reserved for future home-manager modules
+│       └── chezmoi.nix            # home-manager module: installs chezmoi + runs apply on activation
 └── hosts/
-    └── nixos-vm/
+    └── <hostname>/
         ├── default.nix            # Host config (boot, networking, users, locale)
         └── hardware-configuration.nix  # Auto-generated hardware config
 ```
@@ -55,7 +56,7 @@ nixos/
 Consumed by `import-tree` — every `.nix` file here is auto-imported as a flake-parts module. No manual imports needed.
 
 - **`parts.nix`** — sets `systems`, imports `wrapper-modules.flakeModules.wrappers`
-- **`nixos.nix`** — defines `flake.nixosConfigurations` mapping host names to their configs. Passes `inputs` and `self` via `specialArgs`.
+- **`nixos.nix`** — defines `flake.nixosConfigurations` mapping host names to their configs. Passes `inputs` and `self` via `specialArgs`. Each host imports `home-manager.nixosModules.home-manager` with `useGlobalPkgs`, `useUserPackages`, and `extraSpecialArgs = { inherit inputs self; }`.
 
 ### Programs (`programs/`)
 
@@ -97,17 +98,21 @@ Hosts consume wrapped packages via `self.packages.${pkgs.stdenv.hostPlatform.sys
 
 ### Shared (`shared/`)
 
-Reusable NixOS modules, importable by any host. Not auto-imported — hosts explicitly `import` what they need.
+Reusable NixOS and home-manager modules, importable by any host. Not auto-imported — hosts explicitly `import` what they need.
 
 - **`shared/nixos/cli.nix`** — CLI tools (zsh, wrapped neovim, git, rustup, pi, claude-code, etc.)
 - **`shared/nixos/desktop.nix`** — Desktop/GUI packages (wl-clipboard, fuzzel, nerd fonts)
-- **`shared/home/`** — Reserved for future home-manager modules
+- **`shared/home/chezmoi.nix`** — home-manager module that installs chezmoi, writes `~/.config/chezmoi/chezmoi.toml` (source dir, machine type, name, email), and runs `chezmoi apply` during home-manager activation. Hosts use it via `home-manager.users.<user>.imports` and set `chezmoi.enable = true`.
 
 ### Hosts (`hosts/`)
 
-Per-machine configs. Each host is a directory with a `default.nix` that imports shared modules and sets machine-specific options (bootloader, hostname, users, locale).
+Per-machine configs. Each host is a directory with a `default.nix` that imports shared modules and sets machine-specific options (bootloader, hostname, users, locale, home-manager user config).
 
-Currently: `nixos-vm` (QEMU guest, CLI-only — imports `cli.nix` but not `desktop.nix`).
+Run `hostname` to determine which host you're on, then find the matching directory. Run `ls hosts/` to see available hosts.
+
+## Important: Host Discovery
+
+Before editing any host config, **always determine the current hostname** by running `hostname`. Then find the matching host directory under `hosts/`. Never assume which host you're on.
 
 ## Common Tasks
 
@@ -164,10 +169,10 @@ nixos-rebuild switch --flake ~/dotfiles/nixos#<hostname> --target-host <host> --
 
 ## Migration Plan
 
-Config files are currently managed by chezmoi in `~/dotfiles/dot_config/`. As programs get wrapped:
+Config files are currently managed by chezmoi in `~/dotfiles/`. As programs get wrapped:
 
-1. **Phase 1 (current)**: Wrap programs with nix for deps (LSPs, tools). Config stays in chezmoi.
-2. **Phase 2**: Add home-manager. Migrate config into nix where it makes sense (programs with `programs.<name>.enable`).
+1. **Phase 1**: Wrap programs with nix for deps (LSPs, tools). Config stays in chezmoi.
+2. **Phase 2 (current)**: home-manager integrated. Chezmoi runs as a home-manager activation (`shared/home/chezmoi.nix`). Migrate config into nix where it makes sense (programs with `programs.<name>.enable`).
 3. **Phase 3**: For non-NixOS (devcontainers), home-manager standalone provides the same wrapped programs.
 
 ## References
