@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Create empty DMS niri config stubs if they don't exist.
 # DMS overwrites these on first run, but niri needs them to start.
 mkdir -p "$HOME/.config/niri/dms"
