@@ -18,10 +18,10 @@
         swayidle
         swaybg
 
-        # system tray & tools
-        networkmanagerapplet  # nm-applet
+        # tools
         wdisplays
         wireplumber           # wpctl
+        cups-pk-helper
       ];
     };
   };

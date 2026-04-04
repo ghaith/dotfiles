@@ -8,6 +8,7 @@
   programs.dms-shell = {
     enable = true;
     systemd.enable = true;
+    quickshell.package = pkgs.quickshell;
   };
 
   # Display manager — DankGreeter
@@ -16,6 +17,12 @@
     compositor.name = "niri";
     quickshell.package = pkgs.quickshell;
   };
+
+  # Printing
+  services.printing.enable = true;
+
+  # Tailscale
+  services.tailscale.enable = true;
 
   # Browsers
   programs.firefox.enable = true;
