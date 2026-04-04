@@ -10,8 +10,9 @@
   # Browsers
   programs.firefox.enable = true;
 
-  # SSH agent via systemd
-  programs.ssh.startAgent = true;
+  # SSH agent — don't enable here, desktop environments (GNOME/GCR)
+  # typically provide their own via gcr-ssh-agent.
+  # If no DE provides one, enable per-host instead.
 
   # XDG portal for niri (screen sharing, file picker, etc.)
   xdg.portal = {
@@ -23,8 +24,11 @@
   };
 
   # Fonts
-  fonts.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "Iosevka" "Hack" "JetBrainsMono" ]; })
+  fonts.packages = with pkgs.nerd-fonts; [
+    fira-code
+    iosevka
+    hack
+    jetbrains-mono
   ];
 
   environment.systemPackages = with pkgs; [
