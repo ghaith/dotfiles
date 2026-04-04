@@ -18,3 +18,31 @@ nixos/**
 # tmux plugins (cloned by run_after script, not managed by chezmoi)
 .config/tmux/plugins
 .config/tmux/plugins/**
+
+# Desktop-only configs — skip on servers and devcontainers
+{{ if ne .type "desktop" }}
+.config/niri
+.config/niri/**
+.config/sway
+.config/sway/**
+.config/waybar
+.config/waybar/**
+.config/alacritty
+.config/alacritty/**
+.config/kitty
+.config/kitty/**
+.config/ghostty
+.config/ghostty/**
+.config/wezterm
+.config/wezterm/**
+.config/DankMaterialShell
+.config/DankMaterialShell/**
+.config/xdg-desktop-portal
+.config/xdg-desktop-portal/**
+.config/systemd/user/swayidle.service
+.config/systemd/user/swaybg.service
+.config/systemd/user/swaybg.timer
+.local/scripts/changebg.sh
+.local/scripts/lock.sh
+.local/scripts/random_wallpaper.sh
+{{ end }}

@@ -34,6 +34,12 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  home-manager.users.ghaith = {
+    imports = [ ../../shared/home/chezmoi.nix ];
+    home.stateVersion = "25.11";
+    chezmoi.enable = true;
+  };
+
   services.openssh.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

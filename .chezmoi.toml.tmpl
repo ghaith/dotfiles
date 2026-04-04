@@ -1,9 +1,16 @@
 {{- /* Checks if running interactively, which is not the case for GitHub Codespaces */ -}}
 {{- $ci := stdinIsATTY -}}
+{{- $type := "server" -}}
+{{- if (env "REMOTE_CONTAINERS") }}
+{{-   $type = "devcontainer" -}}
+{{- else if $ci }}
+{{-   $type = promptStringOnce . "type" "Machine type (desktop/server/devcontainer)" -}}
+{{- end }}
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
     interactive = {{ $ci }}
+    type = {{ $type | quote }}
 {{- if not $ci }}
     name = "Ghaith Hachem"
     email = "git@mail.hachem.at"
