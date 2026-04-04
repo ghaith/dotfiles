@@ -19,6 +19,8 @@ nixos/**
 .config/tmux/plugins
 .config/tmux/plugins/**
 
+
+
 # Desktop-only configs — skip on servers and devcontainers
 {{ if and (hasKey . "type") (ne .type "desktop") }}
 .config/niri

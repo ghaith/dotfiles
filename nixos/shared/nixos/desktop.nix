@@ -1,11 +1,26 @@
-{ pkgs, self, ... }: {
+{ pkgs, self, inputs, ... }: {
   imports = [ self.nixosModules.niri-services ];
+
   # Window manager
   programs.niri.enable = true;
 
-  # Display manager
-  services.xserver.enable = true;
-  services.displayManager.defaultSession = "niri";
+  # Desktop shell — DMS with systemd autostart
+  programs.dms-shell = {
+    enable = true;
+    systemd.enable = true;
+  };
+
+  # Display manager — greetd launching niri session
+  # DMS greeter is enabled via `dms greeter enable` on first setup
+  services.greetd = {
+    enable = true;
+    settings = {
+      default_session = {
+        command = "niri-session";
+        user = "ghaith";
+      };
+    };
+  };
 
   # Browsers
   programs.firefox.enable = true;

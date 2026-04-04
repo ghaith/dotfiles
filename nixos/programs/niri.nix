@@ -3,9 +3,6 @@
     packages.niri-desktop = pkgs.symlinkJoin {
       name = "niri-desktop";
       paths = with pkgs; [
-        # desktop shell
-        dms-shell
-
         # notifications
         mako
 

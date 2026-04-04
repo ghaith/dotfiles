@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Switch all tools between catppuccin mocha (dark) and latte (light).
 #
 # Updates chezmoi SOURCE files, runs chezmoi apply, then live-reloads
