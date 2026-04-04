@@ -3,7 +3,12 @@
     ./hardware-configuration.nix
     ../../shared/nixos/cli.nix
     ../../shared/nixos/desktop.nix
+    ../../shared/nixos/keyboard.nix
   ];
+
+  # Default keyboard layout for this host (German/Austrian)
+  keyboard.layout = "de";
+  keyboard.consoleKeyMap = "de";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -41,6 +46,7 @@
     imports = [ ../../shared/home/chezmoi.nix ];
     home.stateVersion = "25.11";
     chezmoi.enable = true;
+    chezmoi.type = "desktop";
   };
 
   services.openssh.enable = true;

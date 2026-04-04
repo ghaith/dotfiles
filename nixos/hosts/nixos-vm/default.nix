@@ -2,7 +2,12 @@
   imports = [
     ./hardware-configuration.nix
     ../../shared/nixos/cli.nix
+    ../../shared/nixos/keyboard.nix
   ];
+
+  # Default keyboard layout for this host (German)
+  keyboard.layout = "de";
+  keyboard.consoleKeyMap = "de";
 
   boot.loader.grub = {
     enable = true;
