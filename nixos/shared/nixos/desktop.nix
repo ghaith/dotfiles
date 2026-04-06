@@ -18,6 +18,13 @@
     quickshell.package = pkgs.quickshell;
   };
 
+  # Idle / lock / suspend
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";              # suspend on lid close
+    HandleLidSwitchDocked = "ignore";         # ignore lid close when external display connected
+    HandleLidSwitchExternalPower = "suspend"; # still suspend on lid close even on AC
+  };
+
   # Printing
   services.printing.enable = true;
 
