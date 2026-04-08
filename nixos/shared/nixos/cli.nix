@@ -1,6 +1,13 @@
 { pkgs, self, ... }: {
   programs.zsh.enable = true;
 
+  # Automatic garbage collection
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+
   environment.systemPackages = with pkgs; [
     # shell
     zsh
@@ -43,6 +50,7 @@
     chezmoi
     curl
     htop
+    nh
 
     # direnv (auto-load .envrc / flake.nix on cd)
     direnv

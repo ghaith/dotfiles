@@ -12,6 +12,7 @@
   boot.loader.grub = {
     enable = true;
     device = "/dev/vda";
+    configurationLimit = 3;
   };
 
   networking.hostName = "nixos-vm";
