@@ -43,5 +43,9 @@
     chezmoi
     curl
     htop
+
+    # direnv (auto-load .envrc / flake.nix on cd)
+    direnv
+    nix-direnv
   ];
 }

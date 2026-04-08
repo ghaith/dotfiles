@@ -1,0 +1,13 @@
+# Source nix-direnv if available (enables `use flake` and caching)
+if [ -f /run/current-system/sw/share/nix-direnv/direnvrc ]; then
+  # NixOS system-level install
+  source /run/current-system/sw/share/nix-direnv/direnvrc
+elif command -v nix-direnv-lib &>/dev/null; then
+  # nix-direnv from PATH
+  source "$(nix-direnv-lib)"
+elif [ -n "${XDG_DATA_HOME:-}" ] && [ -f "$XDG_DATA_HOME/nix-direnv/direnvrc" ]; then
+  source "$XDG_DATA_HOME/nix-direnv/direnvrc"
+elif [ -f "$HOME/.nix-profile/share/nix-direnv/direnvrc" ]; then
+  # User-level nix-profile install
+  source "$HOME/.nix-profile/share/nix-direnv/direnvrc"
+fi

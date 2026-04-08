@@ -66,5 +66,8 @@
 
     # browsers
     vivaldi
+
+    # SSH askpass (GUI prompt for passphrase)
+    kdePackages.ksshaskpass
   ];
 }

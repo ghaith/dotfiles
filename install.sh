@@ -24,7 +24,8 @@ install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
-    go fd fontconfig fnm wl-clipboard xclip jq uv jdk-openjdk-headless
+    go fd fontconfig fnm wl-clipboard xclip jq uv jdk-openjdk-headless \
+    direnv
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   install_node_lts
@@ -37,7 +38,8 @@ install_ubuntu() {
   sudo apt-get update
   sudo apt-get install -y \
     git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat git-delta xz-utils unzip wl-clipboard xclip jq default-jdk-headless
+    bat git-delta xz-utils unzip wl-clipboard xclip jq default-jdk-headless \
+    direnv
 
   # bat installs as batcat on Ubuntu — symlink to expected name
   symlink_batcat
@@ -57,7 +59,8 @@ install_debian() {
   sudo apt-get update
   sudo apt-get install -y \
     git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat xz-utils unzip wl-clipboard xclip jq default-jdk-headless
+    bat xz-utils unzip wl-clipboard xclip jq default-jdk-headless \
+    direnv
 
   # bat installs as batcat on Debian — symlink to expected name
   symlink_batcat
@@ -79,7 +82,8 @@ install_debian() {
 install_fedora() {
   sudo dnf install -y \
     git neovim python3-neovim curl zsh bat ripgrep fzf fd-find \
-    git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq java-21-openjdk-devel
+    git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq java-21-openjdk-devel \
+    direnv
 
   install_starship
   install_golang
@@ -407,7 +411,7 @@ install_chezmoi() {
 # ── Package detection ────────────────────────────────────────────────
 
 install_packages() {
-  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin jq)
+  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin jq direnv)
   local all_installed=true
 
   for pkg in "${packages[@]}"; do
