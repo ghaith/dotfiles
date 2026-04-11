@@ -1,0 +1,2 @@
+# Machine-local secrets/state (never commit)
+/private_dot_pi/agent/auth.json

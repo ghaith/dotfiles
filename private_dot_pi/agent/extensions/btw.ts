@@ -1,7 +1,7 @@
 /**
  * /btw - Side-channel queries while the agent is busy
  *
- * Ctrl+B       → Open btw input overlay (works while agent is streaming)
+ * Ctrl+Alt+B   → Open btw input overlay (works while agent is streaming)
  * Ctrl+Shift+B → Review past btw messages
  * /btw <query> → Ask a side question (when agent is idle)
  */
@@ -379,8 +379,8 @@ export default function (pi: ExtensionAPI) {
 		}
 	}
 
-	// Shortcut: Ctrl+B → open btw input (works while agent is streaming)
-	pi.registerShortcut("ctrl+b", {
+	// Shortcut: Ctrl+Alt+B → open btw input (works while agent is streaming)
+	pi.registerShortcut("ctrl+alt+b", {
 		description: "Ask a side question (btw)",
 		handler: async (ctx) => {
 			if (!ctx.hasUI) return;
