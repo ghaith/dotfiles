@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 # Dotfiles bootstrap script — installs packages and runs chezmoi init.
-# Supports: Arch, Ubuntu/Pop!_OS, Debian, Fedora, Windows (MSYS/Git Bash).
+# Supports: Arch, Fedora (native packages), Ubuntu/Debian/others (via nix).
 set -eu
-
-NERD_FONTS_VERSION="3.4.0"
-GO_VERSION="1.25.1"
-NERD_FONTS=(FiraCode Iosevka Hack JetBrainsMono)
 
 DEFAULT_CHEZMOI_SOURCE="https://github.com/ghaith/dotfiles.git"
 CHEZMOI_SOURCE_OVERRIDE="${CHEZMOI_SOURCE:-}"
@@ -28,199 +24,110 @@ install_arch() {
     direnv
 
   # fnm is installed via pacman but Node LTS still needs to be set up
-  install_node_lts
+  setup_node_lts
+  setup_rust
   install_pi
-}
-
-install_ubuntu() {
-  sudo apt-get update
-  sudo apt-get install -y software-properties-common
-  sudo apt-get update
-  sudo apt-get install -y \
-    git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat git-delta xz-utils unzip wl-clipboard xclip jq default-jdk-headless \
-    direnv
-
-  # bat installs as batcat on Ubuntu — symlink to expected name
-  symlink_batcat
-
-  install_starship
-  install_golang
-  install_neovim
-  install_eza_apt
-  install_atuin
-  install_nerd_fonts
-  install_fnm
-  install_pi
-  install_rust
-}
-
-install_debian() {
-  sudo apt-get update
-  sudo apt-get install -y \
-    git curl build-essential zsh ripgrep fzf fd-find fontconfig \
-    bat xz-utils unzip wl-clipboard xclip jq default-jdk-headless \
-    direnv
-
-  # bat installs as batcat on Debian — symlink to expected name
-  symlink_batcat
-
-  # git-delta is not in Debian repos — install from GitHub
-  install_delta_deb
-
-  install_starship
-  install_golang
-  install_neovim
-  install_eza_apt
-  install_atuin
-  install_nerd_fonts
-  install_fnm
-  install_pi
-  install_rust
 }
 
 install_fedora() {
   sudo dnf install -y \
     git neovim python3-neovim curl zsh bat ripgrep fzf fd-find \
     git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq java-21-openjdk-devel \
-    direnv
+    direnv go
 
-  install_starship
-  install_golang
-  install_nerd_fonts
-  install_fnm
+  setup_nerd_fonts
+  setup_fnm
+  setup_rust
   install_pi
-  install_rust
 }
 
-install_windows() {
-  powershell -NoProfile -ExecutionPolicy Bypass \
-    -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))"
-  choco install git neovim starship \
-    nerd-fonts-hack nerd-fonts-fira-code nerd-fonts-jetbrains-mono nerd-fonts-iosevka -y
-}
+install_with_nix() {
+  log "installing packages via nix"
 
-# ── Helper installers ────────────────────────────────────────────────
+  # 1. Install nix if not present (Determinate Systems installer)
+  if ! command -v nix &>/dev/null; then
+    log "installing nix (Determinate Systems installer)"
+    # Containers and other non-systemd environments need `install linux --init none`
+    local nix_install_args=(install)
+    if ! pidof systemd &>/dev/null && ! [ -d /run/systemd/system ]; then
+      log "systemd not detected, using --init none"
+      nix_install_args+=(linux --init none)
+    fi
+    nix_install_args+=(--no-confirm)
 
-symlink_batcat() {
-  # On Ubuntu/Debian, bat installs as batcat. Create a symlink so
-  # configs and aliases that expect `bat` work out of the box.
-  if command -v batcat &>/dev/null && ! command -v bat &>/dev/null; then
-    mkdir -p "$HOME/.local/bin"
-    ln -sf "$(command -v batcat)" "$HOME/.local/bin/bat"
+    curl --proto '=https' --tlsv1.2 -sSf -L \
+      https://install.determinate.systems/nix | sh -s -- "${nix_install_args[@]}"
+
+    # Source nix profile so it's available in this shell
+    if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+      . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+    fi
   fi
+
+  # In environments without systemd the nix daemon won't be running.
+  # Start it in the background so nix commands work.
+  if ! pidof systemd &>/dev/null && ! [ -d /run/systemd/system ]; then
+    if [ ! -S /nix/var/nix/daemon-socket/socket ]; then
+      log "starting nix-daemon manually (no systemd)"
+      sudo /nix/var/nix/profiles/default/bin/nix-daemon &
+      NIX_DAEMON_PID=$!
+      # Wait for the socket to appear
+      for _ in $(seq 1 30); do
+        [ -S /nix/var/nix/daemon-socket/socket ] && break
+        sleep 0.2
+      done
+    fi
+  fi
+
+  # 2. Install CLI tools bundle from the dotfiles flake
+  log "installing cli-tools bundle via nix profile"
+  local flake_ref
+  flake_ref="$(resolve_flake_ref)"
+  nix profile install "${flake_ref}#cli-tools" --accept-flake-config
+
+  # Stop the temporary daemon if we started one
+  if [ -n "${NIX_DAEMON_PID:-}" ]; then
+    sudo kill "$NIX_DAEMON_PID" 2>/dev/null || true
+  fi
+
+  # 3. Add nix-provided zsh to /etc/shells so chsh works
+  local nix_zsh
+  nix_zsh="$(command -v zsh 2>/dev/null || true)"
+  if [ -n "$nix_zsh" ] && ! grep -qxF "$nix_zsh" /etc/shells 2>/dev/null; then
+    log "adding $nix_zsh to /etc/shells"
+    echo "$nix_zsh" | sudo tee -a /etc/shells >/dev/null
+  fi
+
+  # 4. Imperative post-install steps
+  setup_node_lts
+  setup_rust
 }
 
-install_starship() {
-  command -v starship &>/dev/null && return
-  curl -sS https://starship.rs/install.sh | sh -s -- --yes
-}
+# ── Post-install helpers ─────────────────────────────────────────────
+# These run imperative setup for tools that manage their own state
+# outside of nix (fnm → Node versions, rustup → toolchains).
 
-install_golang() {
-  command -v go &>/dev/null && return
-
-  local arch
-  arch=$(uname -m)
-  case "$arch" in
-    x86_64)       arch="amd64" ;;
-    aarch64|arm64) arch="arm64" ;;
-    *) echo "Unsupported architecture for Go: $arch"; return 1 ;;
-  esac
-
-  curl -fsSL "https://go.dev/dl/go${GO_VERSION}.linux-${arch}.tar.gz" -o /tmp/go.tar.gz
-  sudo tar -C /usr/local -xzf /tmp/go.tar.gz
-  rm /tmp/go.tar.gz
-  export PATH="$PATH:/usr/local/go/bin"
-}
-
-install_neovim() {
-  command -v nvim &>/dev/null && return
-
-  local arch
-  arch=$(uname -m)
-  local nvim_url
-  case "$arch" in
-    x86_64)        nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage" ;;
-    aarch64|arm64) nvim_url="https://github.com/neovim/neovim/releases/latest/download/nvim-linux-arm64.appimage" ;;
-    *) echo "Unsupported architecture for Neovim AppImage: $arch"; return 1 ;;
-  esac
-
-  curl -fsSL "$nvim_url" -o /tmp/nvim.appimage
-  chmod +x /tmp/nvim.appimage
-  cd /tmp && ./nvim.appimage --appimage-extract >/dev/null
-  cp -r /tmp/squashfs-root/usr/* "$HOME/.local/"
-  rm -rf /tmp/nvim.appimage /tmp/squashfs-root
-}
-
-install_eza_apt() {
-  command -v eza &>/dev/null && return
-  sudo apt-get install -y gpg
-  sudo mkdir -p /etc/apt/keyrings
-  curl -fsSL https://raw.githubusercontent.com/eza-community/eza/main/deb.asc \
-    | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-  echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" \
-    | sudo tee /etc/apt/sources.list.d/gierens.list
-  sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-  sudo apt-get update
-  sudo apt-get install -y eza
-}
-
-install_delta_deb() {
-  command -v delta &>/dev/null && return
-
-  local deb_arch
-  case "$(uname -m)" in
-    x86_64)        deb_arch="amd64" ;;
-    aarch64|arm64) deb_arch="arm64" ;;
-    *) echo "Unsupported architecture for git-delta"; return 1 ;;
-  esac
-
-  local version
-  version=$(curl -fsSL https://api.github.com/repos/dandavison/delta/releases/latest \
-    | grep '"tag_name"' | head -1 | sed 's/.*"\(.*\)".*/\1/')
-  curl -fsSL "https://github.com/dandavison/delta/releases/download/${version}/git-delta_${version}_${deb_arch}.deb" \
-    -o /tmp/git-delta.deb
-  sudo dpkg -i /tmp/git-delta.deb
-  rm /tmp/git-delta.deb
-}
-
-install_fnm() {
+setup_fnm() {
   if ! command -v fnm &>/dev/null; then
     curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell --install-dir "$HOME/.local/share/fnm"
     export PATH="$HOME/.local/share/fnm:$PATH"
   fi
-  install_node_lts
+  setup_node_lts
 }
 
-install_node_lts() {
-  # Install Node LTS and set as default (requires fnm to be on PATH)
+setup_node_lts() {
+  if ! command -v fnm &>/dev/null; then
+    log "fnm not found, skipping Node LTS setup"
+    return
+  fi
   eval "$(fnm env --shell bash --use-on-cd)"
   fnm install --lts
   fnm default lts-latest
 }
 
-install_pi() {
-  command -v pi &>/dev/null && return
-  # Ensure fnm/node is available in this shell
-  if command -v fnm &>/dev/null; then
-    eval "$(fnm env --shell bash --use-on-cd)"
-  fi
-  npm install -g @mariozechner/pi-coding-agent
-}
-
-install_atuin() {
-  command -v atuin &>/dev/null && return
-  curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
-}
-
-install_rust() {
+setup_rust() {
   local cargo_bin="$HOME/.cargo/bin"
   export PATH="$cargo_bin:$PATH"
-
-  if ! command -v rustup &>/dev/null; then
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable
-    export PATH="$cargo_bin:$PATH"
-  fi
 
   if command -v rustup &>/dev/null; then
     rustup toolchain install stable
@@ -229,42 +136,21 @@ install_rust() {
   fi
 }
 
-install_uv_from_package_manager() {
-  if command -v pacman &>/dev/null; then
-    sudo pacman -S --needed --noconfirm uv
-    return 0
+install_pi() {
+  command -v pi &>/dev/null && return
+  if command -v fnm &>/dev/null; then
+    eval "$(fnm env --shell bash --use-on-cd)"
   fi
-
-  if command -v dnf &>/dev/null; then
-    sudo dnf install -y uv
-    return 0
-  fi
-
-  return 1
+  npm install -g @mariozechner/pi-coding-agent
 }
 
-install_uv() {
-  local local_bin="$HOME/.local/bin"
-  export PATH="$local_bin:$PATH"
-
-  if command -v uv &>/dev/null; then
-    return
-  fi
-
-  if install_uv_from_package_manager; then
-    return
-  fi
-
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  export PATH="$local_bin:$PATH"
-}
-
-install_nerd_fonts() {
+setup_nerd_fonts() {
   local font_dir="$HOME/.local/share/fonts"
+  local nerd_fonts=(FiraCode Iosevka Hack JetBrainsMono)
+  local nerd_fonts_version="3.4.0"
   local installed=false
 
-  for font in "${NERD_FONTS[@]}"; do
-    # Check for the Regular variant to decide if already installed
+  for font in "${nerd_fonts[@]}"; do
     local check_name
     case "$font" in
       FiraCode)       check_name="FiraCodeNerdFont-Regular.ttf" ;;
@@ -277,7 +163,7 @@ install_nerd_fonts() {
     if [ ! -f "${font_dir}/${check_name}" ]; then
       mkdir -p "$font_dir"
       echo "Installing Nerd Font: $font"
-      curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/download/v${NERD_FONTS_VERSION}/${font}.tar.xz" \
+      curl -fsSL "https://github.com/ryanoasis/nerd-fonts/releases/download/v${nerd_fonts_version}/${font}.tar.xz" \
         -o "/tmp/${font}.tar.xz"
       tar -xf "/tmp/${font}.tar.xz" -C "$font_dir"
       rm "/tmp/${font}.tar.xz"
@@ -285,7 +171,6 @@ install_nerd_fonts() {
     fi
   done
 
-  # Rebuild font cache if any fonts were installed
   if [ "$installed" = true ] && command -v fc-cache &>/dev/null; then
     echo "Rebuilding font cache..."
     fc-cache -fv "$font_dir"
@@ -299,7 +184,6 @@ configure_shell() {
 
   log "configure_shell: current SHELL=${SHELL:-<unset>}"
 
-  # Already using zsh? Nothing to do.
   if [[ "${SHELL:-}" == *"zsh" ]]; then
     log "configure_shell: already using zsh; skipping"
     return
@@ -379,15 +263,10 @@ install_chezmoi() {
     curl -fsSL https://chezmoi.io/get | sh -s -- -b "$bin_dir"
   fi
 
-  # Resolve this script's real directory reliably (works with `bash install.sh` too)
   local script_path script_dir chezmoi_source
   script_path="${BASH_SOURCE[0]:-$0}"
   script_dir="$(cd -P -- "$(dirname -- "$script_path")" && pwd -P)"
 
-  # Source selection:
-  # 1) explicit --source / $CHEZMOI_SOURCE override
-  # 2) local dotfiles dir if this script lives inside it
-  # 3) default remote repository (for curl bootstrap)
   if [ -n "$CHEZMOI_SOURCE_OVERRIDE" ]; then
     chezmoi_source="$CHEZMOI_SOURCE_OVERRIDE"
   elif [ -f "$script_dir/.chezmoi.toml.tmpl" ]; then
@@ -396,7 +275,6 @@ install_chezmoi() {
     chezmoi_source="$DEFAULT_CHEZMOI_SOURCE"
   fi
 
-  # Prevent the run_once bootstrap script from re-running setup in this same flow.
   export DOTFILES_BOOTSTRAPPED=1
 
   if [ -d "$chezmoi_source" ]; then
@@ -405,6 +283,22 @@ install_chezmoi() {
   else
     echo "Running 'chezmoi init --apply $chezmoi_source'"
     exec "$chezmoi" init --apply "$chezmoi_source"
+  fi
+}
+
+# ── Helpers ──────────────────────────────────────────────────────────
+
+resolve_flake_ref() {
+  # If install.sh lives inside the dotfiles repo, use the local nixos/ dir.
+  # Otherwise, fetch from GitHub.
+  local script_path script_dir
+  script_path="${BASH_SOURCE[0]:-$0}"
+  script_dir="$(cd -P -- "$(dirname -- "$script_path")" && pwd -P)"
+
+  if [ -d "$script_dir/nixos" ] && [ -f "$script_dir/nixos/flake.nix" ]; then
+    echo "path:${script_dir}/nixos"
+  else
+    echo "github:ghaith/dotfiles?dir=nixos"
   fi
 }
 
@@ -431,22 +325,16 @@ install_packages() {
 
   if [[ -f /etc/arch-release ]]; then
     install_arch
-  elif [[ -f /etc/lsb-release ]]; then
-    install_ubuntu
-  elif [[ -f /etc/debian_version ]]; then
-    install_debian
   elif [[ -f /etc/fedora-release ]]; then
     install_fedora
-  elif [[ "$OSTYPE" == "msys" ]]; then
-    install_windows
   else
-    echo "Unsupported OS"
-    exit 1
+    # Ubuntu, Debian, and anything else — use nix
+    install_with_nix
   fi
 
   # Clone catppuccin-fuzzel theme if not present
   if [ ! -d "$HOME/catppuccin-fuzzel" ]; then
-    git clone https://github.com/catppuccin/fuzzel.git "$HOME/catppuccin-fuzzel"
+    git clone https://github.com/catppuccin/fuzzel.git "$HOME/catppuccin-fuzzel" 2>/dev/null || true
   fi
 }
 
@@ -498,10 +386,6 @@ run() {
 
   install_packages
   log "run(): finished install_packages"
-  install_rust
-  log "run(): finished install_rust"
-  install_uv
-  log "run(): finished install_uv"
   configure_shell
   log "run(): finished configure_shell"
   configure_npm
