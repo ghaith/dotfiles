@@ -287,8 +287,8 @@ binds {
 
     Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
 
-    Mod+Shift+E  { quit; }
-    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+E     { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    Ctrl+Alt+Delete { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
 }
 
 // DMS — must be last; these files override colors, layout, alttab and binds
