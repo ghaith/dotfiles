@@ -50,6 +50,7 @@
     chezmoi.type = "desktop";
   };
 
+  services.upower.enable = true;
   services.openssh.enable = true;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
