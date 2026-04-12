@@ -4,18 +4,14 @@
   # Window manager
   programs.niri.enable = true;
 
-  # Desktop shell — DMS with systemd autostart
-  programs.dms-shell = {
+  # Desktop shell — DMS with systemd autostart (from DMS flake, includes latest Quickshell)
+  programs.dank-material-shell = {
     enable = true;
     systemd.enable = true;
-    quickshell.package = pkgs.quickshell;
-  };
-
-  # Display manager — DankGreeter
-  services.displayManager.dms-greeter = {
-    enable = true;
-    compositor.name = "niri";
-    quickshell.package = pkgs.quickshell;
+    greeter = {
+      enable = true;
+      compositor.name = "niri";
+    };
   };
 
   # Idle / lock / suspend

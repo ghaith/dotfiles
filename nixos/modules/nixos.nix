@@ -4,6 +4,8 @@
       specialArgs = { inherit inputs self; };
       modules = [
         ../hosts/ghaith-xps
+        inputs.dms.nixosModules.dank-material-shell
+        inputs.dms.nixosModules.greeter
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
