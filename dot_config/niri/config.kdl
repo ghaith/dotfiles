@@ -34,19 +34,6 @@ input {
     workspace-auto-back-and-forth
 }
 
-// Primary display (desktop)
-output "Philips Consumer Electronics Company PHL 499P9 0x00000945" {
-    mode "5120x1440@59.977"
-    variable-refresh-rate
-    position x=0 y=0
-}
-
-// Laptop display — active when lid is open, centered below the PHL
-output "eDP-1" {
-    mode "1920x1080@60"
-    transform "normal"
-    position x=1600 y=1440
-}
 
 layout {
     gaps 5
@@ -307,5 +294,6 @@ binds {
 // DMS — must be last; these files override colors, layout, alttab and binds
 include "dms/colors.kdl"
 include "dms/layout.kdl"
+include "dms/outputs.kdl"
 include "dms/alttab.kdl"
 include "dms/binds.kdl"

@@ -1,4 +1,15 @@
-# Preferences
+# Shared Context Adapter (Pi)
+
+Canonical context lives in `~/.config/ai-context/`.
+
+Read these first:
+
+- `~/.config/ai-context/preferences.md`
+- `~/.config/ai-context/environment/chezmoi.md`
+- `~/.config/ai-context/environment/nixos.md`
+- `~/.config/ai-context/agents/*.md`
+
+## Preferences
 
 - Be concise and direct
 - Don't apologize or hedge
@@ -6,17 +17,8 @@
 
 ## Dotfiles
 
-Pi config is managed via chezmoi. Use `/skill:chezmoi` for details on the setup before making changes to `~/.pi/agent/`.
+Pi config is managed via chezmoi. Use `/skill:chezmoi` for setup details before changing `~/.pi/agent/`.
 
 ## NixOS
 
-This is a NixOS system. Config lives in `~/dotfiles/nixos/`. Use `/skill:nixos` for details.
-
-### Hosts
-
-| Host | Description |
-|---|---|
-| `ghaith-xps` | Dell XPS laptop, desktop environment (imports `cli.nix` + `desktop.nix`) |
-| `nixos-vm` | QEMU VM, CLI-only (imports `cli.nix`) |
-
-Home-manager is integrated — `nixos-rebuild switch` also runs `chezmoi apply` via a home-manager activation.
+Config lives in `~/dotfiles/nixos/`. Use `/skill:nixos` for structure and workflows.
