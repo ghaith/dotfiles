@@ -20,8 +20,7 @@ install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
-    go fd fontconfig fnm wl-clipboard xclip jq uv jdk-openjdk-headless \
-    direnv
+    go fd fontconfig fnm wl-clipboard xclip jq uv direnv
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
