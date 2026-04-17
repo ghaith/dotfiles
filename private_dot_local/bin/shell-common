@@ -147,6 +147,19 @@ if [ -f "$HOME/.local/bin/env" ]; then
     source "$HOME/.local/bin/env"
 fi
 
+# In container/devcontainer sessions, prefer system compilers for builds.
+# This keeps build/link behavior aligned with container-provided libs/toolchain
+# even when nix profile tools are present for editor/LSP workflows.
+if [ -f "/.dockerenv" ] || [ -n "${DEVCONTAINER:-}" ] || [ -n "${REMOTE_CONTAINERS:-}" ]; then
+    if [ -x "/usr/bin/cc" ]; then
+        export CC="/usr/bin/cc"
+    fi
+    if [ -x "/usr/bin/c++" ]; then
+        export CXX="/usr/bin/c++"
+    fi
+fi
+
+
 # LM Studio (machine-local install)
 if [ -d "$HOME/.lmstudio/bin" ]; then
     export PATH="$HOME/.lmstudio/bin:$PATH"

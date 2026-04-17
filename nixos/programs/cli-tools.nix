@@ -43,7 +43,8 @@
     uv
 
     # build tools (needed for cargo builds)
-    gcc
+    # the devcontainer should install this, not us
+    # gcc
 
     # ai tools
     pi-coding-agent
