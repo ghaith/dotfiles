@@ -144,5 +144,45 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    -- Structured Text / IEC 61131-3 debugging via GDB's native DAP mode
+    dap.adapters.gdb = {
+      type = 'executable',
+      command = 'gdb',
+      args = { '-i', 'dap' },
+    }
+
+    dap.configurations.st = {
+      {
+        name = 'Launch ST program',
+        type = 'gdb',
+        request = 'launch',
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopAtBeginningOfMainSubprogram = true,
+      },
+      {
+        name = 'Attach to gdbserver',
+        type = 'gdb',
+        request = 'attach',
+        target = function()
+          return vim.fn.input('Remote target (host:port): ', 'localhost:3333')
+        end,
+        program = function()
+          return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+      },
+    }
+
+    -- Register .st filetype so nvim-dap picks up the config
+    vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+      pattern = '*.st',
+      callback = function()
+        vim.bo.filetype = 'st'
+      end,
+    })
   end,
 }
