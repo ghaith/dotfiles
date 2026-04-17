@@ -120,11 +120,11 @@ __shell_common_setup_ssh_askpass
 if [ -f "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
 elif [ -f "/usr/local/cargo/env" ]; then
-    source "/usr/local/cargo/env" 
+    source "/usr/local/cargo/env"
 fi
 
-# Atuin setup
-if [ -f "$HOME/.atuin/bin/env" ]; then
+# Atuin: only use the curl-installer path as a fallback; package-managed atuin wins
+if ! command -v atuin >/dev/null 2>&1 && [ -f "$HOME/.atuin/bin/env" ]; then
     source "$HOME/.atuin/bin/env"
 fi
 
