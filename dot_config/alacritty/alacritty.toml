@@ -11,5 +11,5 @@ import = [
 ]
 
 [font]
-normal = { family = "Jetbrains Mono", style = "Regular"}
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular"}
 # normal = { family = "Fira Code", style = "Regular"}
