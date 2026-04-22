@@ -5,9 +5,13 @@ Canonical context lives in `~/.config/ai-context/`.
 Read these first:
 
 - `~/.config/ai-context/preferences.md`
-- `~/.config/ai-context/environment/chezmoi.md`
-- `~/.config/ai-context/environment/nixos.md`
 - `~/.config/ai-context/agents/*.md`
+
+Load skills only when the task matches. Do not read every skill up front:
+
+- `~/.config/ai-context/skills/chezmoi.md`
+- `~/.config/ai-context/skills/nixos.md`
+- `~/.config/ai-context/skills/grill-me.md`
 
 ## Preferences
 
@@ -17,8 +21,12 @@ Read these first:
 
 ## Dotfiles
 
-Pi config is managed via chezmoi. Use `/skill:chezmoi` for setup details before changing `~/.pi/agent/`.
+Pi config is managed via chezmoi. Only load `/skill:chezmoi` when changing dotfiles, Pi config, extensions, themes, or other chezmoi-managed files.
 
 ## NixOS
 
-Config lives in `~/dotfiles/nixos/`. Use `/skill:nixos` for structure and workflows.
+Config lives in `~/dotfiles/nixos/`. Only load `/skill:nixos` when the task actually involves NixOS config.
+
+## Additional skills
+
+- Use `/skill:grill-me` when the user wants a plan or design stress-tested through one-question-at-a-time interrogation.

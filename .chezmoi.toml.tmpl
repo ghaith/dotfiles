@@ -11,11 +11,11 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
 [data]
     interactive = {{ $ci }}
     type = {{ $type | quote }}
-{{- if not $ci }}
-    name = "Ghaith Hachem"
-    email = "git@mail.hachem.at"
+{{- if $ci }}
+    name = {{ promptString "Git name" | quote }}
+    email = {{ promptString "Git email" | quote }}
 {{- else }}
-    name = {{ promptString "Name" | quote }}
-    email = {{ promptString "Email" | quote }}
+    name = {{ env "GIT_NAME" | quote }}
+    email = {{ env "GIT_EMAIL" | quote }}
 {{- end }}
 

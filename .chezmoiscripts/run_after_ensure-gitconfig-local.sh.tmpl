@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -eu
+
+target="$HOME/.gitconfig.local"
+
+# Never overwrite machine-local customizations.
+if [ -f "$target" ]; then
+  exit 0
+fi
+
+name={{ .name | quote }}
+email={{ .email | quote }}
+
+# If data is unavailable (e.g. non-interactive init without env), leave it to manual setup.
+if [ -z "$name" ] || [ -z "$email" ]; then
+  echo "[chezmoi] skipped creating $target (missing Git name/email)" >&2
+  exit 0
+fi
+
+umask 077
+cat >"$target" <<EOF
+# Machine-local Git settings (not managed by chezmoi)
+# Keep personal identity, internal hosts, and other sensitive entries here.
+
+[user]
+	name = $name
+	email = $email
+
+# Example for internal credential helper:
+# [credential "https://gitea.internal.example"]
+# 	helper =
+# 	helper = !tea login helper
+EOF
+
+echo "[chezmoi] created $target"

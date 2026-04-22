@@ -38,9 +38,27 @@ function getTextContent(message: AssistantMessage): string {
 		.join("\n");
 }
 
+function formatTodoList(items: TodoItem[]): string {
+	return items.map((item, i) => `${i + 1}. ${item.text}`).join("\n");
+}
+
+function shouldContinuePlanDiscussion(text: string): boolean {
+	const normalized = text.toLowerCase();
+	if (
+		normalized.includes("ready to implement") ||
+		normalized.includes("start implementation") ||
+		normalized.includes("start implementing") ||
+		normalized.includes("implement now")
+	) {
+		return false;
+	}
+	return /\?\s*$/.test(text.trim());
+}
+
 export default function planModeExtension(pi: ExtensionAPI): void {
 	let planModeEnabled = false;
 	let executionMode = false;
+	let discussionMode = false;
 	let todoItems: TodoItem[] = [];
 
 	pi.registerFlag("plan", {
@@ -54,6 +72,8 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 		if (executionMode && todoItems.length > 0) {
 			const completed = todoItems.filter((t) => t.completed).length;
 			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("accent", `📋 ${completed}/${todoItems.length}`));
+		} else if (discussionMode) {
+			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("accent", "🧠 grill"));
 		} else if (planModeEnabled) {
 			ctx.ui.setStatus("plan-mode", ctx.ui.theme.fg("warning", "⏸ plan"));
 		} else {
@@ -71,6 +91,11 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 				return `${ctx.ui.theme.fg("muted", "☐ ")}${item.text}`;
 			});
 			ctx.ui.setWidget("plan-todos", lines);
+		} else if (discussionMode) {
+			ctx.ui.setWidget("plan-todos", [
+				ctx.ui.theme.fg("accent", "Plan discussion") +
+				ctx.ui.theme.fg("muted", " — read-only, grilling before implementation"),
+			]);
 		} else if (planModeEnabled) {
 			ctx.ui.setWidget("plan-todos", [
 				ctx.ui.theme.fg("warning", "Plan mode") +
@@ -84,6 +109,7 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 	function togglePlanMode(ctx: ExtensionContext): void {
 		planModeEnabled = !planModeEnabled;
 		executionMode = false;
+		discussionMode = false;
 		todoItems = [];
 
 		if (planModeEnabled) {
@@ -101,6 +127,7 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 			enabled: planModeEnabled,
 			todos: todoItems,
 			executing: executionMode,
+			discussing: discussionMode,
 		});
 	}
 
@@ -174,15 +201,19 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 			messages: event.messages.filter((m) => {
 				const msg = m as AgentMessage & { customType?: string };
 				if (msg.customType === "plan-mode-context") return false;
+				if (msg.customType === "plan-discussion-context") return false;
 				if (msg.role !== "user") return true;
 
 				const content = msg.content;
 				if (typeof content === "string") {
-					return !content.includes("[PLAN MODE ACTIVE]");
+					return !content.includes("[PLAN MODE ACTIVE]") && !content.includes("[PLAN DISCUSSION ACTIVE]");
 				}
 				if (Array.isArray(content)) {
 					return !content.some(
-						(c) => c.type === "text" && (c as TextContent).text?.includes("[PLAN MODE ACTIVE]"),
+						(c) =>
+							c.type === "text" &&
+							((c as TextContent).text?.includes("[PLAN MODE ACTIVE]") ||
+								(c as TextContent).text?.includes("[PLAN DISCUSSION ACTIVE]")),
 					);
 				}
 				return true;
@@ -192,6 +223,32 @@ export default function planModeExtension(pi: ExtensionAPI): void {
 
 	// Inject plan/execution context before agent starts
 	pi.on("before_agent_start", async () => {
+		if (planModeEnabled && discussionMode && !executionMode) {
+			return {
+				message: {
+					customType: "plan-discussion-context",
+					content: `[PLAN DISCUSSION ACTIVE]
+You are still in plan mode. Stay read-only and do NOT implement yet.
+
+Restrictions:
+- You can use: read, bash (read-only commands), grep, find, ls, questionnaire
+- You can write/edit files ONLY in /tmp/
+- You CANNOT modify project files
+
+Follow grill-me behavior:
+- Interview the user relentlessly about the plan or design until shared understanding is reached
+- Walk the decision tree one dependency at a time
+- Ask one question at a time
+- Give your recommended answer with each question
+- If something can be answered by exploring the codebase, explore it instead of asking
+
+Use the current plan as the baseline. If the plan changes materially, emit an updated numbered "Plan:" section.
+When shared understanding is reached, summarize the resolved decisions and clearly say you are ready for implementation.`,
+					display: false,
+				},
+			};
+		}
+
 		if (planModeEnabled && !executionMode) {
 			return {
 				message: {
@@ -263,6 +320,7 @@ After completing a step, include a [DONE:n] tag in your response.`,
 					{ triggerTurn: false },
 				);
 				executionMode = false;
+				discussionMode = false;
 				todoItems = [];
 				pi.setActiveTools(NORMAL_MODE_TOOLS);
 				updateStatus(ctx);
@@ -282,6 +340,17 @@ After completing a step, include a [DONE:n] tag in your response.`,
 			}
 		}
 
+		if (discussionMode) {
+			if (!lastAssistant || shouldContinuePlanDiscussion(getTextContent(lastAssistant))) {
+				updateStatus(ctx);
+				persistState();
+				return;
+			}
+			discussionMode = false;
+			updateStatus(ctx);
+			persistState();
+		}
+
 		// Show plan steps and prompt for next action
 		if (todoItems.length > 0) {
 			const todoListText = todoItems.map((t, i) => `${i + 1}. ☐ ${t.text}`).join("\n");
@@ -297,6 +366,7 @@ After completing a step, include a [DONE:n] tag in your response.`,
 
 		const choice = await ctx.ui.select("Plan mode - what next?", [
 			todoItems.length > 0 ? "Execute the plan (track progress)" : "Execute the plan",
+			"Discuss the plan in detail first",
 			"Stay in plan mode",
 			"Refine the plan",
 		]);
@@ -304,6 +374,7 @@ After completing a step, include a [DONE:n] tag in your response.`,
 		if (choice?.startsWith("Execute")) {
 			planModeEnabled = false;
 			executionMode = todoItems.length > 0;
+			discussionMode = false;
 			pi.setActiveTools(NORMAL_MODE_TOOLS);
 			updateStatus(ctx);
 
@@ -314,6 +385,15 @@ After completing a step, include a [DONE:n] tag in your response.`,
 			pi.sendMessage(
 				{ customType: "plan-mode-execute", content: execMessage, display: true },
 				{ triggerTurn: true },
+			);
+		} else if (choice === "Discuss the plan in detail first") {
+			discussionMode = true;
+			updateStatus(ctx);
+			persistState();
+
+			const planSummary = todoItems.length > 0 ? `\n\nCurrent plan:\n${formatTodoList(todoItems)}` : "";
+			pi.sendUserMessage(
+				`Grill me on this plan before implementation. Ask one question at a time, include your recommended answer with each question, and explore the codebase instead of asking whenever possible.${planSummary}`,
 			);
 		} else if (choice === "Refine the plan") {
 			const refinement = await ctx.ui.editor("Refine the plan:", "");
@@ -334,12 +414,13 @@ After completing a step, include a [DONE:n] tag in your response.`,
 		// Restore persisted state
 		const planModeEntry = entries
 			.filter((e: { type: string; customType?: string }) => e.type === "custom" && e.customType === "plan-mode")
-			.pop() as { data?: { enabled: boolean; todos?: TodoItem[]; executing?: boolean } } | undefined;
+			.pop() as { data?: { enabled: boolean; todos?: TodoItem[]; executing?: boolean; discussing?: boolean } } | undefined;
 
 		if (planModeEntry?.data) {
 			planModeEnabled = planModeEntry.data.enabled ?? planModeEnabled;
 			todoItems = planModeEntry.data.todos ?? todoItems;
 			executionMode = planModeEntry.data.executing ?? executionMode;
+			discussionMode = planModeEntry.data.discussing ?? discussionMode;
 		}
 
 		// On resume: re-scan messages to rebuild completion state

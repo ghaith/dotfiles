@@ -5,9 +5,9 @@ description: NixOS system configuration with flake-parts. Use when working on Ni
 
 # NixOS Skill (Pi Adapter)
 
-Canonical documentation lives in:
+Canonical skill lives in:
 
-- `~/.config/ai-context/environment/nixos.md`
+- `~/.config/ai-context/skills/nixos.md`
 
 Read that file first.
 
