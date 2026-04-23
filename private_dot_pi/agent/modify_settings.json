@@ -11,4 +11,5 @@ fi
 
 echo "$current" | jq '
     .theme = "catppuccin-mocha"
+    | .steeringMode = "all"
 '
