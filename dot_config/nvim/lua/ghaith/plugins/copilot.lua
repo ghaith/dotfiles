@@ -19,7 +19,7 @@ return {
   event = 'InsertEnter',
   config = function()
     require('copilot').setup {
-      suggession = {
+      suggestion = {
         keymap = {
           accept = '<leader>ca',
           accept_word = false,
@@ -35,7 +35,7 @@ return {
         keymap = {
           accept_and_goto = '<leader>cg',
           accept = '<leader>cna',
-          dismiss = '<ledaer>cnx',
+          dismiss = '<leader>cnx',
         },
       },
     }

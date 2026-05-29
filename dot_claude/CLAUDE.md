@@ -36,6 +36,7 @@ When asked to act as a specialist, use the matching role definition:
 - Chezmoi: `~/.config/ai-context/skills/chezmoi.md` — load only for dotfiles, Pi config, extensions, themes, or other chezmoi-managed files.
 - NixOS: `~/.config/ai-context/skills/nixos.md` — load only for NixOS modules, packages, hosts, or flake config.
 - Grill Me: `~/.config/ai-context/skills/grill-me.md` — load only when the user wants a plan or design stress-tested through one-question-at-a-time questioning.
+- Rubber Duck: `~/.config/ai-context/skills/rubber-duck.md` — load when the user invokes `/rubber-duck` or says "rubber duck mode"; the user drives the programming and you respond to what's asked instead of eagerly doing the whole task.
 
 ## Plan to implementation transition
 

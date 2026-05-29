@@ -20,7 +20,8 @@ install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
-    go fd fontconfig fnm wl-clipboard xclip jq uv direnv
+    go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
+    python-git-review
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
@@ -32,7 +33,7 @@ install_fedora() {
   sudo dnf install -y \
     git neovim python3-neovim curl zsh bat ripgrep fzf fd-find \
     git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq java-21-openjdk-devel \
-    direnv go
+    direnv go git-review
 
   setup_nerd_fonts
   setup_fnm

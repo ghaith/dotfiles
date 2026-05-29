@@ -28,6 +28,7 @@
     jq
     git
     gh
+    git-review
     curl
     htop
 

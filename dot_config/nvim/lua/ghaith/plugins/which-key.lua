@@ -66,6 +66,8 @@ return {
 				{ "<leader>w", group = "[W]orkspace" },
 				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+				{ "<leader>gr", group = "[G]it [R]eview (octo/diffview)" },
+				{ "<leader>gt", group = "Gi[t]ea (tea CLI)" },
 			},
 		},
 	},
