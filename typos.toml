@@ -1,0 +1,19 @@
+[default]
+extend-ignore-re = [
+  "@thm_",
+]
+
+[type.lua.extend-words]
+# Keybinding mnemonics in descriptions/comments
+anguage = "anguage"
+cna = "cna"
+earch = "earch"
+efinition = "efinition"
+eferences = "eferences"
+elete = "elete"
+ine = "ine"
+nner = "nner"
+symbols = "symbols"
+ymbols = "ymbols"
+tage = "tage"
+ype = "ype"

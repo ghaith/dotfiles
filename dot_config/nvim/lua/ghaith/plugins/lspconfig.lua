@@ -183,13 +183,51 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+      local has_java = vim.fn.executable 'java' == 1
+      local writing_filetypes = { 'gitcommit', 'markdown', 'text', 'vimwiki' }
+      local typo_filetypes = {
+        'c',
+        'cpp',
+        'gitcommit',
+        'go',
+        'lua',
+        'markdown',
+        'nix',
+        'python',
+        'rust',
+        'sh',
+        'text',
+        'toml',
+        'typescript',
+        'typescriptreact',
+        'vimwiki',
+        'yaml',
+      }
+      local root_dir = function(markers)
+        return function(bufnr)
+          return vim.fs.root(bufnr, markers) or vim.fn.getcwd()
+        end
+      end
+
       local servers = {
         bashls = {},
         clangd = {},
         gopls = {},
-        groovyls = {},
+        harper_ls = {
+          filetypes = writing_filetypes,
+          root_dir = root_dir { '.harper-dictionary.txt', '.git' },
+          single_file_support = true,
+        },
+        marksman = {
+          filetypes = { 'markdown', 'vimwiki' },
+        },
         openscad_lsp = {},
         pyright = {},
+        typos_lsp = {
+          filetypes = typo_filetypes,
+          root_dir = root_dir { 'typos.toml', '_typos.toml', '.typos.toml', '.git', 'Cargo.toml', 'pyproject.toml' },
+          single_file_support = true,
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -216,6 +254,10 @@ return {
         },
       }
 
+      if has_java then
+        servers.groovyls = {}
+      end
+
       -- Ensure the servers and tools above are installed
       --
       -- To check the current status of installed tools and/or manually install
@@ -232,8 +274,6 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
-        'copilot-language-server',
-        'marksman',
         'markdownlint',
         'tree-sitter-cli',
       })

@@ -134,7 +134,46 @@ Preview changes first:
 chezmoi diff
 ```
 
+## Tooling updates
+
+### Arch / CachyOS packages
+
+```bash
+sudo pacman -Syu
+```
+
+### NixOS system packages
+
+```bash
+cd ~/dotfiles/nixos
+nix flake update
+sudo nixos-rebuild switch --flake .#$(hostname)
+```
+
+### Portable nix profile packages
+
+```bash
+nix profile upgrade --all
+```
+
+More NixOS notes live in `nixos/README.md`.
+
 ---
+
+## Writing / spell / grammar tools
+
+Default install now includes:
+
+- `shellcheck` — shell linting
+- `typos` + `typos-lsp` — typo checking for code and prose
+- `harper` — lightweight English grammar/style checks
+- `vim-spell-en` — Neovim English spell files
+
+Optional Arch packages for extra Neovim spell languages:
+
+```bash
+sudo pacman -S vim-spell-de vim-spell-fr vim-spell-nl vim-spell-es
+```
 
 ## Troubleshooting
 

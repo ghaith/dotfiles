@@ -12,6 +12,8 @@ Load skills only when the task matches. Do not read every skill up front:
 - `~/.config/ai-context/skills/chezmoi.md`
 - `~/.config/ai-context/skills/nixos.md`
 - `~/.config/ai-context/skills/grill-me.md`
+- `~/.config/ai-context/skills/rubber-duck.md`
+- `~/.config/ai-context/skills/teacher.md`
 
 ## Preferences
 
@@ -30,3 +32,5 @@ Config lives in `~/dotfiles/nixos/`. Only load `/skill:nixos` when the task actu
 ## Additional skills
 
 - Use `/skill:grill-me` when the user wants a plan or design stress-tested through one-question-at-a-time interrogation.
+- Use `/skill:rubber-duck`, `/rubber-duck`, or `/duck` when the user wants to drive the programming and have you act as a sounding board. Stay in that mode until the user says to stop.
+- Use `/skill:teacher`, `/teacher`, or phrases like “teacher mode” / “teach me” when the user wants guided learning through exercises, hints, editor steps, and checks instead of having you do the programming for them. Stay in that mode until the user says to stop.

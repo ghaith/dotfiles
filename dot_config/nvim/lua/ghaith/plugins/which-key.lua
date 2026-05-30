@@ -61,15 +61,109 @@ return {
 			spec = {
 				{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
 				{ "<leader>d", group = "[D]ocument" },
-				{ "<leader>r", group = "[R]ename" },
+				{ "<leader>r", group = "[R]ename / Review" },
 				{ "<leader>s", group = "[S]earch" },
-				{ "<leader>w", group = "[W]orkspace" },
+				{ "<leader>u", group = "[U]tility" },
+				{ "<leader>ul", group = "Spell [L]anguage" },
+				{ "<leader>uw", group = "[W]riting" },
+				{ "<leader>uwt", group = "[T]ypos" },
+				{ "<leader>w", group = "Tmux [W]orkflow" },
+				{ "<leader>wv", desc = "Open tmux [V]ertical editor split" },
+				{ "<leader>wh", desc = "Open tmux [H]orizontal editor split" },
+				{ "<leader>wz", desc = "Toggle centered scratch terminal" },
+				{ "<leader>rv", group = "Re[V]iew" },
 				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-				{ "<leader>gr", group = "[G]it [R]eview (octo/diffview)" },
+				{ "<leader>gr", group = "[G]it [R]eview (raw plugin keys)" },
 				{ "<leader>gt", group = "Gi[t]ea (tea CLI)" },
 			},
 		},
+		config = function(_, opts)
+			local wk = require("which-key")
+			wk.setup(opts)
+
+			local set_spelllang = function(lang, label)
+				vim.opt_local.spell = true
+				vim.opt_local.spelllang = lang
+				vim.notify(string.format("spelllang=%s (%s)", lang, label))
+			end
+
+			local toggle_harper = function()
+				local bufnr = vim.api.nvim_get_current_buf()
+				local clients = vim.lsp.get_clients({ bufnr = bufnr, name = "harper_ls" })
+				if #clients > 0 then
+					for _, client in ipairs(clients) do
+						vim.lsp.buf_detach_client(bufnr, client.id)
+					end
+					vim.notify("Harper detached from current buffer")
+					return
+				end
+
+				if vim.fn.executable("harper-ls") == 0 then
+					vim.notify("harper-ls not found on PATH", vim.log.levels.WARN)
+					return
+				end
+
+				vim.lsp.start({
+					name = "harper_ls",
+					cmd = { "harper-ls", "--stdio" },
+					root_dir = vim.fs.root(bufnr, { ".harper-dictionary.txt", ".git" }) or vim.fn.getcwd(),
+					single_file_support = true,
+				})
+				vim.notify("Harper attached to current buffer")
+			end
+
+			local run_typos = function(scope)
+				if vim.fn.executable("typos") == 0 then
+					vim.notify("typos not found on PATH", vim.log.levels.WARN)
+					return
+				end
+
+				local target = scope == "file" and vim.fn.expand("%:p") or vim.fn.getcwd()
+				if scope == "file" and target == "" then
+					vim.notify("Current buffer has no file on disk", vim.log.levels.WARN)
+					return
+				end
+
+				vim.cmd("botright split")
+				vim.cmd("resize 12")
+				vim.cmd(string.format("terminal typos %s", vim.fn.shellescape(target)))
+			end
+
+			vim.keymap.set("n", "<leader>us", function()
+				vim.opt_local.spell = not vim.opt_local.spell:get()
+			end, { desc = "Toggle [S]pell" })
+			vim.keymap.set("n", "<leader>ule", function()
+				set_spelllang("en", "English")
+			end, { desc = "Use [E]nglish spellcheck" })
+			vim.keymap.set("n", "<leader>uld", function()
+				set_spelllang("de", "German")
+			end, { desc = "Use [D]eutsch spellcheck" })
+			vim.keymap.set("n", "<leader>ulf", function()
+				set_spelllang("fr", "French")
+			end, { desc = "Use [F]rench spellcheck" })
+			vim.keymap.set("n", "<leader>uln", function()
+				set_spelllang("nl", "Dutch")
+			end, { desc = "Use Du[t]ch spellcheck" })
+			vim.keymap.set("n", "<leader>uls", function()
+				set_spelllang("es", "Spanish")
+			end, { desc = "Use [S]panish spellcheck" })
+			vim.keymap.set("n", "<leader>uwh", toggle_harper, { desc = "Toggle [H]arper for buffer" })
+			vim.keymap.set("n", "<leader>uwtf", function()
+				run_typos("file")
+			end, { desc = "Run typos on current [F]ile" })
+			vim.keymap.set("n", "<leader>uwtr", function()
+				run_typos("repo")
+			end, { desc = "Run typos on current [R]epo" })
+
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "gitcommit", "markdown", "text", "vimwiki" },
+				callback = function()
+					vim.opt_local.spell = true
+					vim.opt_local.spelllang = "en"
+				end,
+			})
+		end,
 	},
 }
 -- vim: ts=2 sts=2 sw=2 et

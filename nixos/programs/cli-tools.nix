@@ -31,6 +31,12 @@
     git-review
     curl
     htop
+    shellcheck
+    typos
+
+    # writing
+    harper
+    typos-lsp
 
     # dev
     direnv

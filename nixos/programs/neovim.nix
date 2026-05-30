@@ -29,6 +29,11 @@
       bash-language-server
       shellcheck
 
+      # spelling / writing
+      harper
+      typos
+      typos-lsp
+
       # c/c++
       clang-tools
 

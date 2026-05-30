@@ -21,7 +21,7 @@ install_arch() {
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
     go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
-    python-git-review
+    python-git-review shellcheck typos typos-lsp harper vim-spell-en
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
@@ -33,7 +33,7 @@ install_fedora() {
   sudo dnf install -y \
     git neovim python3-neovim curl zsh bat ripgrep fzf fd-find \
     git-delta zoxide eza atuin fontconfig xz unzip wl-clipboard xclip jq java-21-openjdk-devel \
-    direnv go git-review
+    direnv go git-review ShellCheck rustup
 
   setup_nerd_fonts
   setup_fnm
@@ -133,6 +133,12 @@ setup_rust() {
     rustup toolchain install stable
     rustup default stable
     rustup component add rust-analyzer --toolchain stable
+  fi
+
+  if command -v cargo &>/dev/null; then
+    command -v typos >/dev/null 2>&1 || cargo install typos-cli
+    command -v typos-lsp >/dev/null 2>&1 || cargo install typos-lsp
+    command -v harper-ls >/dev/null 2>&1 || cargo install harper-ls
   fi
 }
 
@@ -305,7 +311,7 @@ resolve_flake_ref() {
 # ── Package detection ────────────────────────────────────────────────
 
 install_packages() {
-  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin jq direnv)
+  local packages=(zsh git nvim bat eza starship rg fzf zoxide atuin jq direnv shellcheck typos typos-lsp harper-ls)
   local all_installed=true
 
   for pkg in "${packages[@]}"; do
