@@ -162,20 +162,23 @@ function M.pick_ref(callback)
   end)
 end
 
+local function git_ref_exists(ref)
+  return vim.system({ 'git', 'rev-parse', '--verify', '--quiet', ref }, { text = true }):wait().code == 0
+end
+
 function M.git_base_ref()
-  local result = vim.system({ 'git', 'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{upstream}' }, { text = true }):wait()
-  if result.code == 0 then
-    return (result.stdout or ''):gsub('%s+$', '')
-  end
-
-  local origin_head = vim.system({ 'git', 'symbolic-ref', 'refs/remotes/origin/HEAD' }, { text = true }):wait()
+  -- Prefer the remote's default branch (whatever it is on this repo).
+  local origin_head = vim.system({ 'git', 'symbolic-ref', '--short', 'refs/remotes/origin/HEAD' }, { text = true }):wait()
   if origin_head.code == 0 then
-    return ((origin_head.stdout or ''):gsub('%s+$', ''))
+    local ref = (origin_head.stdout or ''):gsub('%s+$', '')
+    if ref ~= '' then
+      return ref
+    end
   end
 
-  for _, candidate in ipairs({ 'main', 'master' }) do
-    local probe = vim.system({ 'git', 'rev-parse', '--verify', candidate }, { text = true }):wait()
-    if probe.code == 0 then
+  -- Fall back to common remote-tracking branches, then local ones.
+  for _, candidate in ipairs({ 'origin/master', 'origin/main', 'master', 'main' }) do
+    if git_ref_exists(candidate) then
       return candidate
     end
   end
