@@ -15,7 +15,7 @@
     settings.block_normal_config = false;
 
     # LSPs, formatters, and tools on PATH for the wrapped neovim
-    extraPackages = with pkgs; [
+    runtimePkgs = with pkgs; [
       # lua
       lua-language-server
       stylua
