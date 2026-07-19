@@ -6,6 +6,7 @@ Read these first:
 
 - `~/.config/ai-context/preferences.md`
 - `~/.config/ai-context/agents/*.md`
+- `~/.config/ai-context/environment/local-infra.md`
 
 Load skills only when the task matches. Do not read every skill up front:
 

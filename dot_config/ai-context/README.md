@@ -19,6 +19,7 @@ This directory is the tool-agnostic source of truth for assistant context.
 
 - Pi adapter: `~/.pi/agent/AGENTS.md` + `~/.pi/agent/skills/*`
 - Claude Code adapter: `~/.claude/CLAUDE.md`
+- Antigravity adapter: `~/.gemini/GEMINI.md` + `~/.gemini/config/skills/*`
 
 Adapters should stay thin and point back here for canonical details.
 
