@@ -1,30 +1,26 @@
 #!/usr/bin/env bash
-# Smart clipboard for tmux copy-pipe.
-# - Local Wayland/X11/macOS: uses native clipboard tool → instant, reliable
-# - SSH or no native tool: falls back to OSC 52 (works if terminal supports it)
-#   Works with: kitty, alacritty, wezterm, foot, iTerm2, etc.
-#   Requires: tmux allow-passthrough on + set-clipboard on
+# Clipboard for tmux copy-pipe.
+#
+# `tmux load-buffer -w` fills the tmux paste buffer and forwards the text via
+# OSC 52 to the terminal of the client attached *right now* — local terminal
+# or Windows Terminal over SSH. Env vars (WAYLAND_DISPLAY, DISPLAY) are
+# snapshots from server/pane creation and lie after re-attaching from another
+# machine, so they must not pick the backend. Requires tmux >= 3.2 and
+# set-clipboard on.
+#
+# Writing OSC 52 to this script's stdout would not work: copy-pipe jobs are
+# not attached to the terminal, tmux discards their output.
 
 buf=$(cat)
 
-# ── Native clipboard (local session) ──────────────────────────────────────────
+printf '%s' "$buf" | tmux load-buffer -w -
+
+# Best effort: mirror to the desktop clipboard when a live display exists, so
+# the copy is still there when sitting down at the machine later.
 if [[ -n "${WAYLAND_DISPLAY:-}" ]] && command -v wl-copy &>/dev/null; then
-    printf '%s' "$buf" | wl-copy && exit 0
-fi
-if [[ -n "${DISPLAY:-}" ]] && command -v xclip &>/dev/null; then
-    printf '%s' "$buf" | xclip -selection clipboard && exit 0
-fi
-if [[ -n "${DISPLAY:-}" ]] && command -v xsel &>/dev/null; then
-    printf '%s' "$buf" | xsel --clipboard --input && exit 0
-fi
-if command -v pbcopy &>/dev/null; then
-    printf '%s' "$buf" | pbcopy && exit 0
+    printf '%s' "$buf" | wl-copy 2>/dev/null || true
+elif [[ -n "${DISPLAY:-}" ]] && command -v xclip &>/dev/null; then
+    printf '%s' "$buf" | xclip -selection clipboard 2>/dev/null || true
 fi
 
-# ── OSC 52 fallback (SSH / no native clipboard) ────────────────────────────── 
-# Sends the clipboard data to the outer terminal via escape sequence.
-# tmux's set-clipboard also does this automatically, but being explicit here
-# ensures it works even without terminal-features being configured.
-encoded=$(printf '%s' "$buf" | base64 | tr -d '\n')
-# Write through tmux DCS passthrough so the outer terminal receives it
-printf '\033Ptmux;\033\033]52;c;%s\a\033\\' "$encoded"
+exit 0
