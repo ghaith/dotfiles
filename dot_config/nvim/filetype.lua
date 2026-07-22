@@ -5,4 +5,7 @@ vim.filetype.add {
     tscn = 'godot_resource',
     tres = 'godot_resource',
   },
+  pattern = {
+    ['.*Jenkinsfile.*'] = 'groovy',
+  },
 }
