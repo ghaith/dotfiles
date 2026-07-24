@@ -21,7 +21,11 @@ install_arch() {
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
     go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
-    python-git-review shellcheck typos typos-lsp harper vim-spell-en
+    shellcheck typos typos-lsp harper vim-spell-en
+
+  if command -v uv &>/dev/null; then
+    command -v git-review >/dev/null 2>&1 || uv tool install git-review || true
+  fi
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
