@@ -1,0 +1,67 @@
+{
+  "providers": {
+    "openai": {
+      "baseUrl": "http://urithiru:11434/v1",
+      "api": "openai-completions",
+      "apiKey": "ollama",
+      "models": [
+        {
+          "id": "qwen3-coder:30b",
+          "name": "Qwen3 Coder 30B (MoE)",
+          "contextWindow": 32768,
+          "maxTokens": 4096
+        },
+        {
+          "id": "codestral:latest",
+          "name": "Codestral 22B (Mistral)",
+          "contextWindow": 32768,
+          "maxTokens": 4096
+        },
+        {
+          "id": "devstral:24b",
+          "name": "Devstral 24B (Code Construction)",
+          "contextWindow": 32768,
+          "maxTokens": 4096
+        },
+        {
+          "id": "qwen2.5-coder:14b",
+          "name": "Qwen2.5 Coder 14B",
+          "contextWindow": 32768,
+          "maxTokens": 4096
+        },
+        {
+          "id": "deepseek-r1:14b",
+          "name": "DeepSeek R1 14B (Reasoning)",
+          "reasoning": true,
+          "contextWindow": 16384,
+          "maxTokens": 8192
+        },
+        {
+          "id": "gemma4:12b",
+          "name": "Gemma 4 12B (Google)",
+          "contextWindow": 256000,
+          "maxTokens": 8192
+        },
+        {
+          "id": "gemma4:e4b",
+          "name": "Gemma 4 E4B (Edge)",
+          "contextWindow": 128000,
+          "maxTokens": 4096
+        },
+        {
+          "id": "qwen3.5:9b",
+          "name": "Qwen 3.5 9B (Reasoning)",
+          "reasoning": true,
+          "contextWindow": 131072,
+          "maxTokens": 8192
+        },
+        {
+          "id": "qwen2.5-coder:1.5b",
+          "name": "Qwen2.5 Coder 1.5B (Autocomplete)",
+          "contextWindow": 8192,
+          "maxTokens": 1024
+        }
+      ]
+    }
+  }
+}

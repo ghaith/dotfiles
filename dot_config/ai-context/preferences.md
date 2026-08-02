@@ -14,3 +14,7 @@
 ## Resource Optimization
 - Keep output dense and optimized to avoid wasting token processing cycles.
 - Prioritize high-density solutions over over-explained multi-file refactoring steps.
+
+## Reasoning and Thinking Models
+- Keep the internal thought process (<think> block) extremely concise and brief.
+- Transition to the final output or tool calls as quickly as possible. Do not over-analyze or repeat thoughts.

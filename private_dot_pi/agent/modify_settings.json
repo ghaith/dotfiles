@@ -12,4 +12,6 @@ fi
 echo "$current" | jq '
     .theme = "catppuccin-mocha"
     | .steeringMode = "all"
+    | .defaultProvider = "openai"
+    | .defaultModel = "qwen2.5-coder:14b"
 '

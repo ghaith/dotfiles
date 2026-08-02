@@ -150,7 +150,7 @@ binds {
 
     // Apps — controlled via TERMINAL and BROWSER env vars above
     Mod+Return       hotkey-overlay-title="Open Terminal" { spawn "kitty"; }
-    Mod+Shift+Return hotkey-overlay-title="Open Browser"  { spawn "vivaldi"; }
+    Mod+Shift+Return hotkey-overlay-title="Open Browser"  { spawn "floorp"; }
     Mod+Shift+P      hotkey-overlay-title="Displays"      { spawn "wdisplays"; }
 
     // DMS launchers

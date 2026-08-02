@@ -1,7 +1,7 @@
 ---
 name: worker
 description: General-purpose subagent with full capabilities, isolated context
-model: claude-sonnet-4-5
+model: qwen3-coder:30b
 ---
 
 First read and follow:
