@@ -16,6 +16,29 @@ log "starting install.sh (SHELL=${SHELL:-<unset>} USER=$(whoami) HOST=${HOSTNAME
 
 # ── Distro installers ────────────────────────────────────────────────
 
+# AUR packages: use an installed helper if there is one, otherwise build the
+# package from its AUR git repo with makepkg. Callers should tolerate failure
+# (`|| true`) — an AUR build is not worth aborting the bootstrap over.
+install_aur() {
+  local pkg="$1" helper status=0
+
+  for helper in paru yay; do
+    if command -v "$helper" &>/dev/null; then
+      "$helper" -S --needed --noconfirm "$pkg"
+      return
+    fi
+  done
+
+  sudo pacman -S --needed --noconfirm base-devel git
+
+  local build_dir
+  build_dir="$(mktemp -d)"
+  git clone --depth 1 "https://aur.archlinux.org/${pkg}.git" "$build_dir/$pkg" &&
+    (cd "$build_dir/$pkg" && makepkg -si --noconfirm) || status=$?
+  rm -rf "$build_dir"
+  return "$status"
+}
+
 install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
@@ -26,6 +49,9 @@ install_arch() {
   if command -v uv &>/dev/null; then
     command -v git-review >/dev/null 2>&1 || uv tool install git-review || true
   fi
+
+  # tuicr has no repo package; the AUR ships prebuilt binaries as tuicr-bin.
+  command -v tuicr >/dev/null 2>&1 || install_aur tuicr-bin || true
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts

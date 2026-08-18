@@ -4,6 +4,7 @@
     flake-parts.url = "github:hercules-ci/flake-parts";
     import-tree.url = "github:vic/import-tree";
     claude-code-nix.url = "github:sadjow/claude-code-nix";
+    tuicr.url = "github:agavra/tuicr";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";

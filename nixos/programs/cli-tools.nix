@@ -30,6 +30,7 @@
     gh
     tea
     git-review
+    self.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     curl
     htop
     shellcheck
