@@ -54,7 +54,16 @@ vim.opt.syntax = 'on'
 vim.opt.ruler = true
 vim.opt.title = true
 vim.opt.hidden = true
-vim.opt.termguicolors = true
+-- Truecolor: safe inside tmux (tmux downconverts for weaker clients) and on
+-- terminals declaring 24-bit via COLORTERM. Anywhere else, leave the option
+-- unset so nvim's own terminal detection decides — on an exotic terminal
+-- without RGB support, forcing it would render broken colors. The colorscheme
+-- config also keys off this flag (catppuccin force-enables termguicolors).
+local colorterm = vim.env.COLORTERM or ''
+vim.g.has_truecolor = (vim.env.TMUX or '') ~= '' or colorterm == 'truecolor' or colorterm == '24bit'
+if vim.g.has_truecolor then
+  vim.opt.termguicolors = true
+end
 
 -- Tabs: use 2 spaces, expand tabs to spaces
 vim.opt.tabstop = 2

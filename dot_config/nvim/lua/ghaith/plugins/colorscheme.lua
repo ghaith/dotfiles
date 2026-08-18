@@ -8,10 +8,28 @@ return {
     name = 'catppuccin',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'catppuccin-mocha'
+      -- catppuccin is truecolor-only (it force-enables termguicolors), so only
+      -- load it when the terminal can take it; otherwise keep nvim's default
+      -- scheme, which renders fine on 16/256 colors.
+      local function apply()
+        vim.cmd.colorscheme 'catppuccin-mocha'
+      end
+      if vim.g.has_truecolor then
+        apply()
+      else
+        -- No tmux/COLORTERM guarantee: nvim's TUI still probes the terminal
+        -- after startup and sets 'termguicolors' if it detects RGB support —
+        -- apply the theme at that moment.
+        vim.api.nvim_create_autocmd('OptionSet', {
+          pattern = 'termguicolors',
+          once = true,
+          callback = function()
+            if vim.o.termguicolors then
+              apply()
+            end
+          end,
+        })
+      end
 
       -- You can configure highlights by doing something like:
       -- vim.cmd.hi 'Comment gui=none'

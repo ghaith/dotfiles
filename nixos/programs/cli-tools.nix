@@ -36,6 +36,9 @@
     shellcheck
     typos
 
+    # Helper tools
+    dua #disk usage
+
     # writing
     harper
     typos-lsp
