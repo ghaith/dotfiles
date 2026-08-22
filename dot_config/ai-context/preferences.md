@@ -10,6 +10,7 @@
 - Deliver short, direct, highly technical answers.
 - Omit conversational summaries, long introductory remarks, or pleasantries.
 - Jump straight into code, patches, or terminal tool commands.
+- Use ASCII/Unicode box-drawing diagrams instead of raw Mermaid code blocks for terminal rendering.
 
 ## Resource Optimization
 - Keep output dense and optimized to avoid wasting token processing cycles.

@@ -51,6 +51,7 @@ require("lazy").setup({
 	require("ghaith.plugins.gonvim"),
 	require("ghaith.plugins.parinfer"),
 	require("ghaith.plugins.render-markdown"),
+	require("ghaith.plugins.markdown-preview"),
 	require("ghaith.plugins.vimwiki"),
 	require("ghaith.plugins.joplin"),
 	require("ghaith.plugins.img-clip"),
