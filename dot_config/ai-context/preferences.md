@@ -5,6 +5,7 @@
 - When unsure, ask rather than guess
 - When transitioning from planning to implementation, keep the tool's normal confirmation flow and additionally ask whether the user wants to discuss the plan in detail before implementation
 - If the user wants detailed plan discussion, load and follow the grill-me skill, and do not start implementing until the user explicitly asks to proceed
+- Zero warnings allowed across the codebase: always enforce and verify `cargo clippy --all-targets -- -D warnings` and `cargo fmt --check` before completing tasks
 
 ## Response Style
 - Deliver short, direct, highly technical answers.

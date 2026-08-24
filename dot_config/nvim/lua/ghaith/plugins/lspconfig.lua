@@ -105,7 +105,7 @@ return {
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
           -- Skip in octo:// buffers so octo's <space>ca (add review comment) wins.
-          if not vim.api.nvim_buf_get_name(event.buf):match('^octo://') then
+          if not vim.api.nvim_buf_get_name(event.buf):match '^octo://' then
             map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
           end
 
@@ -183,12 +183,14 @@ return {
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-      local has_java = vim.fn.executable 'java' == 1
+      local has_dotnet = vim.fn.executable 'dotnet' == 1
       local has_godot = vim.fn.executable 'godot' == 1
+      local has_groovy = vim.fn.executable 'groovy-language-server' == 1 or vim.fn.executable 'groovyls' == 1
       local writing_filetypes = { 'gitcommit', 'markdown', 'text', 'vimwiki' }
       local typo_filetypes = {
         'c',
         'cpp',
+        'cs',
         'gitcommit',
         'go',
         'lua',
@@ -255,8 +257,28 @@ return {
         },
       }
 
-      if has_java then
+      if has_groovy then
         servers.groovyls = {}
+      end
+
+      if has_dotnet then
+        servers.omnisharp = {
+          settings = {
+            FormattingOptions = {
+              EnableEditorConfigSupport = true,
+              OrganizeImports = true,
+            },
+            RoslynExtensionsOptions = {
+              EnableAnalyzersSupport = true,
+              EnableImportCompletion = true,
+              EnableDecompilationSupport = true,
+            },
+            Sdk = {
+              IncludePrereleases = true,
+            },
+          },
+          root_dir = root_dir { 'project.godot', '*.sln', '*.csproj', '.git' },
+        }
       end
 
       if has_godot then
