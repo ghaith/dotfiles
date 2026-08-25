@@ -14,6 +14,10 @@
     zoxide
     atuin
     fzf
+    # tmux from nixpkgs, not the distro: Ubuntu ships 3.4, which cannot parse
+    # several terminal reply families (WT's DCS answers to nvim's truecolor
+    # probes) and injects them into the active pane as typed input.
+    tmux
 
     # editor
     self.packages.${pkgs.stdenv.hostPlatform.system}.neovim

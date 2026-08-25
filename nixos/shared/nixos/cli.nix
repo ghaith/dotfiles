@@ -12,7 +12,6 @@
     (self.cliToolPackages pkgs)
     ++ (with pkgs; [
       # NixOS-only extras (not needed in devcontainers)
-      tmux
       zellij
       rust-analyzer
       python3Packages.pynvim
