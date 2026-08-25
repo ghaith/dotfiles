@@ -44,14 +44,16 @@ install_arch() {
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
     go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
-    shellcheck typos typos-lsp harper vim-spell-en
+    shellcheck typos typos-lsp harper vim-spell-en tuicr
 
   if command -v uv &>/dev/null; then
     command -v git-review >/dev/null 2>&1 || uv tool install git-review || true
   fi
 
-  # tuicr has no repo package; the AUR ships prebuilt binaries as tuicr-bin.
-  command -v tuicr >/dev/null 2>&1 || install_aur tuicr-bin || true
+  # tuicr is now in the official Arch repos, no need for AUR
+  
+  # herdr-bin provides prebuilt binaries (like tuicr-bin)
+  command -v herdr >/dev/null 2>&1 || install_aur herdr-bin || true
 
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts

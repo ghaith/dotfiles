@@ -46,6 +46,7 @@
     # writing
     harper
     typos-lsp
+    herdr
 
     # dev
     direnv
