@@ -1,0 +1,14 @@
+# Machine-local Git settings (not managed by chezmoi).
+# Keep personal identity, internal hosts, and other sensitive entries here.
+#
+# chezmoi creates this file once and then never touches it again, so anything
+# you add below is safe from `chezmoi apply`.
+
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+
+# Example for an internal credential helper:
+# [credential "https://gitea.internal.example"]
+# 	helper =
+# 	helper = !tea login helper

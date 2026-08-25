@@ -28,10 +28,10 @@ This repo installs and configures:
 ## Repository layout
 
 - `install.sh` – Linux bootstrap (packages + fnm/node + pi + chezmoi init/apply)
-- `install.ps1` – Windows bootstrap (winget/choco + fnm/node + pi + chezmoi init/apply)
 - `.chezmoiscripts/run_once_before_00-bootstrap.sh` – runs bootstrap when initialized through chezmoi
 - `run_after_install-pi-extensions.sh` – installs npm deps for pi extensions
 - `run_after_install-tmux-catppuccin.sh` – installs tmux catppuccin plugin
+- `create_private_dot_gitconfig.local.tmpl` – seeds `~/.gitconfig.local` once, then never touches it
 - `dot_*`, `private_dot_*`, `dot_config/` – managed dotfiles/templates
 
 ---
@@ -107,15 +107,51 @@ This ensures `node`/`npm` are available for `pi` after install.
 
 ## Windows
 
-> ⚠️ Note: the Windows bootstrap path exists, but is currently **not tested**.
+Windows is a **config-only** target — nothing is installed and no shell
+config is deployed. `.chezmoiignore` narrows it to an allowlist:
 
-Run PowerShell as Administrator:
+| Target | Notes |
+| --- | --- |
+| `.config/nvim` | needs `XDG_CONFIG_HOME`, see below |
+| `.config/wezterm` | terminal of choice on Windows |
+| `.config/starship` | needs `STARSHIP_CONFIG` pointing at it |
+| `.gitconfig` | |
+
+### Environment variables
+
+Windows needs two user-scope variables (no admin required; restart the shell after
+setting them):
 
 ```powershell
-./install.ps1
+[Environment]::SetEnvironmentVariable("XDG_CONFIG_HOME", "$env:USERPROFILE\.config", "User")
+[Environment]::SetEnvironmentVariable("GIT_CONFIG_GLOBAL", "$env:USERPROFILE\.gitconfig", "User")
 ```
 
-It uses winget for most packages, Chocolatey for Nerd Fonts, then initializes chezmoi.
+- `XDG_CONFIG_HOME` — Neovim on Windows reads `%LOCALAPPDATA%\nvim` unless this is
+  set. Also fixes starship, bat, and anything else XDG-aware.
+- `GIT_CONFIG_GLOBAL` — on a domain-joined machine `HOMEDRIVE` is a network share,
+  so git resolves `~` to it and ignores the config chezmoi writes under
+  `%USERPROFILE%`. This repoints git's global config without moving `HOME`
+  (which would orphan SSH keys and anything else on the share). The corporate
+  config is pulled back in as a low-precedence `[include]`, so local settings win
+  and git keeps working when the share is offline.
+
+> `destDir` is pinned to `%USERPROFILE%` in `.chezmoi.toml.tmpl`. Without it,
+> running chezmoi from Git Bash targets the network share (Git Bash derives `HOME`
+> from `HOMEDRIVE`) while PowerShell targets `C:\Users\<user>` — two different
+> destinations sharing one state database.
+
+Install the tools you want by hand — user-local installs are fine and no
+package manager is assumed — then:
+
+```powershell
+chezmoi init --apply
+```
+
+`.chezmoiscripts/` is skipped entirely on Windows. The scripts are POSIX
+shell, and Windows has no shebang support, so chezmoi's `fork/exec` of the
+extracted `.sh` fails with `%1 is not a valid Win32 application` and aborts
+the whole apply.
 
 ---
 

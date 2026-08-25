@@ -1,3 +1,10 @@
+# ─── Repo meta-files — part of the repo, never dotfiles ───
+README.md
+typos.toml
+install.sh
+scripts
+scripts/**
+
 # nixos config — managed separately, not deployed as dotfiles
 nixos
 nixos/**
@@ -19,10 +26,10 @@ nixos/**
 .config/tmux/plugins
 .config/tmux/plugins/**
 
-
-
-# Desktop-only configs — skip on servers and devcontainers
-{{ if and (hasKey . "type") (ne .type "desktop") }}
+# Desktop-only configs — skip on servers and devcontainers.
+# Fail closed: if .type is unset (e.g. a stale generated config), treat the
+# machine as non-desktop rather than deploying a Wayland session onto it.
+{{ if or (not (hasKey . "type")) (ne .type "desktop") }}
 .config/niri
 .config/niri/**
 .config/sway
@@ -47,4 +54,28 @@ nixos/**
 .local/scripts/changebg.sh
 .local/scripts/lock.sh
 .local/scripts/random_wallpaper.sh
+{{ end }}
+
+# ─── Windows: config-only allowlist ───────────────────────────────────
+# Windows is a config-only target: nothing is installed and no shell config
+# is deployed. Ignore everything, then re-admit the handful of tools that
+# actually run there. Must stay last — later patterns win.
+#
+# All .chezmoiscripts are POSIX shell; Windows cannot exec them (no shebang
+# support), which aborts `chezmoi apply` outright, so they are ignored too.
+{{ if eq .chezmoi.os "windows" }}
+*
+
+# Scripts live outside the normal target tree, so the bare `*` above does not
+# cover them -- they need matching by their own two-segment path.
+.chezmoiscripts
+.chezmoiscripts/**
+
+!.config
+.config/*
+!.config/nvim
+!.config/wezterm
+!.config/starship
+!.gitconfig
+!.gitconfig.local
 {{ end }}

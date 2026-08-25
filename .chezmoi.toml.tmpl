@@ -7,6 +7,12 @@
 {{-   $type = promptStringOnce . "type" "Machine type (desktop/server/devcontainer)" -}}
 {{- end }}
 sourceDir = {{ .chezmoi.sourceDir | quote }}
+{{ if eq .chezmoi.os "windows" }}
+{{- /* Git Bash derives HOME from HOMEDRIVE, which on a corporate machine is a
+       network share, while PowerShell uses USERPROFILE. Pin destDir so the
+       apply target never depends on which shell chezmoi is invoked from. */}}
+destDir = {{ env "USERPROFILE" | replace "\\" "/" | quote }}
+{{ end }}
 
 [data]
     interactive = {{ $ci }}

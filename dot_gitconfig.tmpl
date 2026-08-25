@@ -1,11 +1,29 @@
+{{- /* On a corporate Windows box HOMEDRIVE is a network home share holding the
+       IT-managed gitconfig. Include it FIRST so everything below overrides it,
+       and so git still works when the share is offline -- git silently skips
+       includes it cannot read. Requires GIT_CONFIG_GLOBAL to point here. */ -}}
+{{- if eq .chezmoi.os "windows" -}}
+{{-   $corp := printf "%s/.gitconfig" (env "HOMEDRIVE") -}}
+{{-   if and (env "HOMEDRIVE") (stat $corp) -}}
+[include]
+	path = {{ $corp }}
+{{ end -}}
+{{- end -}}
+{{- $gh := lookPath "gh" | replace "\\" "/" -}}
+{{- if $gh }}
+{{- /* Single-quoted for sh: the Windows path contains spaces, and bare
+       backslashes would be read as gitconfig escape sequences. */ -}}
 [credential "https://github.com"]
 	helper = 
-	helper = !{{ lookPath "gh" }} auth git-credential
+	helper = !'{{ $gh }}' auth git-credential
 [credential "https://gist.github.com"]
 	helper = 
-	helper = !{{ lookPath "gh" }} auth git-credential
-[credential]
-	helper = store
+	helper = !'{{ $gh }}' auth git-credential
+{{ end -}}
+
+# No credential.helper is set here on purpose. `store` keeps credentials in
+# plaintext in ~/.git-credentials; use gh for GitHub and the platform helper
+# (GCM on Windows, libsecret/keyring on Linux) for everything else.
 
 [core]
 	autocrlf = input
@@ -52,6 +70,6 @@
 	prune = true
 
 [include]
-	path = ~/.gitconfig.local
+	path = {{ .chezmoi.destDir }}/.gitconfig.local
 
 # vim:ft=gitconfig
