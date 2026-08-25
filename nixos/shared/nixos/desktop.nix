@@ -62,6 +62,7 @@
 
     # browsers
     vivaldi
+    floorp-bin
 
     # SSH askpass (GUI prompt for passphrase)
     kdePackages.ksshaskpass
