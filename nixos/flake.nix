@@ -6,10 +6,6 @@
     claude-code-nix.url = "github:sadjow/claude-code-nix";
     tuicr.url = "github:agavra/tuicr";
     wrapper-modules.url = "github:BirdeeHub/nix-wrapper-modules";
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

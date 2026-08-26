@@ -1,18 +1,11 @@
 { pkgs, self, inputs, ... }: {
-  imports = [ self.nixosModules.niri-services ];
+  imports = [ ];
 
   # Window manager
-  programs.niri.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
-  # Desktop shell — DMS with systemd autostart (from DMS flake, includes latest Quickshell)
-  programs.dank-material-shell = {
-    enable = true;
-    systemd.enable = true;
-    greeter = {
-      enable = true;
-      compositor.name = "niri";
-    };
-  };
+  # Display manager
+  services.displayManager.plasma-login-manager.enable = true;
 
   # Idle / lock / suspend
   services.logind.settings.Login = {
@@ -34,15 +27,6 @@
   # typically provide their own via gcr-ssh-agent.
   # If no DE provides one, enable per-host instead.
 
-  # XDG portal for niri (screen sharing, file picker, etc.)
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gnome
-      xdg-desktop-portal-gtk
-    ];
-  };
-
   # Fonts
   fonts.packages = with pkgs.nerd-fonts; [
     fira-code
@@ -52,9 +36,6 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    # niri desktop environment
-    self.packages.${pkgs.stdenv.hostPlatform.system}.niri-desktop
-
     # terminals
     ghostty
     kitty
@@ -63,8 +44,5 @@
     # browsers
     vivaldi
     floorp-bin
-
-    # SSH askpass (GUI prompt for passphrase)
-    kdePackages.ksshaskpass
   ];
 }

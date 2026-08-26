@@ -12,7 +12,6 @@
     (self.cliToolPackages pkgs)
     ++ (with pkgs; [
       # NixOS-only extras (not needed in devcontainers)
-      zellij
       rust-analyzer
       python3Packages.pynvim
       nh
