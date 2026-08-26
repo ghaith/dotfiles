@@ -38,8 +38,8 @@ mkdir -p "$(dirname "$THEME_FILE")"
 echo "$TARGET" > "$THEME_FILE"
 
 OTHER=$([ "$TARGET" = "mocha" ] && echo "latte" || echo "mocha")
-TARGET_CAP="$(echo "$TARGET" | sed 's/.*/\u&/')"
-OTHER_CAP="$(echo "$OTHER" | sed 's/.*/\u&/')"
+TARGET_CAP="${TARGET^}"
+OTHER_CAP="${OTHER^}"
 DELTA_LIGHT=$([ "$TARGET" = "mocha" ] && echo "false" || echo "true")
 
 # ── Helpers ──────────────────────────────────────────────────────────

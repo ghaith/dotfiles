@@ -42,7 +42,7 @@ install_aur() {
 install_arch() {
   sudo pacman -Syu --noconfirm \
     chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
-    python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta fuzzel \
+    python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta \
     go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
     shellcheck typos typos-lsp harper vim-spell-en tuicr
 
@@ -92,6 +92,7 @@ install_with_nix() {
 
     # Source nix profile so it's available in this shell
     if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+      # shellcheck source=/dev/null
       . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
     fi
   fi
@@ -368,11 +369,6 @@ install_packages() {
   else
     # Ubuntu, Debian, and anything else — use nix
     install_with_nix
-  fi
-
-  # Clone catppuccin-fuzzel theme if not present
-  if [ ! -d "$HOME/catppuccin-fuzzel" ]; then
-    git clone https://github.com/catppuccin/fuzzel.git "$HOME/catppuccin-fuzzel" 2>/dev/null || true
   fi
 }
 

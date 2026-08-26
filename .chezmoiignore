@@ -30,12 +30,6 @@ nixos/**
 # Fail closed: if .type is unset (e.g. a stale generated config), treat the
 # machine as non-desktop rather than deploying a Wayland session onto it.
 {{ if or (not (hasKey . "type")) (ne .type "desktop") }}
-.config/niri
-.config/niri/**
-.config/sway
-.config/sway/**
-.config/waybar
-.config/waybar/**
 .config/alacritty
 .config/alacritty/**
 .config/kitty
@@ -44,16 +38,6 @@ nixos/**
 .config/ghostty/**
 .config/wezterm
 .config/wezterm/**
-.config/DankMaterialShell
-.config/DankMaterialShell/**
-.config/xdg-desktop-portal
-.config/xdg-desktop-portal/**
-.config/systemd/user/swayidle.service
-.config/systemd/user/swaybg.service
-.config/systemd/user/swaybg.timer
-.local/scripts/changebg.sh
-.local/scripts/lock.sh
-.local/scripts/random_wallpaper.sh
 {{ end }}
 
 # ─── Windows: config-only allowlist ───────────────────────────────────

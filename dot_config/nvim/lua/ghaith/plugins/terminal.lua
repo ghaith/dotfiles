@@ -43,8 +43,8 @@ return {
       vim.keymap.set('n', '<leader>wh', function()
         tmux.open_editor_in_current_window('horizontal')
       end, { desc = 'Open tmux [H]orizontal editor split' })
-      vim.keymap.set('n', '<leader>wc', tmux.prompt_and_run_in_work_window, { desc = 'Run [C]ommand in tmux work window' })
-      vim.keymap.set('n', '<leader>wC', tmux.prompt_and_run_in_current_context, { desc = 'Run [C]ommand in current tmux context' })
+      vim.keymap.set('n', '<leader>wc', tmux.prompt_and_run_in_work_window, { desc = 'Run command in tmux work window' })
+      vim.keymap.set('n', '<leader>wC', tmux.prompt_and_run_in_current_context, { desc = 'Run command in current tmux context' })
       vim.keymap.set('n', '<leader>wz', toggle_scratch, { desc = 'Toggle centered scratch terminal' })
     end,
   },

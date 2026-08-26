@@ -21,7 +21,7 @@ This repo installs and configures:
 - editor/tools: `neovim`, `helix`, `ripgrep`, `fd`, `fzf`, `bat`, `eza`, `zoxide`, `starship`, `atuin`, `git-delta`
 - language/runtime: `go`, `rust`, `fnm` + Node LTS
 - pi agent: `@mariozechner/pi-coding-agent`
-- fonts/themes helpers: Nerd Fonts, tmux catppuccin plugin, fuzzel theme clone
+- fonts/themes helpers: Nerd Fonts, tmux catppuccin plugin
 
 ---
 
