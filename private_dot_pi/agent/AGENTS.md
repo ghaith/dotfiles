@@ -1,20 +1,20 @@
 # Shared Context Adapter (Pi)
 
-Canonical context lives in `~/.config/ai-context/`.
+Canonical context lives in `~/.agents/`.
 
 Read these first:
 
-- `~/.config/ai-context/preferences.md`
-- `~/.config/ai-context/agents/*.md`
-- `~/.config/ai-context/environment/local-infra.md`
+- `~/.agents/preferences.md`
+- `~/.agents/agents/*.md`
+- `~/.agents/environment/local-infra.md`
 
 Load skills only when the task matches. Do not read every skill up front:
 
-- `~/.config/ai-context/skills/chezmoi.md`
-- `~/.config/ai-context/skills/nixos.md`
-- `~/.config/ai-context/skills/grill-me.md`
-- `~/.config/ai-context/skills/rubber-duck.md`
-- `~/.config/ai-context/skills/teacher.md`
+- `~/.agents/skills/chezmoi/SKILL.md`
+- `~/.agents/skills/nixos/SKILL.md`
+- `~/.agents/skills/grill-me/SKILL.md`
+- `~/.agents/skills/rubber-duck/SKILL.md`
+- `~/.agents/skills/teacher/SKILL.md`
 
 ## Preferences
 

@@ -1,3 +1,8 @@
+---
+name: rubber-duck
+description: Enter persistent rubber-duck pair-programming mode where the user drives and the assistant answers without taking over. Use when explicitly requested.
+---
+
 # Rubber Duck
 
 Use when the user wants to drive the programming themselves and have you act as a

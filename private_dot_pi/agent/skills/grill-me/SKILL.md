@@ -5,6 +5,6 @@ description: Interview the user relentlessly about a plan or design until reachi
 
 First read and follow:
 
-- `~/.config/ai-context/skills/grill-me.md`
+- `~/.agents/skills/grill-me/SKILL.md`
 
 Interview the user relentlessly about the plan or design. Ask one question at a time, provide a recommended answer with each question, and explore the codebase yourself whenever that can resolve a question.

@@ -12,13 +12,17 @@ Fast codebase recon. Gather context and hand it off cleanly.
 ## Output format
 
 ### Files Retrieved
+
 1. `path/to/file` (lines X-Y) — what it contains
 
 ### Key Code
+
 Include critical types/functions as short code snippets.
 
 ### Architecture
+
 How the pieces connect.
 
 ### Start Here
+
 Best first file for implementation and why.

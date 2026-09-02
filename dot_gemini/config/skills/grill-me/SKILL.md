@@ -7,4 +7,4 @@ description: Run an interactive plan or design review. Load only when the user w
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/grill-me.md`
+- `~/.agents/skills/grill-me/SKILL.md`

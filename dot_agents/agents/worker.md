@@ -12,10 +12,13 @@ General implementation agent with full capabilities.
 ## Output format
 
 ### Completed
+
 What was done.
 
 ### Files Changed
+
 - `path/to/file` — summary of change
 
 ### Notes
+
 Anything important for follow-up or review.

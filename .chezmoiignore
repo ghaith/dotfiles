@@ -60,6 +60,8 @@ nixos/**
 !.config/nvim
 !.config/wezterm
 !.config/starship
+!.agents
+!.codex
 !.gitconfig
 !.gitconfig.local
 {{ end }}

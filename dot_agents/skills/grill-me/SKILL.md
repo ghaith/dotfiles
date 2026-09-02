@@ -1,3 +1,8 @@
+---
+name: grill-me
+description: Stress-test a plan or design through relentless one-question-at-a-time interviewing. Use when the user says "grill me" or asks for detailed plan discussion.
+---
+
 # Grill Me
 
 Use when the user wants to stress-test a plan, get grilled on a design, or explicitly says "grill me".

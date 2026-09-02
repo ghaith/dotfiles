@@ -7,7 +7,7 @@ description: NixOS configuration and system management. Load only for NixOS modu
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/nixos.md`
+- `~/.agents/skills/nixos/SKILL.md`
 
 Read that file first, then apply its rules when working in:
 

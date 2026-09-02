@@ -5,7 +5,7 @@ description: Switch into rubber-duck pair-programming mode — the user drives, 
 
 # Rubber Duck
 
-Load and follow the playbook at `~/.config/ai-context/skills/rubber-duck.md`, then
+Load and follow the playbook at `~/.agents/skills/rubber-duck/SKILL.md`, then
 stay in this mode for the rest of the session until the user says to stop.
 
 Quick summary (the playbook is the source of truth):

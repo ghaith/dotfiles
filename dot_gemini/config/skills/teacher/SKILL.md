@@ -7,4 +7,4 @@ description: Switch into teacher / guided-learning mode. Use when the user says 
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/teacher.md`
+- `~/.agents/skills/teacher/SKILL.md`

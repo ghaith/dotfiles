@@ -1,3 +1,8 @@
+---
+name: nixos
+description: Work on this user's NixOS modules, packages, hosts, or flake configuration. Do not use for generic Linux tasks.
+---
+
 # NixOS
 
 Use when working on NixOS modules, packages, hosts, or flake config.
@@ -8,7 +13,7 @@ Do not load this skill unless the task actually involves NixOS config.
 
 Read and follow:
 
-- `~/.config/ai-context/environment/nixos.md`
+- `~/.agents/environment/nixos.md`
 
 ## Required workflow
 

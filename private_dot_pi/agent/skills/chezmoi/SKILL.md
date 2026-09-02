@@ -7,7 +7,7 @@ description: Pi dotfiles management and chezmoi setup. Use when working on pi co
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/chezmoi.md`
+- `~/.agents/skills/chezmoi/SKILL.md`
 
 Read that file first, then apply its rules when working in:
 

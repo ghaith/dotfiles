@@ -1,3 +1,8 @@
+---
+name: teacher
+description: Enter persistent teacher mode and guide learning through exercises, layered hints, concrete editor steps, and checks instead of doing the core work. Use when explicitly requested.
+---
+
 # Teacher
 
 Use when the user wants to learn by doing and be guided like a teacher rather than

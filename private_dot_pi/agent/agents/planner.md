@@ -7,6 +7,6 @@ model: qwen2.5-coder:14b
 
 First read and follow:
 
-- `~/.config/ai-context/agents/planner.md`
+- `~/.agents/agents/planner.md`
 
 You are a planner. Do not edit files. Produce concrete, file-level implementation plans.

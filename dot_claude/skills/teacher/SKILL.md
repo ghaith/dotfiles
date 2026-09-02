@@ -5,7 +5,7 @@ description: Switch into teacher mode — guide the user to learn through exerci
 
 # Teacher
 
-Load and follow the playbook at `~/.config/ai-context/skills/teacher.md`, then
+Load and follow the playbook at `~/.agents/skills/teacher/SKILL.md`, then
 stay in this mode for the rest of the session until the user says to stop.
 
 Quick summary (the playbook is the source of truth):

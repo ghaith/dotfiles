@@ -21,6 +21,7 @@ This repo installs and configures:
 - editor/tools: `neovim`, `helix`, `ripgrep`, `fd`, `fzf`, `bat`, `eza`, `zoxide`, `starship`, `atuin`, `git-delta`
 - language/runtime: `go`, `rust`, `fnm` + Node LTS
 - pi agent: `@mariozechner/pi-coding-agent`
+- AI context: shared adapters and skills for Pi, Claude Code, Antigravity, and Codex
 - fonts/themes helpers: Nerd Fonts, tmux catppuccin plugin
 
 ---

@@ -7,7 +7,7 @@ description: NixOS system configuration with flake-parts. Use when working on Ni
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/nixos.md`
+- `~/.agents/skills/nixos/SKILL.md`
 
 Read that file first.
 

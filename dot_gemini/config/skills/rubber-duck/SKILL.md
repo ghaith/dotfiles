@@ -7,4 +7,4 @@ description: Switch into rubber-duck pair-programming mode where the user drives
 
 Canonical skill lives in:
 
-- `~/.config/ai-context/skills/rubber-duck.md`
+- `~/.agents/skills/rubber-duck/SKILL.md`
