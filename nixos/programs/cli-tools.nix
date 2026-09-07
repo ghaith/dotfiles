@@ -30,7 +30,7 @@
     ripgrep
     delta
     jq
-    git
+    # git
     gh
     tea
     git-review
