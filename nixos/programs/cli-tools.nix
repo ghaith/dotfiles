@@ -65,7 +65,8 @@
 
     # ai tools
     pi-coding-agent
-    self.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+    # fetch claude from curl on non nix system
+    # self.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
   ];
 
   perSystem = { pkgs, ... }: {
