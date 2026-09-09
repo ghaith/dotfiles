@@ -232,6 +232,9 @@ if [ -n "$ZSH_VERSION" ]; then
     add-zsh-hook chpwd load-env
 fi
 
+# If nix is installed in single user mode load it
+[ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+
 # Define a function to compress PDFs
 pdfcompress ()
 {
