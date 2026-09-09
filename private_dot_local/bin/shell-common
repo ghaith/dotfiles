@@ -2,6 +2,10 @@
 # shellcheck disable=SC1091 # Optional environment files are discovered at runtime.
 # Shared shell configuration for both bash and zsh
 
+# Single-user nix (containers, non-NixOS hosts): put ~/.nix-profile/bin on PATH before
+# any `command -v` check below can look for the tools it provides.
+[ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && . "$HOME/.nix-profile/etc/profile.d/nix.sh"
+
 # TREE_IGNORE variable
 export TREE_IGNORE="cache|log|logs|node_modules|vendor"
 
@@ -232,8 +236,6 @@ if [ -n "$ZSH_VERSION" ]; then
     add-zsh-hook chpwd load-env
 fi
 
-# If nix is installed in single user mode load it
-[ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ] && . "$HOME/.nix-profile/etc/profile.d/nix.sh"
 
 # Define a function to compress PDFs
 pdfcompress ()
