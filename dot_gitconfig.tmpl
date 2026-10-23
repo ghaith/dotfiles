@@ -21,9 +21,18 @@
 	helper = !'{{ $gh }}' auth git-credential
 {{ end -}}
 
-# No credential.helper is set here on purpose. `store` keeps credentials in
-# plaintext in ~/.git-credentials; use gh for GitHub and the platform helper
-# (GCM on Windows, libsecret/keyring on Linux) for everything else.
+# Never `store`: it keeps credentials in plaintext in ~/.git-credentials.
+# GitHub goes through gh (above). On Windows, GCM is configured by its
+# installer. On Linux, GCM keeps everything else (Gerrit HTTP passwords, ...)
+# gpg-encrypted in ~/.password-store, so it works the same over ssh as on the
+# desktop. One-time setup: `gpg --quick-gen-key <email>` and `pass init <email>`.
+{{- $gcm := lookPath "git-credential-manager" }}
+{{- if and (eq .chezmoi.os "linux") $gcm }}
+[credential]
+	helper = {{ $gcm }}
+	credentialStore = gpg
+	guiPrompt = false
+{{- end }}
 
 [core]
 	autocrlf = input

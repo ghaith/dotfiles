@@ -31,26 +31,34 @@ alias ltt=' ls --tree -D -L 3 -I ${TREE_IGNORE}'
 alias lttt=' ls --tree -D -L 4 -I ${TREE_IGNORE}'
 alias ltttt=' ls --tree -D -L 5 -I ${TREE_IGNORE}'
 
-# SSH agent and askpass helpers
+# SSH agent: one stable agent for every shell. A tmux server started from the
+# desktop inherits the desktop's agent (gcr/gnome-keyring), which asks for key
+# passphrases in a GUI dialog that is invisible over ssh. The systemd user
+# ssh-agent (~/.config/systemd/user/ssh-agent.service) never prompts itself;
+# ssh asks on the terminal and AddKeysToAgent caches the key.
 __shell_common_setup_ssh_socket() {
-    local candidate uid found
-
-    if [ -n "${SSH_AUTH_SOCK:-}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
-        return
-    fi
+    local candidate found
 
     local -a candidates=()
 
     if [ -n "${XDG_RUNTIME_DIR:-}" ]; then
         candidates+=("${XDG_RUNTIME_DIR}/ssh-agent.socket")
     fi
+    candidates+=("/run/user/$(id -u 2>/dev/null)/ssh-agent.socket")
 
-    uid="$(id -u 2>/dev/null)"
-    if [ -n "$uid" ]; then
-        candidates+=("/run/user/${uid}/ssh-agent.socket")
+    for candidate in "${candidates[@]}"; do
+        if [ -S "$candidate" ]; then
+            export SSH_AUTH_SOCK="$candidate"
+            return
+        fi
+    done
+
+    # No local agent: keep an inherited one if it is still alive.
+    if [ -n "${SSH_AUTH_SOCK:-}" ] && [ -S "${SSH_AUTH_SOCK}" ]; then
+        return
     fi
 
-    candidates+=("$HOME/.ssh/ssh-agent.socket")
+    candidates=("$HOME/.ssh/ssh-agent.socket")
 
     if command -v find > /dev/null 2>&1; then
         found="$(find /tmp -maxdepth 1 -type s -name 'vscode-ssh-auth-*' -print 2>/dev/null | head -n 1)"
@@ -65,7 +73,7 @@ __shell_common_setup_ssh_socket() {
     fi
 
     for candidate in "${candidates[@]}"; do
-        if [ -n "$candidate" ] && [ -S "$candidate" ]; then
+        if [ -S "$candidate" ]; then
             export SSH_AUTH_SOCK="$candidate"
             return
         fi
@@ -73,53 +81,17 @@ __shell_common_setup_ssh_socket() {
 }
 __shell_common_setup_ssh_socket
 
-__shell_common_setup_ssh_askpass() {
-    local candidate resolved=""
+# Prompts belong on the terminal. A GUI askpass inherited from the desktop
+# session (git also uses SSH_ASKPASS for HTTPS credentials) pops up on the
+# desktop even when the shell is reached over ssh. GIT_ASKPASS is left alone
+# so editors that set it (VS Code) keep working.
+unset SSH_ASKPASS SSH_ASKPASS_REQUIRE
 
-    if [ -n "${SSH_ASKPASS:-}" ] && [ -x "${SSH_ASKPASS}" ]; then
-        if [ -z "${SSH_ASKPASS_REQUIRE:-}" ]; then
-            export SSH_ASKPASS_REQUIRE=prefer
-        fi
-        return
-    fi
-
-    local -a askpass_candidates=(
-        ksshaskpass
-        ssh-askpass
-        gnome-ssh-askpass
-        qt5-ssh-askpass
-        x11-ssh-askpass
-        lxqt-openssh-askpass
-    )
-
-    for candidate in "${askpass_candidates[@]}"; do
-        if command -v "$candidate" > /dev/null 2>&1; then
-            resolved="$(command -v "$candidate" 2>/dev/null)"
-            break
-        fi
-    done
-
-    if [ -z "$resolved" ]; then
-        local -a askpass_paths=(
-            /usr/libexec/seahorse/ssh-askpass
-            /usr/lib/seahorse/ssh-askpass
-            /usr/lib/ssh/ssh-askpass
-        )
-
-        for candidate in "${askpass_paths[@]}"; do
-            if [ -x "$candidate" ]; then
-                resolved="$candidate"
-                break
-            fi
-        done
-    fi
-
-    if [ -n "$resolved" ]; then
-        export SSH_ASKPASS="$resolved"
-        export SSH_ASKPASS_REQUIRE=prefer
-    fi
-}
-__shell_common_setup_ssh_askpass
+# gpg (pass, git-credential-manager) shows pinentry on the shell's tty.
+if [ -t 0 ]; then
+    GPG_TTY="$(tty)"
+    export GPG_TTY
+fi
 
 # Source cargo env
 if [ -f "$HOME/.cargo/env" ]; then

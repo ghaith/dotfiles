@@ -34,6 +34,12 @@
     gh
     tea
     git-review
+    # credentials: GCM stores HTTPS creds gpg-encrypted in the pass store
+    # (credentialStore = gpg in .gitconfig). gpg itself comes from the distro
+    # on Ubuntu so the system gpg-agent is not shadowed by a second build.
+    git-credential-manager
+    pass
+    pinentry-curses
     self.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     curl
     htop

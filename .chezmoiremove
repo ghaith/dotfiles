@@ -1,2 +1,5 @@
 # Shared context moved to ~/.agents/.
 .config/ai-context
+
+# Conflicted with environment.d/ssh.conf over SSH_AUTH_SOCK.
+.config/environment.d/keyring.conf

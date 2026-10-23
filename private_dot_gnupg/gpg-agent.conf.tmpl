@@ -1,0 +1,12 @@
+# Terminal-only pinentry: an agent started by the desktop session would
+# otherwise pop a GUI dialog that is invisible from ssh/tmux. gpg passes
+# GPG_TTY (exported in shell-common) so the prompt lands in the calling shell.
+{{- $pinentry := lookPath "pinentry-curses" }}
+{{- if $pinentry }}
+pinentry-program {{ $pinentry }}
+{{- end }}
+
+# Unlock once per work day: pass and git-credential-manager reuse the cached
+# passphrase. 8h idle, 24h hard limit.
+default-cache-ttl 28800
+max-cache-ttl 86400
