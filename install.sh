@@ -41,7 +41,7 @@ install_aur() {
 
 install_arch() {
   sudo pacman -Syu --noconfirm \
-    chezmoi git neovim curl bat eza starship zsh helix zellij alacritty \
+    chezmoi git neovim curl bat eza starship zsh fish helix zellij alacritty \
     python-pynvim nerd-fonts ripgrep fzf zoxide atuin git-delta \
     go fd fontconfig fnm wl-clipboard xclip jq uv direnv \
     shellcheck typos typos-lsp harper vim-spell-en tuicr
@@ -213,15 +213,17 @@ configure_shell() {
 
   log "configure_shell: current SHELL=${SHELL:-<unset>}"
 
-  if [[ "${SHELL:-}" == *"zsh" ]]; then
-    log "configure_shell: already using zsh; skipping"
+  # chezmoi passes the chosen shell (data "shell") via scriptEnv.
+  local want="${DOTFILES_SHELL:-zsh}"
+  if [[ "${SHELL:-}" == *"$want" ]]; then
+    log "configure_shell: already using $want; skipping"
     return
   fi
 
   local desired_shell
-  desired_shell="$(command -v zsh 2>/dev/null || true)"
+  desired_shell="$(command -v "$want" 2>/dev/null || true)"
   if [ -z "$desired_shell" ]; then
-    log "configure_shell: zsh not found on PATH; skipping"
+    log "configure_shell: $want not found on PATH; skipping"
     return
   fi
 

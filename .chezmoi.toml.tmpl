@@ -6,6 +6,16 @@
 {{- else if $ci }}
 {{-   $type = promptStringOnce . "type" "Machine type (desktop/server/devcontainer)" -}}
 {{- end }}
+{{- /* Login shell install.sh switches to (zsh or fish). Defaults to the current
+       login shell, so a fish distribution such as CachyOS stays on fish. */ -}}
+{{- $shellDefault := "zsh" -}}
+{{- if hasSuffix "fish" (env "SHELL") }}{{ $shellDefault = "fish" }}{{ end -}}
+{{- $shell := $shellDefault -}}
+{{- if hasKey . "shell" }}
+{{-   $shell = .shell -}}
+{{- else if $ci }}
+{{-   $shell = promptChoiceOnce . "shell" "Login shell" (list "zsh" "fish") $shellDefault -}}
+{{- end }}
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 {{ if eq .chezmoi.os "windows" }}
 {{- /* Git Bash derives HOME from HOMEDRIVE, which on a corporate machine is a
@@ -17,6 +27,7 @@ destDir = {{ env "USERPROFILE" | replace "\\" "/" | quote }}
 [data]
     interactive = {{ $ci }}
     type = {{ $type | quote }}
+    shell = {{ $shell | quote }}
 {{- if $ci }}
     name = {{ promptString "Git name" | quote }}
     email = {{ promptString "Git email" | quote }}
@@ -25,3 +36,5 @@ destDir = {{ env "USERPROFILE" | replace "\\" "/" | quote }}
     email = {{ env "GIT_EMAIL" | quote }}
 {{- end }}
 
+[scriptEnv]
+    DOTFILES_SHELL = {{ $shell | quote }}
