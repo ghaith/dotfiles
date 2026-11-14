@@ -1,0 +1,20 @@
+#!/bin/bash
+# List private key files still on disk. Keys belong in Proton Pass or on a
+# YubiKey; FIDO2 handles (sk-*) are fine because they need the device.
+set -euo pipefail
+
+found=0
+for f in "$HOME"/.ssh/*; do
+    [ -f "$f" ] || continue
+    head -n 1 "$f" 2> /dev/null | grep -q -- '-----BEGIN .*PRIVATE KEY-----' || continue
+    if [ -f "$f.pub" ] && grep -q '^sk-' "$f.pub"; then
+        echo "ok      $f (FIDO2 handle)"
+    else
+        echo "migrate $f"
+        found=1
+    fi
+done
+
+echo "--- agent"
+ssh-add -l || true
+exit "$found"

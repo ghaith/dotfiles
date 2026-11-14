@@ -1,0 +1,47 @@
+# Private keys live in Proton Pass or on a YubiKey, never in ~/.ssh. Each
+# mapped host names its keys by public key (~/.ssh/keys/<name>.pub); with
+# IdentitiesOnly, ssh asks the agent for exactly those keys and offers nothing
+# else. Keys that do not exist yet are left out, so a host falls back to
+# default behavior until its key is exported (ssh-key-export).
+#
+# Mapped blocks only apply when ssh talks to the personal agent
+# (ssh-agent.service); tools that run their own agent keep default behavior.
+#
+# Hosts and their keys are machine-local and not part of this repo:
+# ~/.config/chezmoi/ssh-hosts.json, a list of
+#   {"host": "<ssh Match host pattern>", "keys": ["<name>", ...], "forward": false}
+# Anything else goes in ~/.ssh/config.local, which is read first.
+Include ~/.ssh/config.local
+
+{{- $src := joinPath .chezmoi.sourceDir "private_dot_ssh/keys" }}
+{{- $dst := joinPath .chezmoi.homeDir ".ssh/keys" }}
+{{- $hostsFile := joinPath .chezmoi.homeDir ".config/chezmoi/ssh-hosts.json" }}
+{{- $hosts := list }}
+{{- if stat $hostsFile }}
+{{-   $hosts = include $hostsFile | fromJson }}
+{{- end }}
+
+{{- range $hosts }}
+{{-   $ids := list }}
+{{-   range .keys }}
+{{-     $pub := printf "%s.pub" . }}
+{{-     if or (stat (joinPath $src $pub)) (stat (joinPath $dst $pub)) }}
+{{-       $ids = append $ids $pub }}
+{{-     end }}
+{{-   end }}
+{{-   if $ids }}
+
+Match host {{ .host }} exec "test \"$SSH_AUTH_SOCK\" = \"$XDG_RUNTIME_DIR/ssh-agent.socket\""
+    IdentitiesOnly yes
+{{-     range $ids }}
+    IdentityFile ~/.ssh/keys/{{ . }}
+{{-     end }}
+{{-     if get . "forward" }}
+    ForwardAgent yes
+{{-     end }}
+{{-   end }}
+{{- end }}
+
+Host *
+    AddKeysToAgent yes
+    ForwardAgent no

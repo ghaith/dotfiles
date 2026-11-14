@@ -1,0 +1,17 @@
+# One OpenSSH agent for every session (terminal, tmux, GUI, ssh-in). Key
+# sources feed into it: Proton Pass (proton-ssh-load.service / ssh-unlock),
+# YubiKey sk handles, and AddKeysToAgent. -t gives every key the same 8h
+# lifetime as the gpg-agent passphrase cache.
+#
+# Replaces the distro's socket-activated unit (openssh >= 10 on Arch ships
+# ssh-agent.socket on the same path; it is masked next to this file).
+{{- $agent := lookPath "ssh-agent" | default "/usr/bin/ssh-agent" }}
+[Unit]
+Description=SSH Key Agent
+
+[Service]
+Type=simple
+ExecStart={{ $agent }} -D -t 28800 -a %t/ssh-agent.socket
+
+[Install]
+WantedBy=default.target

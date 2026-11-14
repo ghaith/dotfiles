@@ -30,6 +30,13 @@ nixos/**
 .config/wezterm/**
 {{ end }}
 
+# Proton Pass SSH key loading — only where sshVaults lists a vault.
+{{ if not (and (hasKey . "sshVaults") .sshVaults) }}
+.config/systemd/user/proton-ssh-load.service
+.local/bin/ssh-unlock
+.local/bin/ssh-key-export
+{{ end }}
+
 # ─── Windows: config-only allowlist ───────────────────────────────────
 # Windows is a config-only target: nothing is installed and no shell config
 # is deployed. Ignore everything, then re-admit the handful of tools that

@@ -1,0 +1,43 @@
+#!/bin/bash
+# Write a public key to ~/.ssh/keys/<name>.pub with the comment set to <name>,
+# so committed keys do not leak hostnames or emails.
+#
+#   ssh-key-export <vault> <item-title> <name>   from a Proton Pass SSH key item
+#   ssh-key-export --file <path.pub> <name>      e.g. a YubiKey sk public key
+#
+# Home keys: `chezmoi add ~/.ssh/keys/<name>.pub`. Work keys stay local.
+set -euo pipefail
+
+usage() {
+    sed -n '5,6s/^#  //p' "$0" >&2
+    exit 2
+}
+
+key_re='(sk-)?(ssh-(ed25519|rsa|dss)|ecdsa-sha2-nistp[0-9]+)(@openssh\.com)? [A-Za-z0-9+/]+=*'
+
+case "${1:-}" in
+    --file)
+        [ $# -eq 3 ] || usage
+        pub="$(grep -oE "$key_re" "$2" | head -n 1)"
+        name="$3"
+        ;;
+    -h | --help | "") usage ;;
+    *)
+        [ $# -eq 3 ] || usage
+        PATH="$HOME/.local/bin:$PATH"
+        pub="$(pass-cli item view --vault-name "$1" --item-title "$2" --output json |
+            grep -oE "$key_re" | head -n 1)"
+        name="$3"
+        ;;
+esac
+
+if [ -z "$pub" ]; then
+    echo "ssh-key-export: no public key found" >&2
+    exit 1
+fi
+
+out="$HOME/.ssh/keys/$name.pub"
+mkdir -p "$HOME/.ssh/keys"
+printf '%s %s\n' "$pub" "$name" > "$out"
+ssh-keygen -lf "$out"
+echo "$out"

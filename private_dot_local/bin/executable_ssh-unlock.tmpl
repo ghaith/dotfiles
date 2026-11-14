@@ -1,0 +1,55 @@
+#!/bin/bash
+# Load SSH keys into the user ssh-agent (ssh-agent.service):
+#   - Proton Pass vaults listed in chezmoi's sshVaults
+#   - resident YubiKey handles in ~/.ssh (from `ssh-keygen -K`)
+# Keys expire with the agent's default lifetime (-t in ssh-agent.service).
+#
+#   ssh-unlock             unlock (lock code) or log in to pass-cli if needed,
+#                          then load
+#   ssh-unlock --no-login  load only if the pass-cli session is usable as is
+#                          (proton-ssh-load.service at login)
+#
+# Loaded keys outlive the pass-cli session lock: once in the agent they stay
+# for its lifetime, even after pass-cli locks itself again on idle.
+set -euo pipefail
+
+# systemd user units do not see the shell PATH.
+PATH="$HOME/.local/bin:$HOME/.nix-profile/bin:$PATH"
+
+vaults=({{ range get . "sshVaults" }}{{ . | quote }} {{ end }})
+login=1
+[ "${1:-}" = "--no-login" ] && login=0
+
+: "${SSH_AUTH_SOCK:=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/ssh-agent.socket}"
+export SSH_AUTH_SOCK
+rc=0
+ssh-add -l > /dev/null 2>&1 || rc=$?
+if [ "$rc" -eq 2 ]; then
+    echo "ssh-unlock: no agent at $SSH_AUTH_SOCK (systemctl --user start ssh-agent)" >&2
+    exit 1
+fi
+
+load_vaults() {
+    local vault
+    for vault in "${vaults[@]}"; do
+        pass-cli ssh-agent load --vault-name "$vault" || return
+    done
+}
+
+if [ "${#vaults[@]}" -gt 0 ] && ! load_vaults 2> /dev/null; then
+    if [ "$login" -eq 0 ]; then
+        echo "ssh-unlock: pass-cli locked or logged out, skipping Proton keys (run ssh-unlock)"
+        exit 0
+    fi
+    # Locked session: the lock code is enough. Logged out: full login.
+    pass-cli session unlock || pass-cli login
+    load_vaults
+fi
+
+# FIDO2 handles are useless without the key, so adding them needs no touch.
+for handle in "$HOME"/.ssh/id_*_sk*; do
+    [ -f "$handle" ] && [ -f "$handle.pub" ] || continue
+    ssh-add -q "$handle" < /dev/null || true
+done
+
+ssh-add -l || true

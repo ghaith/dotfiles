@@ -40,6 +40,8 @@
     git-credential-manager
     pass
     pinentry-curses
+    # ssh: keys live in Proton Pass and are loaded into ssh-agent (ssh-unlock)
+    proton-pass-cli
     self.packages.${pkgs.stdenv.hostPlatform.system}.tuicr
     curl
     htop

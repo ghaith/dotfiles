@@ -55,6 +55,9 @@ install_arch() {
   # herdr-bin provides prebuilt binaries (like tuicr-bin)
   command -v herdr >/dev/null 2>&1 || install_aur herdr-bin || true
 
+  # Proton Pass CLI: SSH keys are loaded from it (ssh-unlock)
+  command -v pass-cli >/dev/null 2>&1 || install_aur proton-pass-cli-bin || true
+
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
   setup_rust

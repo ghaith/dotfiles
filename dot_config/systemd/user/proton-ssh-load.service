@@ -1,0 +1,15 @@
+# Load Proton Pass SSH keys at login when the pass-cli session is usable as
+# is. With a session lock (idle timeout <= 15 min) it is always locked by
+# login time, so this is a no-op there; run `ssh-unlock`.
+[Unit]
+Description=Load Proton Pass SSH keys into ssh-agent
+Requires=ssh-agent.service
+After=ssh-agent.service
+
+[Service]
+Type=oneshot
+Environment=SSH_AUTH_SOCK=%t/ssh-agent.socket
+ExecStart=%h/.local/bin/ssh-unlock --no-login
+
+[Install]
+WantedBy=default.target

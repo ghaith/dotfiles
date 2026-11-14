@@ -16,6 +16,16 @@
 {{- else if $ci }}
 {{-   $shell = promptChoiceOnce . "shell" "Login shell" (list "zsh" "fish") $shellDefault -}}
 {{- end }}
+{{- /* Proton Pass vaults whose SSH keys this machine loads (ssh-unlock,
+       proton-ssh-load.service). Empty: no Proton parts deployed. */ -}}
+{{- $sshVaults := list -}}
+{{- if hasKey . "sshVaults" }}
+{{-   $sshVaults = .sshVaults -}}
+{{- else if $ci }}
+{{-   range promptString "Proton SSH vaults to load (comma separated; empty for none)" | splitList "," }}
+{{-     if trim . }}{{ $sshVaults = append $sshVaults (trim .) }}{{ end -}}
+{{-   end }}
+{{- end }}
 sourceDir = {{ .chezmoi.sourceDir | quote }}
 {{ if eq .chezmoi.os "windows" }}
 {{- /* Git Bash derives HOME from HOMEDRIVE, which on a corporate machine is a
@@ -28,6 +38,7 @@ destDir = {{ env "USERPROFILE" | replace "\\" "/" | quote }}
     interactive = {{ $ci }}
     type = {{ $type | quote }}
     shell = {{ $shell | quote }}
+    sshVaults = {{ $sshVaults | toJson }}
 {{- if $ci }}
     name = {{ promptString "Git name" | quote }}
     email = {{ promptString "Git email" | quote }}
