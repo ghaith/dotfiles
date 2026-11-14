@@ -75,14 +75,3 @@ if [ -d "$HOME/.local/scripts" ] ; then
             ;;
     esac
 fi
-
-# If lm studio binaries directory exists, add it to the PATH
-if [ -d "$HOME/.lmstudio/bin" ] ; then
-    case ":${PATH}:" in
-        *:"$HOME/.lmstudio/bin":*)
-            ;;
-        *)
-            export PATH="$HOME/.lmstudio/bin:$PATH"
-            ;;
-    esac
-fi

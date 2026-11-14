@@ -133,12 +133,6 @@ update_git_delta() {
   sed -i "s/^\(\s*\)light = .*/\1light = ${DELTA_LIGHT}/" "$f"
 }
 
-update_pi() {
-  local f="$CHEZMOI_SRC/private_dot_pi/agent/modify_settings.json"
-  [ -f "$f" ] || return 1
-  sed -i "s/\.theme = \"catppuccin-${OTHER}\"/\.theme = \"catppuccin-${TARGET}\"/" "$f"
-}
-
 update_gsettings() {
   command -v gsettings &>/dev/null || return 1
   local scheme gtk_theme
@@ -172,7 +166,6 @@ try alacritty  update_alacritty
 try zellij     update_zellij
 try tmux       update_tmux
 try git-delta  update_git_delta
-try pi         update_pi
 # gsettings is live (D-Bus), no chezmoi source change needed
 try gsettings  update_gsettings
 

@@ -58,7 +58,6 @@ install_arch() {
   # fnm is installed via pacman but Node LTS still needs to be set up
   setup_node_lts
   setup_rust
-  install_pi
 }
 
 install_fedora() {
@@ -70,7 +69,6 @@ install_fedora() {
   setup_nerd_fonts
   setup_fnm
   setup_rust
-  install_pi
 }
 
 install_with_nix() {
@@ -173,14 +171,6 @@ setup_rust() {
     command -v typos-lsp >/dev/null 2>&1 || cargo install typos-lsp
     command -v harper-ls >/dev/null 2>&1 || cargo install harper-ls
   fi
-}
-
-install_pi() {
-  command -v pi &>/dev/null && return
-  if command -v fnm &>/dev/null; then
-    eval "$(fnm env --shell bash --use-on-cd)"
-  fi
-  npm install -g @mariozechner/pi-coding-agent
 }
 
 setup_nerd_fonts() {

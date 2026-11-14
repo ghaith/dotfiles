@@ -137,11 +137,6 @@ if [ -f "/.dockerenv" ] || [ -n "${DEVCONTAINER:-}" ] || [ -n "${REMOTE_CONTAINE
 fi
 
 
-# LM Studio (machine-local install)
-if [ -d "$HOME/.lmstudio/bin" ]; then
-    export PATH="$HOME/.lmstudio/bin:$PATH"
-fi
-
 # Conda/Mamba environment
 if [ -f "/etc/profile.d/conda.sh" ]; then
     source "/etc/profile.d/conda.sh"

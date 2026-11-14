@@ -35,7 +35,7 @@ When asked to act as a specialist, use the matching role definition:
 
 ## Reusable playbooks
 
-- Chezmoi: `~/.agents/skills/chezmoi/SKILL.md` — load only for dotfiles, Pi config, extensions, themes, or other chezmoi-managed files.
+- Chezmoi: `~/.agents/skills/chezmoi/SKILL.md` — load only for dotfiles, themes, or other chezmoi-managed files.
 - NixOS: `~/.agents/skills/nixos/SKILL.md` — load only for NixOS modules, packages, hosts, or flake config.
 - Grill Me: `~/.agents/skills/grill-me/SKILL.md` — load only when the user wants a plan or design stress-tested through one-question-at-a-time questioning.
 - Rubber Duck: `~/.agents/skills/rubber-duck/SKILL.md` — load when the user invokes `/rubber-duck` or `/duck`, or says "rubber duck mode"; the user drives the programming and you respond to what's asked instead of eagerly doing the whole task.

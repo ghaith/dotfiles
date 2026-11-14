@@ -11,8 +11,8 @@ chezmoi init --apply ghaith/dotfiles
 # or bootstrap from curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/ghaith/dotfiles/main/install.sh)"
 
-# 2) Open a new shell and verify node/pi
-node -v && pi --help
+# 2) Open a new shell and verify node
+node -v
 ```
 
 This repo installs and configures:
@@ -20,17 +20,15 @@ This repo installs and configures:
 - shell: `zsh`, shared shell config for `bash` + `zsh`
 - editor/tools: `neovim`, `helix`, `ripgrep`, `fd`, `fzf`, `bat`, `eza`, `zoxide`, `starship`, `atuin`, `git-delta`
 - language/runtime: `go`, `rust`, `fnm` + Node LTS
-- pi agent: `@mariozechner/pi-coding-agent`
-- AI context: shared adapters and skills for Pi, Claude Code, Antigravity, and Codex
+- AI context: shared preferences and skills for Claude Code (`~/.agents`)
 - fonts/themes helpers: Nerd Fonts, tmux catppuccin plugin
 
 ---
 
 ## Repository layout
 
-- `install.sh` – Linux bootstrap (packages + fnm/node + pi + chezmoi init/apply)
+- `install.sh` – Linux bootstrap (packages + fnm/node + chezmoi init/apply)
 - `.chezmoiscripts/run_once_before_00-bootstrap.sh` – runs bootstrap when initialized through chezmoi
-- `run_after_install-pi-extensions.sh` – installs npm deps for pi extensions
 - `run_after_install-tmux-catppuccin.sh` – installs tmux catppuccin plugin
 - `create_private_dot_gitconfig.local.tmpl` – seeds `~/.gitconfig.local` once, then never touches it
 - `dot_*`, `private_dot_*`, `dot_config/` – managed dotfiles/templates
@@ -50,7 +48,7 @@ What happens:
 1. chezmoi clones/applies dotfiles
 2. `.chezmoiscripts/run_once_before_00-bootstrap.sh` calls `install.sh --from-chezmoi`
 3. packages and runtimes are installed
-4. shell/npm/fnm/pi setup is configured
+4. shell/npm/fnm setup is configured
 
 ### Option B: bootstrap via curl
 
@@ -102,7 +100,7 @@ fnm install --lts
 fnm default lts-latest
 ```
 
-This ensures `node`/`npm` are available for `pi` after install.
+This ensures `node`/`npm` are available after install.
 
 ---
 

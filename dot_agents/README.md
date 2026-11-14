@@ -5,7 +5,7 @@ This directory is the tool-agnostic source of truth for assistant context.
 ## Goals
 
 - Keep preferences, environment docs, agent role definitions, and reusable skills in one place
-- Reuse the same guidance across Codex, Pi, Claude Code, Antigravity, and other coding tools
+- Reuse the same guidance across coding tools (currently Claude Code)
 - Avoid drift between duplicated prompt files
 
 ## Structure
@@ -17,10 +17,7 @@ This directory is the tool-agnostic source of truth for assistant context.
 
 ## Adapters
 
-- Codex: `~/.codex/AGENTS.md`; skills are discovered directly from `~/.agents/skills/`
-- Pi: `~/.pi/agent/AGENTS.md` + `~/.pi/agent/skills/*`
 - Claude Code: `~/.claude/CLAUDE.md`
-- Antigravity: `~/.gemini/GEMINI.md` + `~/.gemini/config/skills/*`
 
 Adapters should stay thin and point back here for canonical details.
 
